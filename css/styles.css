@@ -1,0 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Inclusive+Sans&display=swap');
+
+body {
+    margin: 0;
+    background-color: #e9f0f3;
+    font-family: "Inclusive Sans", sans-serif;
+}
+
+.app-container {
+    min-height: 100vh;
+    display: flex;
+    margin: 0;
+}
