@@ -17,3 +17,8 @@ body {
     flex-direction: column;
     flex: 1;
 }
+
+.content {
+    box-sizing: border-box;
+    padding: 10px;
+}
