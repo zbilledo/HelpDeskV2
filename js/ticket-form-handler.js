@@ -43,12 +43,4 @@ export function initTicketForm() {
             ticketForm.reset();
         });
     }
-
-//     const submitTicketBtn = document.getElementById("submit-ticket-btn");
-//
-//     submitTicketBtn.addEventListener("click", () => {
-//         const ticketTitle = document.querySelector("#ticket-title").value;
-//         const ticketDescription = document.querySelector("#ticket-description").value;
-//         const ticketPriority = document.querySelector("#ticket-priority").value;
-//     });
 }
