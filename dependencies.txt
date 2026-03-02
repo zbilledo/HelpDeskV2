@@ -1,3 +1,6 @@
-node.js
-express
-morgan
+In order to run everything correctly you will need to install node.js
+
+after you install node.js you can use npm install morgan, npm install express to
+get the remaining dependencies.
+
+to start the server.js file you can use npm start or node server.js
