@@ -1,11 +1,11 @@
 {
-  "name": "untitled",
+  "name": "help-desk",
   "version": "1.0.0",
   "description": "",
   "main": "index.html",
   "type": "module",
   "scripts": {
-    "start": "npx http-server .",
+    "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "private": true,
