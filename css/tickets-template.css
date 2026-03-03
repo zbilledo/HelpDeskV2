@@ -5,8 +5,8 @@
     padding: 20px 16px 20px 16px;
     background-color: #133e5e;
     border-radius: 8px;
-    max-height: 300px;
-    overflow-y: auto;
+    /*max-height: 300px;*/
+    /*overflow-y: auto;*/
 }
 
 .ticket-card {

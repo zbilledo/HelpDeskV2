@@ -1,4 +1,4 @@
-<div class="topbar">
+<div class="topbar" id="topbar">
     <button id="create-ticket-btn" class="topbar-button">Create New Ticket</button>
 
     <div id="ticket-modal" class="modal-overlay hidden">
@@ -29,13 +29,12 @@
     <div class="user-profile">
         <img src="/assets/images/pfp.jpg" alt="User Profile" class="profile-pic" id="profile-pic">
         <div class="dropdown-menu" id="user-dropdown">
-            <div class="dropdown-header">
-                <p class="user-name">John Doe</p>
-                <p class="user-email">john.doe@example.com</p>
+            <div class="dropdown-header" id="dropdown-header">
+                <!-- Dynamic username and email -->
             </div>
             <hr>
             <a href="#" class="dropdown-item">Logout</a>
         </div>
     </div>
-    <p class="main-menu-username">John Doe</p>
+    <p class="main-menu-username" id="main-menu-username"></p>
 </div>
