@@ -1,5 +1,21 @@
 body {
-    background-color: #262526
+    /* Solid background color */
+    /*
+       135deg creates the diagonal from top-left.
+       #4f46e5 to #7c3aed is an example gradient (Purple/Indigo).
+       The sharp line is created by having two colors meet at the same percentage (25%).
+    */
+    background: #262526 linear-gradient(
+            165deg,
+            #2c70a2 0%,
+            #133e5e 30%,
+            #262526 30.1%,
+            #262526 80%,
+            #133e5e 80.1%,
+            #2c70a2 100%
+    ) fixed;
+    margin: 0;
+    height: 100vh;
 }
 
 .login-container {
@@ -13,7 +29,7 @@ body {
 }
 
 .login-modal {
-    background: #133e5e;
+    background: #0e2d45;
     padding: 2rem;
     border-radius: 8px;
     width: 400px;
