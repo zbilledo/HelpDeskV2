@@ -1,5 +1,17 @@
 let tickets = [];
 
+async function fetchTickets() {
+    try {
+        const response = await fetch("/tickets");
+        if (response.ok) {
+            tickets = await response.json();
+            renderTickets(tickets);
+        }
+    } catch (error) {
+        console.error("Error fetching tickets:", error);
+    }
+}
+
 function renderTickets(tickets) {
     const container = document.getElementById("ticket-container");
 
@@ -36,12 +48,18 @@ document.getElementById("ticket-container").addEventListener("click", (event) =>
 });
 
 document.addEventListener("ticketCreated", (event) => {
-    const newTicket = {
-        id: Date.now(),
-        ...event.detail
-    };
-    tickets.push(newTicket);
-    renderTickets(tickets);
+    const newTicket = event.detail;
+
+    if (newTicket) {
+        tickets.push(newTicket);
+        renderTickets(tickets);
+    }
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+    fetchTickets().catch(error => {
+        console.error("Failed to initialize tickets:", error);
+    });
 });
 
 

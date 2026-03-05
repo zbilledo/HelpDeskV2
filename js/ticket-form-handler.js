@@ -21,23 +21,36 @@ export function initTicketForm() {
         //     }
         // });
 
-        ticketForm.addEventListener("submit", (event) => {
+        ticketForm.addEventListener("submit", async (event) => {
             event.preventDefault();
 
             const ticketTitle = document.querySelector("#ticket-title").value;
             const ticketDescription = document.querySelector("#ticket-description").value;
             const ticketPriority = document.querySelector("#ticket-priority").value;
 
-            const ticketEvent = new CustomEvent("ticketCreated", {
-                detail: {
-                    title: ticketTitle,
-                    description: ticketDescription,
-                    priority: ticketPriority,
-                    status: "pending"
-                }
-            });
-            document.dispatchEvent(ticketEvent);
+            try {
+                const response = await fetch("/ticket", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ ticketTitle, ticketDescription, ticketPriority })
+                });
 
+                const data = await response.json();
+
+                if (response.ok) {
+                    console.log("Server says:", data.message);
+                    const ticketEvent = new CustomEvent("ticketCreated", {
+                        detail: data.ticket
+                    });
+                    document.dispatchEvent(ticketEvent);
+                } else {
+                    console.error("Failed to create ticket:", data.message);
+                }
+            } catch (error) {
+                console.error("Error creating ticket:", error);
+            }
 
             ticketModal.classList.add("hidden");
             ticketForm.reset();

@@ -1,8 +1,8 @@
 import {loadComponent} from "./utils.js";
 import {initTicketForm} from "/js/ticket-form-handler.js";
 
-const username = "Carson";
-const userEmail = "grsdadsfafdsen@gmail.com";
+const username = "Garrett2404";
+const userEmail = "grjespersen@gmail.com";
 
 document.addEventListener("DOMContentLoaded", async () => {
     await loadComponent("#topbar", "/components/topbar.html");
