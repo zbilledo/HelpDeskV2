@@ -2,10 +2,12 @@
     box-sizing: border-box;
     padding: 16px;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-auto-rows: 1fr;
+    grid-template-columns: 0.1fr 0.1fr 0.1fr;
+    grid-auto-rows: 0.1fr;
     gap: 10px;
     height: 100%;
+    align-content: center;
+    justify-content: center;
 }
 
 .grid-item {
