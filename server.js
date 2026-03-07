@@ -4,12 +4,13 @@ import Database from "better-sqlite3";
 
 const app = express();
 const PORT = 8000;
-const adminUsername = "admin";
-const adminPassword = "admin";
-const userUsername = "user";
-const userPassword = "user";
+// const adminUsername = "admin";
+// const adminPassword = "admin";
+// const userUsername = "user";
+// const userPassword = "user";
 
 const db = new Database("tickets.db");
+const userDB = new Database("users.db");
 
 db.exec(`
     CREATE TABLE IF NOT EXISTS tickets (
@@ -20,6 +21,15 @@ db.exec(`
         status TEXT NOT NULL DEFAULT 'pending'
     )
 `);
+
+userDB.exec(`
+    CREATE TABLE IF NOT EXISTS users (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        username TEXT NOT NULL,
+        password TEXT NOT NULL,
+        role TEXT NOT NULL DEFAULT 'user'
+    )
+`)
 
 app.use(express.json());
 
@@ -36,17 +46,24 @@ app.listen(PORT, "0.0.0.0", () => {
     console.log(`Server running on your IP address or localhost:${PORT}`);
 });
 
+const seedUsers = userDB.prepare("SELECT COUNT(*) AS count FROM users").get();
+if (seedUsers.count === 0) {
+    userDB.prepare("INSERT INTO users (username, password, role) VALUES (?, ?, ?)").run("admin", "passwordAdmin", "admin");
+    userDB.prepare("INSERT INTO users (username, password, role) VALUES (?, ?, ?)").run("user", "passwordUser", "user");
+    console.log("Database seeded with default users.");
+}
+
 app.post("/login", (req, res) => {
     const { username, password } = req.body;
 
-    if (username === adminUsername && password === adminPassword) {
-        res.json({ success: true, message: "Logged in as admin", user: { name: "Admin", email: "admin@helpdesk.com" } });
-    } else if (username === userUsername && password === userPassword) {
-        res.json({ success: true, message: "Logged in as user", user: { name: "User", email: "user@helpdesk.com" } });
+    const user = userDB.prepare("SELECT * FROM users WHERE username = ? AND password = ?").get(username, password);
+
+    if (user) {
+        res.json({ success: true, message: `Logged in as ${user.role}`, user: { id: user.id, username: user.username, role: user.role } });
     } else {
         res.status(401).json({ success: false, message: "Invalid credentials" });
     }
-});1
+});
 
 app.post("/createTicket", (req, res) => {
     console.log("Server-Side ticket data:", req.body);
@@ -55,7 +72,7 @@ app.post("/createTicket", (req, res) => {
 
     if (ticketTitle && ticketDescription && ticketPriority) {
 
-        const insert = db.prepare(`
+        const insertTicket = db.prepare(`
             INSERT INTO tickets (id, title, description, priority, status)
             VALUES (?, ?, ?, ?, ?)
         `);
@@ -68,7 +85,7 @@ app.post("/createTicket", (req, res) => {
             status: "pending"
         };
 
-        insert.run(newTicket.id, newTicket.title, newTicket.description, newTicket.priority, newTicket.status);
+        insertTicket.run(newTicket.id, newTicket.title, newTicket.description, newTicket.priority, newTicket.status);
         console.log("Ticket saved to database.");
 
         res.json({ success: true, message: "Ticket created successfully", ticket: newTicket });

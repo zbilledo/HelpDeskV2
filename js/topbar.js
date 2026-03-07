@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const profilePic = document.getElementById("profile-pic");
     const userDropdown = document.getElementById("user-dropdown");
     const storedUser = sessionStorage.getItem("userData");
-    const user = storedUser ? JSON.parse(storedUser) : { name: "Guest", email: "guest@example.com" };
+    const user = storedUser ? JSON.parse(storedUser) : {username: "Guest"};
 
     if (profilePic && userDropdown) {
         // Toggle dropdown on click
@@ -41,13 +41,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     if (userProfile) {
         userProfile.innerHTML = `
-        <p class="user-name">${user.name}</p>
-        <p class="user-email">${user.email}</p>
-    `;
-    } else {
-        userProfile.innerHTML = `
-        <p class="user-name">Example</p>
-        <p class="user-email">example@mail.com</p>
+        <p class="user-name">${user.username}</p>
     `;
     }
 
@@ -55,14 +49,10 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     if (profileName) {
         profileName.innerHTML = `
-            <p class="main-menu-username">${user.name}</p>
-        `;
-    } else {
-        profileName.innerHTML = `
-            <p class="main-menu-username">Example</p>
+            <p class="main-menu-username">${user.username}</p>
         `;
     }
 
-initTicketForm();
+    initTicketForm();
 
 });
