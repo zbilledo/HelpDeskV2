@@ -3,7 +3,10 @@
  * @description Manages fetching, rendering, and deleting support tickets on the dashboard.
  */
 
+import PriorityFilter from './tag-filtering.js';
+
 let tickets = [];
+let currentSort = 'priority'; // 'priority', 'oldest', 'newest'
 
 /**
  * Fetches all tickets from the server and updates the UI.
@@ -21,6 +24,25 @@ async function fetchTickets() {
 }
 
 /**
+ * Sorts the tickets based on the current sort mode.
+ * @param {Array} tickets - Array of ticket objects to sort.
+ * @returns {Array} Sorted tickets.
+ */
+function sortTickets(tickets) {
+  const sorted = [...tickets];
+  if (currentSort === 'priority') {
+    const filter = new PriorityFilter();
+    filter.setItems(sorted);
+    return filter.sortByPriority(true);
+  } else if (currentSort === 'oldest') {
+    return sorted.sort((a, b) => a.id - b.id);
+  } else if (currentSort === 'newest') {
+    return sorted.sort((a, b) => b.id - a.id);
+  }
+  return sorted;
+}
+
+/**
  * Renders the list of tickets into the ticket container.
  * @param {Array} tickets - Array of ticket objects to display.
  */
@@ -34,10 +56,21 @@ function renderTickets(tickets) {
     return container;
   }
 
+  // Sort the tickets
+  const sortedTickets = sortTickets(tickets);
+
   // Map ticket data to HTML cards
   container.innerHTML =
-    `<h1 class="ticket-title">Tickets</h1>` +
-    tickets
+    `<h1 class="ticket-title">Tickets</h1>
+    <div class="sort-dropdown">
+      <label for="sort-select">Sort by:</label>
+      <select id="sort-select" class="sort-select">
+        <option value="priority" ${currentSort === 'priority' ? 'selected' : ''}>Priority</option>
+        <option value="oldest" ${currentSort === 'oldest' ? 'selected' : ''}>Oldest First</option>
+        <option value="newest" ${currentSort === 'newest' ? 'selected' : ''}>Newest First</option>
+      </select>
+    </div>` +
+    sortedTickets
       .map(
         (ticket) => `
     <div class="ticket-card" data-priority="${ticket.priority}">
@@ -59,9 +92,19 @@ function renderTickets(tickets) {
 }
 
 /**
- * Event delegation for ticket deletion.
- * Listens for clicks on delete buttons within the ticket container.
+ * Event delegation for ticket deletion and sort dropdown.
+ * Listens for clicks on delete buttons and changes on sort select within the ticket container.
  */
+document
+  .getElementById("ticket-container")
+  .addEventListener("change", (event) => {
+    // Handle sort dropdown change
+    if (event.target.id === 'sort-select') {
+      currentSort = event.target.value;
+      renderTickets(tickets);
+    }
+  });
+
 document
   .getElementById("ticket-container")
   .addEventListener("click", async (event) => {
