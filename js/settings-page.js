@@ -27,8 +27,8 @@ document.addEventListener("DOMContentLoaded", () => {
         applyDarkMode(darkMode);
 
         // --- Load Notifications ---
-        ticketsNotifToggle.checked = localStorage.getItem("ticktsNotif") !== "false";
-        assignmentsNotifToggle.checked = localStorage.getItem("assingmentsNotif") !== "false";
+        ticketsNotifToggle.checked = localStorage.getItem("ticketsNotif") !== "false";
+        assignmentsNotifToggle.checked = localStorage.getItem("assignmentsNotif") !== "false";
         systemNotifToggle.checked = localStorage.getItem("systemNotif") !== "false";
 
         // --- Load Profile and Account ---

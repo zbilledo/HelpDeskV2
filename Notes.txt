@@ -7,10 +7,15 @@ User accounts might need the same thing.
 
 Things to Add:
 
-Settings
-Accessibility
+Accessibility (Changed Nav bar to help)
 User accounts/profiles
 Cookies?
 Landing Page
 Public FAQ
 AI Assistant
+
+Things to Fix:
+
+Settings bug doesn't save tickets or new assignments off
+Dark Mode not on all pages
+Dark Mode doesn't effect topbar
