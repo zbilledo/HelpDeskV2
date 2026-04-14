@@ -4,6 +4,14 @@
  */
 
 /**
+ * Returns the current timestamp in ISO string format.
+ * @returns {string} The current timestamp.
+ */
+function getCurrentTimestamp() {
+    return new Date().toISOString();
+}
+
+/**
  * Initializes the ticket form functionality.
  * Sets up event listeners for opening/closing the modal and submitting the form.
  */
@@ -41,6 +49,9 @@ export function initTicketForm() {
             const userData = JSON.parse(sessionStorage.getItem("userData"));
             const createdBy = userData ? userData.username : "Guest";
 
+            // Get current timestamp
+            const createdAt = getCurrentTimestamp();
+
             try {
                 // Send ticket data to the server
                 const response = await fetch("/createTicket", {
@@ -48,7 +59,7 @@ export function initTicketForm() {
                     headers: {
                         "Content-Type": "application/json"
                     },
-                    body: JSON.stringify({ ticketTitle, ticketDescription, ticketPriority, createdBy: createdBy })
+                    body: JSON.stringify({ ticketTitle, ticketDescription, ticketPriority, createdBy, createdAt })
                 });
 
                 const data = await response.json();

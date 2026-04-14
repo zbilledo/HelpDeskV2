@@ -27,9 +27,17 @@ ticketsDB.exec(`
         description TEXT NOT NULL,
         priority TEXT NOT NULL,
         status TEXT NOT NULL DEFAULT 'pending',
-        createdBy TEXT NOT NULL
+        createdBy TEXT NOT NULL,
+        createdAt TEXT NOT NULL
     )
 `);
+
+// Add createdAt column if it doesn't exist (for existing databases)
+try {
+    ticketsDB.exec(`ALTER TABLE tickets ADD COLUMN createdAt TEXT`);
+} catch (error) {
+    // Column might already exist, ignore error
+}
 
 /**
  * Initialize the 'users' table if it doesn't exist.
@@ -138,17 +146,18 @@ app.post("/login", (req, res) => {
  * @param {string} req.body.ticketDescription
  * @param {string} req.body.ticketPriority
  * @param {string} req.body.createdBy
+ * @param {string} req.body.createdAt
  */
 app.post("/createTicket", (req, res) => {
     console.log("Server-Side ticket data:", req.body);
 
-    const { ticketTitle, ticketDescription, ticketPriority, createdBy } = req.body;
+    const { ticketTitle, ticketDescription, ticketPriority, createdBy, createdAt } = req.body;
 
     if (ticketTitle && ticketDescription && ticketPriority) {
         try {
             const insertTicket = ticketsDB.prepare(`
-                INSERT INTO tickets (title, description, priority, status, createdBy)
-                VALUES (?, ?, ?, ?, ?)
+                INSERT INTO tickets (title, description, priority, status, createdBy, createdAt)
+                VALUES (?, ?, ?, ?, ?, ?)
             `);
 
             const newTicket = {
@@ -156,10 +165,11 @@ app.post("/createTicket", (req, res) => {
                 description: ticketDescription,
                 priority: ticketPriority,
                 status: "pending",
-                createdBy: createdBy
+                createdBy: createdBy,
+                createdAt: createdAt
             };
 
-            insertTicket.run(newTicket.title, newTicket.description, newTicket.priority, newTicket.status, newTicket.createdBy);
+            insertTicket.run(newTicket.title, newTicket.description, newTicket.priority, newTicket.status, newTicket.createdBy, newTicket.createdAt);
             console.log("Ticket saved to database.");
 
             res.json({ success: true, message: "Ticket created successfully", ticket: newTicket });

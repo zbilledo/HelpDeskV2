@@ -80,6 +80,7 @@ function renderTickets(tickets) {
             <p data-priority="${ticket.priority}">Priority: ${ticket.priority}</p>
             <p>Status: ${ticket.status}</p>
             <p><strong>Created By: ${ticket.createdBy}</strong></p>
+            <p>Created At: ${new Date(ticket.createdAt).toLocaleString()}</p>
         </div>
         <div class="ticket-actions">
             <button class="status-btn" data-id="${ticket.id}">Status</button>
