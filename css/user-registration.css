@@ -20,6 +20,83 @@ body {
     height: 100vh;
 }
 
+/* Navbar */
+
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: #133e5e;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.navbar-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+.nav-logo-img {
+    height: 32px;
+    width: auto;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.nav-link {
+    color: rgba(255,255,255,0.8);
+    font-size: 0.9rem;
+    transition: color 0.2s ease;
+}
+
+.nav-link:hover {
+    color: #fff;
+}
+
+.nav-btn {
+    font-size: 0.85rem;
+    padding: 0.45rem 1.1rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.nav-btn.secondary {
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.4);
+}
+
+.nav-btn.secondary:hover {
+    background: rgba(255,255,255,0.1);
+}
+
+.nav-btn.primary {
+    background: #2c70a2;
+    color: #fff;
+    border: 1px solid #2c70a2;
+}
+
+.nav-btn.primary:hover {
+    background: #1a5276;
+}
+
+
 /* Full-screen overlay for the registration modal */
 .register-container {
     position: fixed;
@@ -28,7 +105,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 1000;
+    z-index: 50;
 }
 
 /* Central Registration Modal Box */
@@ -36,11 +113,12 @@ body {
     background: #0e2d45;
     padding: 2rem;
     border-radius: 8px;
-    width: 450px;
+    width: 600px;
     max-width: 90vw;
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
+    height: 500px;
     max-height: 90vh;
     overflow-y: auto;
 }
@@ -52,13 +130,13 @@ body {
     align-self: center;
 }
 
-/* First Name Last Name Layout */
-.name-row {
+/* Two Text Boxes in a row Layout */
+.text-row {
     display: flex;
     gap: 1rem;
 }
 
-.name-field {
+.text-field {
     display: flex;
     flex-direction: column;
     flex: 1;
@@ -92,7 +170,7 @@ body {
     color: white;
     border: none;
     cursor: pointer;
-    width: 30%;
+    width: 35%;
     height: 35px;
     align-self: center;
 }
@@ -189,4 +267,15 @@ input:focus {
     font-weight: bold;
     font-family: inherit;
     color: #94a3b8;
+}
+
+/* Landing Pages Only - force footer to bottom */
+body.landing-page {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+body.landing-page main {
+    flex: 1;
 }

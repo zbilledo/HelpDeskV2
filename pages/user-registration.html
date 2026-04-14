@@ -10,63 +10,101 @@
     <!-- Stylesheets -->
     <link rel="stylesheet" href="/css/styles.css">
     <link rel="stylesheet" href="/css/user-registration.css">
+    <link rel="stylesheet" href="/css/footer.css">
+
 </head>
-<body>
-    <!-- Registration Page Container -->
-    <div id="register-container" class="register-container">
-        <!-- Registration Modal Box -->
-        <div class="register-modal">
-            <h2>Create an Account</h2>
-            
-            <!-- User Registration Form -->
-            <form id="register-form">
-
-                <div class="name-row">
-                    <div class="name-field">
-                        <label for="first">First Name:</label>
-                        <input type="text" id="first" placeholder="First Name" required/>
-                    </div>
-                    <div class="name-field">
-                        <label for="last">Last Name:</label>
-                        <input type="text" id="last" placeholder="Last Name" required/>
-                    </div>
+<body class="landing-page">
+    
+    <!-- Navbar -->
+        <nav class="navbar">
+            <div class="navbar-inner">
+                <div class="nav-logo">
+                    <img src="/assets/images/GeminiHelpDeskLogo-Picsart-BackgroundRemover.png" alt="Help Desk Logo" class="nav-logo-img">
+                    <span>Help Desk</span>
                 </div>
-
-                <label for="username">Username:</label>
-                <input type="text" id="username" placeholder="Username" required/>
-
-                <label for="email">Email:</label>
-                <input type="email" id="email" placeholder="Email" required/>
-
-                <label for="phone">Phone Number:</label>
-                <input type="tel" id="phone" placeholder="Phone Number"/>
-                
-                <label for="password">Password:</label>
-                <input type="password" id="password" placeholder="Password" required/>
-
-                <div class="requirements-box">
-                    <p class="requirements-title">Password must contain:</p>
-                    <ul class="requirements-list">
-                        <li id="req-length">At least 8 characters</li>
-                        <li id="req-upper">At least 1 uppercase letter</li>
-                        <li id="req-lower">At least 1 lowercase letter</li>
-                        <li id="req-number">At least 1 number</li>
-                        <li id="req-special">At least 1 special character</li>
-                    </ul>
+                <div class="nav-links">
+                    <a href="/index.html" class="nav-link">Home</a>
+                    <a href="/pages/about.html" class="nav-link">About</a>
+                    <a href="/pages/faq.html" class="nav-link">FAQ</a>
+                    <a href="/pages/login-page.html" class="nav-btn secondary">Log in</a>
                 </div>
+            </div>
+        </nav>
+    
+    <main>
+        <!-- Registration Page Container -->
+        <div id="register-container" class="register-container">
+            <!-- Registration Modal Box -->
+            <div class="register-modal">
+                <h2>Create an Account</h2>
                 
-                <label for="confirm-password">Confirm Password:</label>
-                <input type="password" id="confirm-password" placeholder="Confirm Password" required/>
-                
-                <button class="form-buttons" type="submit">Register</button>
-                
-                <!-- Placeholder for registration error messages (e.g., username taken) -->
-                <p id="error-msg" style="color:red; display:none;"></p>
-            </form>
+                <!-- User Registration Form -->
+                <form id="register-form">
+
+                    <div class="text-row">
+                        <div class="text-field">
+                            <label for="first">First Name:</label>
+                            <input type="text" id="first" placeholder="First Name" required/>
+                        </div>
+                        <div class="text-field">
+                            <label for="last">Last Name:</label>
+                            <input type="text" id="last" placeholder="Last Name" required/>
+                        </div>
+                    </div>
+
+                    <div class="text-row">
+                        <div class="text-field">
+                            <label for="username">Username:</label>
+                            <input type="text" id="username" placeholder="Username" required/>
+                        </div>
+                        <div class="text-field">
+                            <label for="phone">Phone Number:</label>
+                            <input type="tel" id="phone" placeholder="Phone Number"/>
+                        </div>
+                    </div>
+
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" placeholder="Email" required/>
+                    
+                    <div class="text-row">
+                        <div class="text-field">
+                            <label for="password">Password:</label>
+                            <input type="password" id="password" placeholder="Password" required/>
+                        </div>
+                        <div class="text-field">
+                            <label for="confirm-password">Confirm Password:</label>
+                            <input type="password" id="confirm-password" placeholder="Confirm Password" required/>
+                        </div>
+                    </div>
+
+                    <div class="requirements-box">
+                        <p class="requirements-title">Password must contain:</p>
+                        <ul class="requirements-list">
+                            <li id="req-length">At least 8 characters</li>
+                            <li id="req-upper">At least 1 uppercase letter</li>
+                            <li id="req-lower">At least 1 lowercase letter</li>
+                            <li id="req-number">At least 1 number</li>
+                            <li id="req-special">At least 1 special character</li>
+                        </ul>
+                    </div>
+
+                    <button class="form-buttons" type="submit">Register</button>
+                    <a href="/pages/login-page.html" class="nav-link" style="align-self: center; padding: 8px;">Log in</a>
+                    
+                    <!-- Placeholder for registration error messages (e.g., username taken) -->
+                    <p id="error-msg" style="color:red; display:none;"></p>
+                </form>
+            </div>
         </div>
-    </div>
+    </main>
+    
+    <!-- Footer Component Insertion -->
+    <div id="footer"></div>
 
     <!-- User Registration Logic -->
+    <script type="module" src="/js/footer.js"></script>
+    <script type="module" src="/js/sidebar.js"></script>    
     <script type="module" src="/js/user-registration.js"></script>
+
 </body>
 </html>

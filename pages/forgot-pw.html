@@ -4,13 +4,13 @@
     <!-- Basic Metadata -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Help Desk - Login</title>
+    <title>Help Desk - Reset Password</title>
     <link rel="icon" href="/assets/images/favicon.png">
 
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="/css/styles.css">
-    <link rel="stylesheet" href="/css/login-page.css">
     <link rel="stylesheet" href="/css/footer.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/forgot-pw.css">
 </head>
 <body class="landing-page">
 
@@ -25,53 +25,49 @@
                 <a href="/index.html" class="nav-link">Home</a>
                 <a href="/pages/about.html" class="nav-link">About</a>
                 <a href="/pages/faq.html" class="nav-link">FAQ</a>
+                <a href="/pages/login-page.html" class="nav-btn secondary">Log in</a>
+                <a href="/pages/user-registration.html" class="nav-btn primary">Sign up</a>
             </div>
         </div>
     </nav>
 
     <main>
-        <!-- Login Page Container -->
-        <div id="login-container" class="login-container">
-            <!-- Login Modal Box -->
-            <div class="login-modal">
-                <h2>Login</h2>
+        <!-- Reset Page Container -->
+        <div id="forgot-container" class="forgot-container">
+            <!-- Reset Modal Box -->
+            <div class="forgot-modal">
+                <h2>Forgot Password</h2>
                 
-                <!-- Login Credentials Form -->
-                <form id="login-form">
-                    <label for="username">Username:</label>
-                    <input type="text" id="username" placeholder="Username" required/>
-                    
-                    <label for="password">Password:</label>
-                    <input type="password" id="password" placeholder="Password" required/>
-                    
-                    <!-- Placeholder for login error messages -->
+                <!-- Forgot PW Credentials Form -->
+                <form id="forgot-form">
+                    <label for="email">Enter Email:</label>
+                    <input type="text" id="email" placeholder="Email" required/>
+                                    
+                    <!-- Placeholder for reset error messages -->
                     <p id="error-msg" style="color:red; display:none;">Invalid credentials</p>
                     
-                    <!-- Login/Signup/Forgot Password buttons -->
+                    <!-- Submit button -->
                     <div class="text-row">
-                        <!-- Confirm Login -->
+                        <!-- Confirm Email -->
                         <div class="text-field">
-                            <button class="form-buttons" type="submit">Login</button>
+                            <button class="form-buttons" type="submit">Confirm</button>
                         </div>
                         <!-- Link to Sign Up Page -->
                         <div class="text-field">
                             <button class="form-buttons" id="sign-up-button">Sign Up</button>
                         </div>
                     </div>
-                    <!-- Link to forgot password form -->
-                    <a href="/pages/forgot-pw.html" class="nav-link" style="align-self: center; padding: 8px;">Forgot Password?</a>
-
                 </form>
             </div>
         </div>
     </main>
 
-    <!-- Footer Component Insertion -->
     <div id="footer"></div>
 
-    <!-- Login Authentication Logic -->
-    <script type="module" src="/js/footer.js"></script>
+    <!-- Forgot PW Authentication Logic -->
     <script type="module" src="/js/supabase.js"></script>
-    <script type="module" src="/js/login-page.js"></script>
+    <script type="module" src="/js/footer.js"></script>
+    <script type="module" src="/js/forgot-pw.js"></script>
+
 </body>
 </html>

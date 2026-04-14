@@ -1,0 +1,82 @@
+/** Company FAQ Styling */
+.page-container {
+    max-width: 750px;
+    margin: 0 auto;
+    padding: 4rem 2rem;
+}
+
+.page-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2.2rem;
+    color: #133e5e;
+    margin-bottom: 0.5rem;
+}
+
+.page-subtitle {
+    color: #666;
+    font-size: 0.95rem;
+    margin-bottom: 3rem;
+}
+
+.faq-item {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.75rem;
+    margin-bottom: 1rem;
+    overflow: hidden;
+}
+
+.faq-question {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.1rem 1.25rem;
+    cursor: pointer;
+    font-weight: 500;
+    color: #133e5e;
+    font-size: 0.95rem;
+}
+
+.faq-question:hover {
+    background: #f8fafc;
+}
+
+.faq-answer {
+    padding: 0 1.25rem 1.1rem;
+    color: #555;
+    font-size: 0.9rem;
+    line-height: 1.7;
+    display: none;
+}
+
+.faq-answer {
+    padding: 0 1.25rem 1.1rem;
+    color: #555;
+    font-size: 0.9rem;
+    line-height: 1.7;
+    display: none;
+}
+
+.faq-answer.open {
+    display: block;
+}
+
+.faq-icon {
+    transition: transform 0.2s ease;
+    flex-shrink: 0;
+}
+
+.faq-icon.open {
+    transform: rotate(180deg);
+}
+
+/* Landing Pages Only - force footer to bottom */
+body.landing-page {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+body.landing-page main {
+    flex: 1;
+}

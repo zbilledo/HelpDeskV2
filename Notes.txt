@@ -7,10 +7,10 @@ User accounts might need the same thing.
 
 Things to Add:
 
-Add return to login option on register page
+Add password requirement hidden before input and hidden when requirements met
+Add to Users Page
 Add error notice if email is already registered, push/suggest password reset
 Add customer-focused landing page/faq/help
-Footer to About page and FAQ
 Account verification prompt
 Forgot password prompt
 Online/offline/available hours for each users
@@ -24,11 +24,11 @@ Cookies?
 
 Things to Fix:
 
-Change login/signup to be next to each other on login page
+Register page box styling
 Change create an account/sign up on landing page to be a reach out link or login link instead
-About page: Our Team styling is off, technology styling is off
+About page: Our Team styling is off
 Registration error pops-up even when registration was successful.
-Add logo to landing page, adjust features grid
+Add logo to landing page
 Change landing page, faq, about to company page (more for if a company wanted to use a version for their specific purposes)
 Remove create new ticket from topbar on settings page
 Profile picture, pronouns style

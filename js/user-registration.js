@@ -7,6 +7,7 @@ import { supabase } from "/js/supabase.js";
 
 const registrationForm = document.getElementById("register-form");
 const passwordInput = document.getElementById("password");
+const login = document.getElementById("login-button");
 
 /** Password Requirement Check */
 function toggleReq(id, met) {
@@ -84,4 +85,8 @@ registrationForm.addEventListener("submit", async (event) => {
     console.log("Registration successful!");
     window.location.href = "/pages/login-page.html";
 
+});
+
+login.addEventListener("click", () => {
+    window.location.href = "/pages/user-registration.html";
 });

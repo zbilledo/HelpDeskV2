@@ -1,7 +1,7 @@
 /* 
- * Login Page Styles
+ * Forgot Password Page Styles
  * -----------------
- * Specific styles for the login screen, including the animated gradient background.
+ * Specific styles for the forgot password screen, including the animated gradient background.
  */
 
 body {
@@ -98,7 +98,7 @@ body {
     background: #1a5276;
 }
 
-/* Login/Sign up buttons Layout */
+/* buttons Layout */
 .text-row {
     display: flex;
     gap: 1rem;
@@ -110,8 +110,8 @@ body {
     flex: 1;
 }
 
-/* Full-screen overlay for the login modal */
-.login-container {
+/* Full-screen overlay for the forgot password modal */
+.forgot-container {
     position: fixed;
     inset: 0;
     background: rgba(0, 0, 0, 0.5);
@@ -121,8 +121,8 @@ body {
     z-index: 50;
 }
 
-/* Central Login Modal Box */
-.login-modal {
+/* Central Forgot PW Modal Box */
+.forgot-modal {
     background: #0e2d45;
     padding: 2rem;
     border-radius: 8px;
@@ -133,32 +133,32 @@ body {
     gap: 0.75rem;
 }
 
-.login-modal h2 {
+.forgot-modal h2 {
     font-size: 3rem;
     font-weight: bold;
     color: #94a3b8;
     align-self: center;
 }
 
-/* Login Form Layout */
-#login-form {
+/* Forgot PW Form Layout */
+#forgot-form {
     display: flex;
     flex-direction: column;
 }
 
-#login-form label {
+#forgot-form label {
     margin-bottom: 3px;
 }
 
-#login-form input {
+#forgot-form input {
     margin-bottom: 10px;
 }
 
-#login-form button {
+#forgot-form button {
     margin-top: 10px;
 }
 
-/* Reusable form button styles for login/signup */
+/* Reusable form button styles */
 .form-buttons {
     font-size: 1em;
     margin-top: 5px;
@@ -179,7 +179,7 @@ body {
 }
 
 /* Input Field Styling */
-.login-modal input {
+.forgot-modal input {
     width: 100%;
     padding: 0.5rem;
     border: 1px solid #2c70a2;
@@ -199,17 +199,17 @@ input:focus {
     box-shadow: 0 0 5px rgba(0, 86, 179, 0.9);
 }
 
-.login-modal input::placeholder {
+.forgot-modal input::placeholder {
     color: #94a3b8;
     opacity: 1;
     transition: color 0.3s ease;
 }
 
-.login-modal input:focus::placeholder {
+.forgot-modal input:focus::placeholder {
     color: transparent;
 }
 
-.login-modal label {
+.forgot-modal label {
     width: 100%;
     padding: 0.5rem;
     box-sizing: border-box;
