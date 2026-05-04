@@ -285,18 +285,28 @@ app.get("/getTickets", (req, res) => {
 
 /**
  * GET /getUsers
- * Retrieves all users from the local SQLite database for assignment purposes.
+ * Retrieves all users from Supabase for assignment purposes.
  */
-// app.get("/getUsers", (req, res) => {
-//   try {
-//     const users = userDB.prepare("SELECT id, username FROM users").all();
-//     console.log("Local users:", users);
-//     res.json(users);
-//   } catch (error) {
-//     console.error("Error fetching users from local database:", error);
-//     res.status(500).json({ success: false, message: "Error fetching users" });
-//   }
-// });
+app.get("/getUsers", async (req, res) => {
+  try {
+    const { data: users, error } = await supabase
+      .from("users")
+      .select("id, username");
+
+    if (error) {
+      console.error("Error fetching users from Supabase:", error);
+      return res
+        .status(500)
+        .json({ success: false, message: "Error fetching users" });
+    }
+
+    console.log("Supabase users:", users);
+    res.json(users);
+  } catch (error) {
+    console.error("Error fetching users from Supabase:", error);
+    res.status(500).json({ success: false, message: "Error fetching users" });
+  }
+});
 
 /**
  * PUT /updateTicket/:id
