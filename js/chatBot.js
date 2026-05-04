@@ -148,16 +148,7 @@ document.addEventListener("DOMContentLoaded", async () => {
    */
   async function getGeminiResponse(userMessage) {
     try {
-      const response = await fetch(GEMINI_API_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          systemInstruction: {
-            parts: [
-              {
-                text: `You are a helpful HelpDesk support assistant. Your role is to:
+      const systemPrompt = `You are a helpful HelpDesk support assistant. Your role is to:
 - Help users submit and track support tickets
 - Answer common technical support questions
 - Guide users through troubleshooting steps
@@ -166,15 +157,21 @@ document.addEventListener("DOMContentLoaded", async () => {
 - If a user needs to create a ticket, guide them to use the ticket submission form
 - Keep responses clear and actionable
 
-Remember: You're representing a professional IT support team. Be patient and understanding with users who may be frustrated or confused.`,
-              },
-            ],
-          },
+Remember: You're representing a professional IT support team. Be patient and understanding with users who may be frustrated or confused.
+
+User: ${userMessage}`;
+
+      const response = await fetch(GEMINI_API_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
           contents: [
             {
               parts: [
                 {
-                  text: userMessage,
+                  text: systemPrompt,
                 },
               ],
             },
