@@ -12,70 +12,67 @@ const loginForm = document.getElementById("login-form");
 const signUp = document.getElementById("sign-up-button");
 
 loginForm.addEventListener("submit", async (event) => {
-    event.preventDefault();
+  event.preventDefault();
 
-    const userLogin = document.getElementById("username").value.trim();
-    const password = document.getElementById("password").value;
-    const errorMsg = document.getElementById("error-msg");
+  const userLogin = document.getElementById("username").value.trim();
+  const password = document.getElementById("password").value;
+  const errorMsg = document.getElementById("error-msg");
 
-    let email = userLogin;
+  let email = userLogin;
 
-    // Add this before the username lookup
-    const { data: session } = await supabase.auth.getSession();
+  // Add this before the username lookup
+  const { data: session } = await supabase.auth.getSession();
 
-    // Finds email by username
-    if (!userLogin.includes("@")) {
-        const { data: users, error: lookupError } = await supabase
-            .from("users")
-            .select("email")
-            .ilike("username", userLogin)
+  // Finds email by username
+  if (!userLogin.includes("@")) {
+    const { data: users, error: lookupError } = await supabase
+      .from("users")
+      .select("email")
+      .ilike("username", userLogin);
 
-
-        if (lookupError || !users || users.length === 0) {
-            errorMsg.textContent = "Username not found.";
-            errorMsg.style.display = "block";
-            return;
-        }
-
-        email = users[0].email;
+    if (lookupError || !users || users.length === 0) {
+      errorMsg.textContent = "Username not found.";
+      errorMsg.style.display = "block";
+      return;
     }
 
-    // Sign in with Supabase Auth
-    const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password
-    });
+    email = users[0].email;
+  }
 
-    // No matching user found
-    if (error) {
-        errorMsg.textContent = "Invalid username or password";
-        errorMsg.style.display = "block";
-        return;
-    }
+  // Sign in with Supabase Auth
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email,
+    password,
+  });
 
-    // Look for user within database with matching username and password
-    const { data: profile, error: profileError } = await supabase
-        .from("users")
-        .select("*")
-        .eq("id", data.user.id)
-        .single();
+  // No matching user found
+  if (error) {
+    errorMsg.textContent = "Invalid username or password";
+    errorMsg.style.display = "block";
+    return;
+  }
 
-    console.log("profile:", profile);
-    console.log("profileError:", profileError);
-    console.log("auth user id:", data.user.id);
+  // Look for user within database with matching username and password
+  const { data: profile, error: profileError } = await supabase
+    .from("users")
+    .select("*")
+    .eq("id", data.user.id)
+    .single();
 
-    if (profileError || !profile) {
-        errorMsg.textContent = "Could not load user profile. Please try again.";
-        errorMsg.style.display = "block";
-        return;
-    }
+  console.log("profile:", profile);
+  console.log("profileError:", profileError);
+  console.log("auth user id:", data.user.id);
 
+  if (profileError || !profile) {
+    errorMsg.textContent = "Could not load user profile. Please try again.";
+    errorMsg.style.display = "block";
+    return;
+  }
 
-    // User found - saves to localStorage and redirects.
-    localStorage.setItem("isLoggedIn", "true");
-    localStorage.setItem("userData", JSON.stringify(profile));
-    window.location.href = "/pages/dashboard.html";
-
+  // User found - saves to localStorage and redirects.
+  localStorage.setItem("isLoggedIn", "true");
+  localStorage.setItem("userData", JSON.stringify(profile));
+  window.location.href = "/pages/dashboard.html";
 });
 /** Temporary test - delete after debugging
 const { data, error } = await supabase
@@ -90,12 +87,11 @@ console.log("error:", error); */
  * Redirect to the user registration page when the sign-up button is clicked.
  */
 signUp.addEventListener("click", () => {
-    window.location.href = "/pages/user-registration.html";
-}); 
+  window.location.href = "/pages/user-registration.html";
+});
 /**
  * Redirect to the user registration page when the sign-up button is clicked.
  */
 signUp.addEventListener("click", () => {
-    window.location.href = "/pages/user-registration.html";
+  window.location.href = "/pages/user-registration.html";
 });
-
