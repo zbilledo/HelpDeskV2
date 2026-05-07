@@ -1,7 +1,8 @@
 <!-- Sidebar Navigation Component -->
 <nav id="sidebar">
   <ul>
-    <!-- Sidebar Header with Logo -->
+
+    <!-- Logo (Links back to home) -->
     <li>
       <a class="nav-link" href="/index.html">
         <img
@@ -12,9 +13,7 @@
       </a>
     </li>
 
-    <!-- Main Navigation Links -->
-
-    <!-- Dashboard Home -->
+    <!-- Dashboard -->
     <li>
       <a class="nav-link" href="/pages/dashboard.html">
         <span class="nav-icons">
@@ -24,7 +23,7 @@
       </a>
     </li>
 
-    <!-- Support Ticket List -->
+    <!-- Tickets -->
     <li>
       <a class="nav-link" href="/pages/ticket-page.html">
         <span class="nav-icons">
@@ -34,19 +33,19 @@
       </a>
     </li>
 
-    <!-- User Management -->
+    <!-- Users (Employee and Admin only) -->
     <li>
-        <div class="employee-only">
-            <a class="nav-link" href="/pages/user-page.html">
-                    <span class="nav-icons">
-                        <i class="fa-solid fa-users"></i>
-                    </span>
-                    <span class="nav-label">Users</span>
-            </a>
-        </div>
+      <div class="employee-only">
+        <a class="nav-link" href="/pages/user-page.html">
+          <span class="nav-icons">
+            <i class="fa-solid fa-users"></i>
+          </span>
+          <span class="nav-label">Users</span>
+        </a>
+      </div>
     </li>
-    
-    <!-- AI ChatBot -->
+
+    <!-- ChatBot -->
     <li>
       <a class="nav-link" href="/pages/chatBot.html">
         <span class="nav-icons">
@@ -56,41 +55,44 @@
       </a>
     </li>
 
-<!-- HelpDesk Resources
-    <li>
-      <div class="employee-only">
-        <a class="nav-link" href="">
-          <span class="nav-icons">
-            <i class="fa-solid fa-folder-open"></i>
-          </span>
-          <span class="nav-label">Resources</span>
-        </a>
-      </div>
-    </li>
+    <!-- TODO: Uncomment when the following features are implemented -->
+    <!--
+      HelpDesk Resources
+      <li>
+        <div class="employee-only">
+          <a class="nav-link" href="">
+            <span class="nav-icons">
+              <i class="fa-solid fa-folder-open"></i>
+            </span>
+            <span class="nav-label">Resources</span>
+          </a>
+        </div>
+      </li>
 
       Employee Resources
-    <li>
-      <div class="employee-only">
-        <a class="nav-link" href="">
-          <span class="nav-icons">
-            <i class="fa-solid fa-building-user"></i>
-          </span>
-          <span class="nav-label">Employee Resources</span>
-        </a>
-      </div>
-    </li>
+      <li>
+        <div class="employee-only">
+          <a class="nav-link" href="">
+            <span class="nav-icons">
+              <i class="fa-solid fa-building-user"></i>
+            </span>
+            <span class="nav-label">Employee Resources</span>
+          </a>
+        </div>
+      </li>
 
       Notifications
-    <li>
-      <a class="nav-link" href="">
-        <span class="nav-icons">
-          <i class="fa-solid fa-inbox"></i>
-        </span>
-        <span class="nav-label"> Notifications </span>
-      </a>
-    </li> -->
+      <li>
+        <a class="nav-link" href="">
+          <span class="nav-icons">
+            <i class="fa-solid fa-inbox"></i>
+          </span>
+          <span class="nav-label">Notifications</span>
+        </a>
+      </li>
+    -->
 
-    <!-- Application Settings -->
+    <!-- Settings (Pushed to bottom of sidebar via CSS) -->
     <li>
       <a id="settings-link" class="nav-link" href="/pages/settings-page.html">
         <span class="nav-icons">
@@ -99,18 +101,21 @@
         <span class="nav-label">Settings</span>
       </a>
     </li>
+
   </ul>
 </nav>
 
-<!-- Code to add drop down to a list item, might be helpful when we have an administrator view vs employee view vs client view
-<li>
+<!-- Dropdown Pattern Reference -->
+<!-- TODO: Use this pattern if role-based dropdown submenus are needed in the future -->
+<!--
+  <li>
     <button class="dropdown-btn">
-        <svg xmlns="insert icon link"> (we are using i class, so this can be replaced with that)
-        <span>Name</span>
-        <svg xmlns="insert icon link">
+      <i class="fa-solid fa-[icon]"></i>
+      <span>Name</span>
+      <i class="fa-solid fa-chevron-down"></i>
     </button>
     <ul class="sub-menu">
-        <li><a href="placeholder">Name</a></li>
-        etc
+      <li><a href="placeholder">Name</a></li>
     </ul>
-</li>   -->
+  </li>
+-->

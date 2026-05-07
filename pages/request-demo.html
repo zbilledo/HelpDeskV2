@@ -1,26 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+    <!-- Basic Metadata -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Help Desk - Demo Page</title>
+
+    <!-- Favicon -->
     <link rel="icon" href="/assets/images/favicon.png">
+
+    <!-- Global and Page-Specific Stylesheets -->
     <link rel="stylesheet" href="/css/global.css">
     <link rel="stylesheet" href="/css/demo.css">
+
+    <!-- Google Fonts: DM Sans (body) and DM Serif Display (headings) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=DM+Serif+Display&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=DM+Serif+Display&display=swap"
+        rel="stylesheet">
+    
+    <!-- Font Awesome for Icons -->
     <script src="https://kit.fontawesome.com/d357d72767.js" crossorigin="anonymous"></script>
-    <style> .navbar { background: #133e5e; } </style>
+
+    <!-- Override navbar background color for this page -->
+    <style>
+        .navbar {
+            background: #133e5e;
+        }
+    </style>
 
 </head>
+
 <body>
 
     <!-- Navbar -->
     <nav class="navbar">
         <div class="navbar-inner">
+
+            <!-- Logo links back to home -->
             <div class="nav-logo">
                 <a class="nav-link" href="/index.html">
-                    <img src="/assets/images/GeminiHelpDeskLogo-Picsart-BackgroundRemover.png" alt="Help Desk Logo" class="nav-logo-img">
+                    <img src="/assets/images/GeminiHelpDeskLogo-Picsart-BackgroundRemover.png" alt="Help Desk Logo"
+                        class="nav-logo-img">
                 </a>
             </div>
             <div class="nav-links">
@@ -33,11 +54,16 @@
     </nav>
 
     <main>
+
         <!-- Main Landing Section -->
+        <!-- Introductory headline with a "Try It Today" badge flowing into the demo request form -->
         <section class="landing">
             <div class="landing-inner">
-                <h1 class="landing-title">Support Your Team,<br><span class="landing-accent">Save Your Clients</span></h1>
-                <p class="landing-subtitle">HelpDesk is built to maximize productivity and reduce ticket wait times.<br>A happy team makes for happy clients.</p>
+                <h1 class="landing-title">Support Your Team,<br><span class="landing-accent">Save Your Clients</span>
+                </h1>
+                <p class="landing-subtitle">HelpDesk is built to maximize productivity and reduce ticket wait
+                    times.<br>A happy team makes for happy clients.</p>
+                <!-- Decorative badge; not a button or link -->
                 <div class="landing-badge">Try It Today</div>
             </div>
         </section>
@@ -47,15 +73,26 @@
             <div class="demo-inner">
                 <h2>See How HelpDesk Can Help You</h2>
                 <p>Let's schedule a personalized demo for your team!<br>Fill out our form and we will be in touch.</p>
+
+                <!-- Demo request form; submission handled by the inline script below -->
                 <form class="demo-form" id="demo-form">
                     <div class="demo-row">
+
+                        <!-- Contact and company details -->
                         <input type="text" placeholder="First Name" required class="demo-input">
                         <input type="text" placeholder="Last Name" required class="demo-input">
                         <input type="email" placeholder="Work Email" required class="demo-input">
                         <input type="text" placeholder="Company Name" required class="demo-input">
-                        <input type="text" placeholder="What is the size of your company?" required class="demo-input full">
-                        <button type="submit" class="demo-btn">Request a Demo <i class="fa-solid fa-arrow-right"></i></button>
-                        <p id="demo-success" style="display: none; color: #22c55e; text-align: center; margin-top: 1rem;">
+
+                        <!-- Full-width company size field -->
+                        <input type="text" placeholder="What is the size of your company?" required
+                            class="demo-input full">
+                        <button type="submit" class="demo-btn">Request a Demo <i
+                                class="fa-solid fa-arrow-right"></i></button>
+
+                        <!-- Success message shown after valid form submission; hidden by default -->
+                        <p id="demo-success"
+                            style="display: none; color: #22c55e; text-align: center; margin-top: 1rem;">
                             <i class="fa-solid fa-circle-check"></i> Thank you! We will be reaching out soon!
                         </p>
                     </div>
@@ -64,30 +101,34 @@
         </section>
 
         <!-- CTA Section -->
+        <!-- Bottom-of-page prompt directing undecided visitors to learn more or check the FAQ -->
         <section class="cta">
             <div class="cta-inner">
                 <h2>Have Questions?</h2>
                 <p>We're here to help.</p>
                 <div class="cta-btns">
                     <a href="/pages/about.html" class="cta-btn primary">About HelpDesk</a>
-                    <a href="/pages/faq.html" class="cta-btn secondary">View FAQ <i class="fa-solid fa-arrow-right"></i></a>
+                    <a href="/pages/faq.html" class="cta-btn secondary">View FAQ <i
+                            class="fa-solid fa-arrow-right"></i></a>
                 </div>
             </div>
         </section>
     </main>
 
     <!-- Footer Component Insertion -->
+    <!-- Footer content is injected dynamically via footer.js -->
     <div id="footer"></div>
-
     <script type="module" src="/js/footer.js"></script>
 
+    <!-- Demo Form Submission -->
+    <!-- Prevents default form submission, resets fields, and reveals the success message -->
     <script>document.getElementById("demo-form").addEventListener("submit", (e) => {
-        e.preventDefault();
-        document.getElementById("demo-form").reset();
-        document.getElementById("demo-success").style.display = "block";
+            e.preventDefault();
+            document.getElementById("demo-form").reset();
+            document.getElementById("demo-success").style.display = "block";
         });
     </script>
 
 
 </body>
-</html>
+</html>>

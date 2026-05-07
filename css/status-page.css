@@ -1,28 +1,148 @@
 /* status-page.css */
-:root{
+
+/* CSS Variables */
+/* Shared color tokens used throughout the page */
+:root {
   --bg: #f5f7fa;
   --card-bg: #fff;
   --muted: #666;
   --accent: #133e5e;
 }
-body{font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;background:var(--bg);margin:0;padding:20px}
-.status-container{max-width:900px;margin:0 auto}
-.ticket-status-card{background:var(--card-bg);padding:20px;border-radius:10px;box-shadow:0 6px 20px rgba(0,0,0,0.08);border-top:6px solid var(--accent)}
-.ticket-status-card .header{display:flex;align-items:center;justify-content:space-between;gap:16px}
-.ticket-status-card h2{margin:0;font-size:1.2rem;color:var(--accent)}
-.current-status{font-weight:700;padding:8px 14px;border-radius:8px;color:white;font-size:0.95rem}
-.current-status.pending{background:#f0ad4e}
-.current-status[class~="in-progress"]{background:#2196f3}
-.current-status.resolved{background:#4caf50}
-.priority-box{margin-top:16px;padding:12px;border:1px solid rgba(0,0,0,0.06);border-radius:8px;display:inline-block;font-weight:600}
-.priority-value{padding:4px 8px;border-radius:6px;color:#fff;margin-left:8px}
-.ticket-status-card[data-priority="low"] .priority-value{background:green}
-.ticket-status-card[data-priority="medium"] .priority-value{background:orange}
-.ticket-status-card[data-priority="high"] .priority-value{background:red}
-.description-box{margin-top:16px;padding:14px;border:1px solid rgba(0,0,0,0.06);border-radius:8px;background:#fbfcfe}
-.description-box h4{margin:0 0 8px 0}
-.description-box p{margin:0;color:var(--muted)}
-.created-by{margin-top:12px;color:var(--muted)}
-.actions{margin-top:16px}
-.back-link{color:var(--accent);text-decoration:none;font-weight:600}
-.error{color:#b00020}
+
+/* Base Body */
+body {
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background: var(--bg);
+  margin: 0;
+  padding: 20px;
+}
+
+/* Status Container */
+/* Centered max-width wrapper that constrains the card on wide screens */
+.status-container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* Ticket Status Card */
+/* Top border uses the accent color to visually anchor the card */
+.ticket-status-card {
+  background: var(--card-bg);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  border-top: 6px solid var(--accent);
+}
+
+/* Card Header */
+/* Space-between row keeps the ticket title left and status badge right */
+.ticket-status-card .header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.ticket-status-card h2 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: var(--accent);
+}
+
+/* Status Badge */
+/* Background color is overridden per-status below */
+.current-status {
+  font-weight: 700;
+  padding: 8px 14px;
+  border-radius: 8px;
+  color: white;
+  font-size: 0.95rem;
+}
+
+/* Status Colors */
+.current-status.pending {
+  background: #f0ad4e;
+}
+
+/* class~ selector matches "in-progress" as a whole word within the class list */
+.current-status[class~="in-progress"] {
+  background: #2196f3;
+}
+
+.current-status.resolved {
+  background: #4caf50;
+}
+
+/* Priority Box */
+/* Inline block so it only stretches as wide as its content */
+.priority-box {
+  margin-top: 16px;
+  padding: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 8px;
+  display: inline-block;
+  font-weight: 600;
+}
+
+/* Priority Value Badge */
+/* Background color is set by the data-priority attribute on the card */
+.priority-value {
+  padding: 4px 8px;
+  border-radius: 6px;
+  color: #fff;
+  margin-left: 8px;
+}
+
+/* Priority Colors */
+.ticket-status-card[data-priority="low"] .priority-value {
+  background: green;
+}
+
+.ticket-status-card[data-priority="medium"] .priority-value {
+  background: orange;
+}
+
+.ticket-status-card[data-priority="high"] .priority-value {
+  background: red;
+}
+
+/* Description Box */
+.description-box {
+  margin-top: 16px;
+  padding: 14px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 8px;
+  background: #fbfcfe;
+}
+
+.description-box h4 {
+  margin: 0 0 8px 0;
+}
+
+.description-box p {
+  margin: 0;
+  color: var(--muted);
+}
+
+/* Created By */
+.created-by {
+  margin-top: 12px;
+  color: var(--muted);
+}
+
+/* Actions */
+.actions {
+  margin-top: 16px;
+}
+
+/* Back Link */
+.back-link {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+/* Error */
+.error {
+  color: #b00020;
+}

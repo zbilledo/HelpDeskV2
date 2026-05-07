@@ -5,10 +5,11 @@
 
 import { PriorityFilter, DateFilter } from '/js/tag-filtering.js';
 
-let assignedTickets = [];
-let closedTickets = [];
-let currentSort = 'priority'; // 'priority', 'oldest', 'newest'
-let filterMode = 'none'; // 'none', 'month-year', 'year', 'date-range'
+/** State */
+let assignedTickets = [];          // Active tickets assigned to the current user
+let closedTickets = [];            // Closed tickets assigned to the current user
+let currentSort = 'priority';      // 'priority', 'oldest', 'newest'
+let filterMode = 'none';           // 'none', 'month-year', 'year', 'date-range'
 let selectedYear = null;
 let selectedMonth = null;
 let dateRangeStart = null;
@@ -16,14 +17,13 @@ let dateRangeEnd = null;
 let selectedStatuses = new Set();
 let selectedPriorities = new Set();
 let selectedDepartments = new Set();
-let renderTimeout = null; // Debounce for filter renders
+let renderTimeout = null;          // Debounce timer for filter re-renders
 
-/**
- * Fetches tickets assigned to the current user.
- */
+/** Fetch Assigned Tickets */
+// Fetches all tickets from the server and filters down to those assigned to
+// the current user that are not yet closed
 async function fetchAssignedTickets() {
   try {
-    // Get current user
     const userData = JSON.parse(localStorage.getItem("userData"));
     if (!userData) {
       console.error("No user data found");
@@ -33,7 +33,7 @@ async function fetchAssignedTickets() {
     const response = await fetch("/getTickets");
     if (response.ok) {
       const allTickets = await response.json();
-      // Filter tickets assigned to current user and exclude closed tickets
+      // Keep only active tickets assigned to the current user
       assignedTickets = allTickets.filter(
         (ticket) => ticket.assignedTo === userData.username && ticket.status !== 'closed'
       );
@@ -44,12 +44,11 @@ async function fetchAssignedTickets() {
   }
 }
 
-/**
- * Fetches closed tickets for the current user.
- */
+/** Fetch Closed Tickets */
+// Fetches all tickets from the server and filters down to those assigned to
+// the current user that have been closed, then renders the history section
 async function fetchClosedTickets() {
   try {
-    // Get current user
     const userData = JSON.parse(localStorage.getItem("userData"));
     if (!userData) {
       console.error("No user data found");
@@ -59,8 +58,10 @@ async function fetchClosedTickets() {
     const response = await fetch("/getTickets");
     if (response.ok) {
       const allTickets = await response.json();
-      // Filter closed tickets assigned to current user
-      closedTickets = allTickets.filter(ticket => ticket.assignedTo === userData.username && ticket.status === 'closed');
+      // Keep only closed tickets assigned to the current user
+      closedTickets = allTickets.filter(
+        ticket => ticket.assignedTo === userData.username && ticket.status === 'closed'
+      );
       renderClosedTickets();
     }
   } catch (error) {
@@ -68,11 +69,10 @@ async function fetchClosedTickets() {
   }
 }
 
-/**
- * Applies date filters to tickets based on current filter settings.
- * @param {Array} tickets - Array of ticket objects to filter.
- * @returns {Array} Filtered tickets.
- */
+/** Available Filter Options */
+// Each function derives a unique sorted list of values from the current ticket set
+// so filter checkboxes always reflect only what's present in the data
+
 function getAvailableStatuses(tickets) {
   return [...new Set(tickets.map((ticket) => ticket.status || 'pending'))].sort();
 }
@@ -85,6 +85,9 @@ function getAvailableDepartments(tickets) {
   return [...new Set(tickets.map((ticket) => ticket.department || 'General'))].sort();
 }
 
+/** Apply Filters */
+// Applies the active date filter mode and any checked status/priority/department
+// filters to the ticket array, returning only matching tickets
 function applyFilters(tickets) {
   let filtered = tickets;
   const dateFilter = new DateFilter();
@@ -113,11 +116,9 @@ function applyFilters(tickets) {
   return filtered;
 }
 
-/**
- * Sorts the tickets based on the current sort mode.
- * @param {Array} tickets - Array of ticket objects to sort.
- * @returns {Array} Sorted tickets.
- */
+/** Sort Tickets */
+// Sorts a copy of the ticket array by the current sort mode.
+// Uses PriorityFilter for priority sorting, falls back to ID order for date sorts.
 function sortTickets(tickets) {
   const sorted = [...tickets];
   if (currentSort === 'priority') {
@@ -132,20 +133,19 @@ function sortTickets(tickets) {
   return sorted;
 }
 
-/**
- * Renders only the filter controls (without re-rendering tickets)
- * @param {Array} tickets - Array of all ticket objects (for getting available years/months)
- */
+/** Render Filter Controls */
+// Builds and injects the filter panel HTML into #filter-popup-content.
+// Called separately from renderTicketCards so filters can update without
+// re-rendering the entire ticket list.
 function renderFilterControls(tickets) {
   const filtersContainer = document.getElementById("filter-popup-content");
-  if (!filtersContainer) return; // Container doesn't exist yet
+  if (!filtersContainer) return;
 
-  // Get available years for filter dropdown
   const dateFilter = new DateFilter();
   dateFilter.setItems(tickets);
   const availableYears = dateFilter.getAvailableYears();
-  
-  // Get available months if a year is selected
+
+  // Only populate months if a year has been selected
   let availableMonths = [];
   if (selectedYear) {
     availableMonths = dateFilter.getAvailableMonths(selectedYear);
@@ -154,7 +154,6 @@ function renderFilterControls(tickets) {
   const availableStatuses = getAvailableStatuses(tickets);
   const availablePriorities = getAvailablePriorities(tickets);
 
-  // Build filter controls HTML
   let filterHTML = `
     <div class="filter-controls">
       <div class="filter-section">
@@ -243,6 +242,7 @@ function renderFilterControls(tickets) {
         </div>
       </div>`;
 
+  // Only show Apply/Clear buttons if a filter mode or checkbox filter is active
   const hasStatusOrPriorityOrDepartment = selectedStatuses.size > 0 || selectedPriorities.size > 0 || selectedDepartments.size > 0;
   const showActionButtons = filterMode !== 'none' || hasStatusOrPriorityOrDepartment;
 
@@ -258,14 +258,14 @@ function renderFilterControls(tickets) {
   filtersContainer.innerHTML = filterHTML;
 }
 
-/**
- * Renders the assigned tickets.
- * @param {Array} tickets - Array of ticket objects to display.
- */
+/** Render Assigned Tickets */
+// Builds the full ticket section structure (toolbar, filter panel, ticket list)
+// on the first call, then delegates to renderFilterControls and renderTicketCards.
+// Subsequent calls skip rebuilding the shell and only update content inside.
 function renderAssignedTickets(tickets) {
   const container = document.getElementById("ticket-container");
 
-  // Only render full structure on first call or when container structure needs updating
+  // Only inject the outer shell if it hasn't been built yet
   if (!document.getElementById("tickets-list")) {
     container.innerHTML = `
       <h1 class="ticket-title">My Assigned Tickets</h1>
@@ -298,23 +298,19 @@ function renderAssignedTickets(tickets) {
   renderTicketCards(tickets);
 }
 
-/**
- * Renders only the ticket cards (without re-rendering filters)
- * @param {Array} tickets - Array of ticket objects to display.
- */
+/** Render Ticket Cards */
+// Applies filters and sort to the ticket array and injects the resulting
+// ticket card HTML into #tickets-list. Does not touch the filter controls.
 function renderTicketCards(tickets) {
   const ticketsContainer = document.getElementById("tickets-list");
 
-  // Apply all active filters
   let filteredTickets = applyFilters(tickets);
 
-  // Display message if no tickets are found after filtering
   if (filteredTickets.length === 0) {
     ticketsContainer.innerHTML = `<p class="no-tickets">No Assigned Tickets</p>`;
     return;
   }
 
-  // Sort the tickets
   const sortedTickets = sortTickets(filteredTickets);
 
   ticketsContainer.innerHTML = sortedTickets
@@ -340,28 +336,26 @@ function renderTicketCards(tickets) {
     .join("");
 }
 
-/**
- * Closes a ticket by updating its status to 'closed'.
- * @param {number} ticketId - The ID of the ticket to close.
- */
+/** Close Ticket */
+// Sends a PUT request to mark the ticket as closed on the server.
+// On success, removes it from the local assignedTickets array and refreshes
+// the closed tickets section to include the newly closed ticket.
 async function closeTicket(ticketId) {
   console.log('closeTicket called with ticketId:', ticketId);
   try {
     console.log('Making fetch request to:', `/closeTicket/${ticketId}`);
     const response = await fetch(`/closeTicket/${ticketId}`, {
       method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json'
-      }
+      headers: { 'Content-Type': 'application/json' }
     });
     console.log('Response status:', response.status);
     console.log('Response ok:', response.ok);
 
     if (response.ok) {
-      // Remove the ticket from the local array and re-render
+      // Remove from local active array and re-render assigned tickets
       assignedTickets = assignedTickets.filter(ticket => ticket.id !== ticketId);
       renderAssignedTickets(assignedTickets);
-      // Refresh closed tickets from server to show the newly closed ticket
+      // Re-fetch closed tickets from server to include the one just closed
       fetchClosedTickets();
     } else {
       console.error('Failed to close ticket');
@@ -373,13 +367,14 @@ async function closeTicket(ticketId) {
   }
 }
 
-/**
- * Renders the closed tickets history section.
- */
+/** Render Closed Tickets */
+// Builds or updates the #closed-tickets-section appended below the assigned tickets.
+// Creates the section element on first call; updates it in place on subsequent calls.
+// Closed tickets are sorted newest first by createdAt date.
 function renderClosedTickets() {
   const container = document.getElementById("ticket-container");
 
-  // Check if closed tickets section already exists
+  // Create the closed tickets section if it doesn't exist yet
   let closedSection = document.getElementById("closed-tickets-section");
   if (!closedSection) {
     closedSection = document.createElement("div");
@@ -400,7 +395,7 @@ function renderClosedTickets() {
     <h2>Closed Tickets History</h2>
     <div class="closed-tickets-list">
       ${closedTickets
-        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)) // Sort by newest first
+        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
         .map(
           (ticket) => `
       <div class="closed-ticket-card">
@@ -422,36 +417,45 @@ function renderClosedTickets() {
   `;
 }
 
-/**
- * Event delegation for ticket actions, sort dropdown, and date filters.
- */
+/** Debounced Render */
+// Delays renderTicketCards by 300ms to avoid thrashing the DOM while
+// the user is still interacting with filter controls
+function debouncedRender() {
+  clearTimeout(renderTimeout);
+  renderTimeout = setTimeout(() => renderTicketCards(assignedTickets), 300);
+}
+
+/** Change Event Delegation */
+// Handles all change events within #ticket-container via a single delegated listener.
+// Routes to the appropriate state update and re-render based on the changed element.
 document
   .getElementById("ticket-container")
   .addEventListener("change", (event) => {
-    // Handle sort dropdown change - immediate render
+
+    // Sort dropdown: immediate re-render
     if (event.target.id === 'sort-select') {
       currentSort = event.target.value;
       renderTicketCards(assignedTickets);
       return;
     }
 
-    // Handle year selection - debounced render
+    // Year select: reset month and refresh both filter controls and ticket cards
     if (event.target.id === 'year-select') {
       selectedYear = event.target.value ? parseInt(event.target.value) : null;
       selectedMonth = null; // Reset month when year changes
-      renderFilterControls(assignedTickets); // Update filters first (for month dropdown)
-      debouncedRender(); // Then update tickets with debounce
+      renderFilterControls(assignedTickets);
+      debouncedRender();
       return;
     }
 
-    // Handle month selection - debounced render
+    // Month select: debounced re-render
     if (event.target.id === 'month-select') {
       selectedMonth = event.target.value ? parseInt(event.target.value) : null;
       debouncedRender();
       return;
     }
 
-    // Handle date input changes - just update state, don't render
+    // Date range inputs: update state only; render is triggered by the Apply button
     if (event.target.id === 'start-date') {
       dateRangeStart = event.target.value;
       return;
@@ -461,7 +465,7 @@ document
       return;
     }
 
-    // Handle status/priority checkbox changes
+    // Status/priority/department checkboxes: add or remove value from the relevant Set
     if (event.target.classList.contains('filter-checkbox')) {
       const type = event.target.dataset.filterType;
       const value = event.target.value;
@@ -481,10 +485,14 @@ document
     }
   });
 
+/** Click Event Delegation */
+// Handles all click events within #ticket-container via a single delegated listener.
+// Routes to the appropriate action based on the clicked element's ID or class.
 document
   .getElementById("ticket-container")
   .addEventListener("click", async (event) => {
-    // Handle apply button for filters
+
+    // Apply filters button: validates required fields then applies and closes the panel
     if (event.target.id === 'apply-filters-btn') {
       let valid = true;
       if (filterMode === 'year') {
@@ -507,7 +515,7 @@ document
       return;
     }
 
-    // Handle filter item selection within the category list
+    // Filter mode button: switch the active date filter type and reset all date state
     if (event.target.classList.contains('filter-item-btn')) {
       const selectedFilter = event.target.dataset.filter;
       if (selectedFilter && selectedFilter !== filterMode) {
@@ -521,7 +529,7 @@ document
       return;
     }
 
-    // Handle clear filters button
+    // Clear filters: reset all filter state and do a full render to rebuild controls
     if (event.target.id === 'clear-filters-btn') {
       filterMode = 'none';
       selectedYear = null;
@@ -531,25 +539,25 @@ document
       selectedStatuses.clear();
       selectedPriorities.clear();
       selectedDepartments.clear();
-      renderAssignedTickets(assignedTickets); // Full render to reset all controls
+      renderAssignedTickets(assignedTickets);
       return;
     }
 
-    // Open filter popup
+    // Open filter panel
     if (event.target.id === 'open-filter-btn') {
       const popup = document.getElementById('filter-popup');
       if (popup) popup.classList.remove('hidden');
       return;
     }
 
-    // Close filter popup by close button or backdrop
+    // Close filter panel via close button or backdrop click
     if (event.target.id === 'close-filter-btn' || event.target.id === 'filter-popup-backdrop') {
       const popup = document.getElementById('filter-popup');
       if (popup) popup.classList.add('hidden');
       return;
     }
 
-    // Handle close ticket button
+    // Close ticket button: prompt for confirmation before closing
     if (event.target.classList.contains("close-ticket-btn")) {
       const ticketId = parseInt(event.target.getAttribute("data-id"));
       if (confirm("Are you sure you want to close this ticket?")) {
@@ -558,7 +566,7 @@ document
       return;
     }
 
-    // Navigate to status page when Status button clicked
+    // Status button: navigate to the status page for this ticket
     if (event.target.classList.contains("status-btn")) {
       const ticketId = parseInt(event.target.getAttribute("data-id"));
       window.location.href = `/pages/status-page.html?ticketId=${ticketId}`;
@@ -566,9 +574,8 @@ document
     }
   });
 
-/**
- * Initialize assigned tickets on page load.
- */
+/** Init */
+// Fetch both assigned and closed tickets on page load
 document.addEventListener("DOMContentLoaded", () => {
   fetchAssignedTickets().catch((error) => {
     console.error("Failed to initialize assigned tickets:", error);
@@ -578,7 +585,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-// Set up polling to keep tickets synchronized with the server every 2 seconds
+// Poll the server every 2 seconds to keep both ticket lists in sync
 setInterval(() => {
   fetchAssignedTickets();
   fetchClosedTickets();

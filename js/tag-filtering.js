@@ -1,18 +1,24 @@
-// Tag Filtering System - Priority-based filtering
-
+/** Priority Filter */
+// Provides priority-based filtering and sorting for ticket arrays.
+// Priority order is fixed as high > medium > low.
 class PriorityFilter {
     constructor() {
         this.items = [];
         this.priorities = [];
-        // high > medium > low
+        // Defines the canonical priority order used for sorting and range filtering
         this.priorityOrder = ['high', 'medium', 'low'];
     }
 
+    /** Set Items */
+    // Stores the item array and derives the unique set of priorities present in the data
     setItems(items) {
         this.items = items;
         this.priorities = [...new Set(items.map(item => item.priority))];
     }
 
+    /** Filter By Priority */
+    // Returns items matching a single priority level.
+    // Returns an empty array and logs an error if the priority value is not recognized.
     filterByPriority(priority) {
         if (!this.priorities.includes(priority)) {
             console.error('Invalid priority level');
@@ -21,50 +27,57 @@ class PriorityFilter {
         return this.items.filter(item => item.priority === priority);
     }
 
+    /** Filter By Priorities */
+    // Returns items matching any of the priorities in the provided array
     filterByPriorities(priorityArray) {
         return this.items.filter(item => priorityArray.includes(item.priority));
     }
 
+    /** Sort By Priority */
+    // Sorts items by priority order (high → low by default, low → high if descending=false).
+    // Items with the same priority are then sorted by ID to ensure a stable order.
     sortByPriority(descending = true) {
         const order = descending ? this.priorityOrder : [...this.priorityOrder].reverse();
-        
+
         return [...this.items].sort((a, b) => {
             const aPriorityIndex = order.indexOf(a.priority);
             const bPriorityIndex = order.indexOf(b.priority);
-            
+
             if (aPriorityIndex !== bPriorityIndex) {
                 return aPriorityIndex - bPriorityIndex;
             }
-            
+
+            // Tiebreak by ID for a stable sort
             return a.id - b.id;
         });
     }
 
+    /** Filter Above Priority */
+    // Returns items at or below the given minimum priority in the priority order.
+    // e.g. filterAbovePriority('medium') returns medium and low items.
     filterAbovePriority(minPriority) {
         const minIndex = this.priorityOrder.indexOf(minPriority);
-        return this.items.filter(item => 
+        return this.items.filter(item =>
             this.priorityOrder.indexOf(item.priority) >= minIndex
         );
     }
 }
 
-// Date Filtering System - Filter by month, year, and date ranges
-
+/** Date Filter */
+// Provides date-based filtering for ticket arrays using the createdAt field.
 class DateFilter {
     constructor() {
         this.items = [];
     }
 
+    /** Set Items */
     setItems(items) {
         this.items = items;
     }
 
-    /**
-     * Filters tickets by a specific month and year
-     * @param {number} month - Month number (1-12)
-     * @param {number} year - Year (e.g., 2024)
-     * @returns {Array} Filtered tickets
-     */
+    /** Filter By Month Year */
+    // Returns items whose createdAt falls in the given month (1-12) and year.
+    // month - 1 corrects for JavaScript's zero-indexed Date.getMonth().
     filterByMonthYear(month, year) {
         return this.items.filter(item => {
             const date = new Date(item.createdAt);
@@ -72,11 +85,8 @@ class DateFilter {
         });
     }
 
-    /**
-     * Filters tickets by a specific year
-     * @param {number} year - Year (e.g., 2024)
-     * @returns {Array} Filtered tickets
-     */
+    /** Filter By Year */
+    // Returns items whose createdAt falls in the given year
     filterByYear(year) {
         return this.items.filter(item => {
             const date = new Date(item.createdAt);
@@ -84,34 +94,26 @@ class DateFilter {
         });
     }
 
-    /**
-     * Filters tickets within a date range (inclusive of both start and end dates)
-     * Properly handles timezone by comparing date portions only
-     * @param {Date|string} startDate - Start date (YYYY-MM-DD format from date input)
-     * @param {Date|string} endDate - End date (YYYY-MM-DD format from date input)
-     * @returns {Array} Filtered tickets
-     */
+    /** Filter By Date Range */
+    // Returns items whose createdAt falls within the range (inclusive of both endpoints).
+    // Parses YYYY-MM-DD strings from date inputs into UTC Date objects to avoid
+    // timezone offset issues that arise when using new Date('YYYY-MM-DD') directly.
+    // End date is set to 23:59:59.999 UTC so the full final day is included.
     filterByDateRange(startDate, endDate) {
-        // Parse the dates from the format YYYY-MM-DD
         const [startYear, startMonth, startDay] = startDate.split('-').map(Number);
         const [endYear, endMonth, endDay] = endDate.split('-').map(Number);
-        
-        // Create date objects in UTC for comparison
+
         const start = new Date(Date.UTC(startYear, startMonth - 1, startDay, 0, 0, 0, 0));
         const end = new Date(Date.UTC(endYear, endMonth - 1, endDay, 23, 59, 59, 999));
 
         return this.items.filter(item => {
-            // Parse the createdAt ISO string and compare
             const date = new Date(item.createdAt);
             return date >= start && date <= end;
         });
     }
 
-    /**
-     * Filters tickets by a specific month across all years
-     * @param {number} month - Month number (1-12)
-     * @returns {Array} Filtered tickets
-     */
+    /** Filter By Month */
+    // Returns items whose createdAt falls in the given month (1-12) across all years
     filterByMonth(month) {
         return this.items.filter(item => {
             const date = new Date(item.createdAt);
@@ -119,20 +121,16 @@ class DateFilter {
         });
     }
 
-    /**
-     * Gets all available years from tickets
-     * @returns {Array} Sorted array of years
-     */
+    /** Get Available Years */
+    // Derives a unique sorted list of years present in the item set (newest first)
     getAvailableYears() {
         const years = [...new Set(this.items.map(item => new Date(item.createdAt).getFullYear()))];
         return years.sort((a, b) => b - a);
     }
 
-    /**
-     * Gets all available months in a specific year
-     * @param {number} year - Year (e.g., 2024)
-     * @returns {Array} Array of month numbers (1-12) that have tickets
-     */
+    /** Get Available Months */
+    // Derives a unique sorted list of months (1-12) that have tickets in the given year.
+    // Used to populate the month dropdown after a year is selected.
     getAvailableMonths(year) {
         const months = [...new Set(
             this.items
@@ -143,17 +141,24 @@ class DateFilter {
     }
 }
 
+/** Department Filter */
+// Provides department-based filtering for ticket arrays.
 class DepartmentFilter {
     constructor() {
         this.items = [];
         this.departments = [];
     }
 
+    /** Set Items */
+    // Stores the item array and derives the unique set of departments present in the data
     setItems(items) {
         this.items = items;
         this.departments = [...new Set(items.map(item => item.department))];
     }
 
+    /** Filter By Department */
+    // Returns items matching the given department.
+    // Returns an empty array and logs an error if the department is not recognized.
     filterByDepartment(department) {
         if (!this.departments.includes(department)) {
             console.error('Invalid department');

@@ -1,15 +1,21 @@
 /* Footer */
+
+/* Base Anchor */
+/* Strips default link underline and inherits color from the parent element */
 a {
     text-decoration: none;
     color: inherit;
 }
 
+/* Footer */
 .footer {
     background: #0e2d45;
     padding: 1.5rem 2rem;
     z-index: 100;
 }
 
+/* Footer Inner */
+/* Space-between row with flex-wrap so logo and links stack on narrow viewports */
 .footer-inner {
     max-width: 1100px;
     margin: 0 auto;
@@ -20,6 +26,7 @@ a {
     gap: 1rem;
 }
 
+/* Footer Logo */
 .footer-logo {
     color: rgba(255,255,255,0.7);
     font-size: 0.9rem;
@@ -27,6 +34,7 @@ a {
     z-index: 100;
 }
 
+/* Footer Links */
 .footer-links {
     display: flex;
     gap: 1.5rem;
@@ -39,6 +47,7 @@ a {
     transition: color 0.2s ease;
 }
 
+/* Footer Link Hover */
 .footer-links a:hover {
     color: #fff;
 }

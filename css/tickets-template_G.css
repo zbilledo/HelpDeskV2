@@ -4,6 +4,8 @@
  * Styles for the ticket container and individual ticket cards.
  */
 
+/* Ticket Container */
+/* Dark blue column layout that wraps all ticket cards */
 #ticket-container {
     display: flex;
     flex-direction: column;
@@ -13,7 +15,8 @@
     border-radius: 8px;
 }
 
-/* Individual Ticket Card Styling */
+/* Ticket Card */
+/* Left border color is overridden by priority data attributes below */
 .ticket-card {
     display: flex;
     flex-direction: row;
@@ -26,7 +29,8 @@
     border-left: 5px solid #133e5e;
 }
 
-/* Ticket List Title */
+/* Ticket Title */
+/* clamp() scales the font size between 1rem and 1.7rem based on viewport width */
 .ticket-title {
     font-size: clamp(1rem, 2vw, 1.7rem);
     font-weight: bold;
@@ -34,7 +38,8 @@
     color: white;
 }
 
-/* Empty State Message Styling */
+/* No Tickets */
+/* Empty state shown when no tickets exist or match the current filter */
 .no-tickets {
     color: white;
     font-size: clamp(0.9rem, 2vw, 1.2rem);
@@ -57,7 +62,7 @@
     color: #555;
 }
 
-/* Action Button for Deleting Tickets */
+/* Delete Button */
 .delete-ticket-btn {
     background-color: #ff4444;
     color: white;
@@ -75,11 +80,8 @@
     transition: background-color 0.3s ease;
 }
 
-/* 
- * Priority-Based Styling 
- * Updates border and text colors based on ticket priority levels.
- */
-
+/* Priority Border Colors */
+/* Left border color indicates ticket priority at a glance */
 .ticket-card[data-priority="low"] {
     border-left-color: green;
 }
@@ -92,6 +94,8 @@
     border-left-color: red;
 }
 
+/* Priority Text Colors */
+/* Priority field text matches its border color for visual consistency */
 .ticket-card p[data-priority="low"] {
     color: green;
 }
@@ -104,16 +108,18 @@
     color: red;
 }
 
-/* Custom scrollbar styling for the ticket container */
+/* Scrollbar */
 #ticket-container::-webkit-scrollbar {
     width: 8px;
 }
 
+/* Scrollbar Track */
 #ticket-container::-webkit-scrollbar-track {
     background: rgba(255, 255, 255, 0.1);
     border-radius: 8px;
 }
 
+/* Scrollbar Thumb */
 #ticket-container::-webkit-scrollbar-thumb {
     background: #ffffff;
     border-radius: 8px;

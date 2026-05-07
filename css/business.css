@@ -1,4 +1,5 @@
 /* Main Landing Section */
+/* Two-column grid splits the headline left and the visual card right */
 .landing {
     max-width: 1100px;
     margin: 0 auto;
@@ -9,6 +10,8 @@
     align-items: center;
 }
 
+/* Landing Badge */
+/* Decorative pill label; not a button or link */
 .landing-badge {
     display: inline-block;
     background: #e8f0f7;
@@ -20,6 +23,8 @@
     letter-spacing: 0.04rem;
 }
 
+/* Landing Title */
+/* DM Serif Display gives the headline a distinct editorial feel */
 .landing-title {
     font-family: 'DM Serif Display', serif;
     font-size: 3rem;
@@ -28,10 +33,14 @@
     margin-bottom: 1rem;
 }
 
+/* Landing Accent */
+/* Highlights the key word in the headline with a lighter brand blue */
 .landing-accent {
     color: #2c70a2;
 }
 
+/* Landing Subtitle */
+/* max-width:420px keeps the subtitle narrower than the title for visual hierarchy */
 .landing-subtitle {
     font-size: 1rem;
     color: #555;
@@ -39,12 +48,14 @@
     max-width: 420px;
 }
 
+/* Landing Buttons */
 .landing-btns {
     display: flex;
     gap: 1rem;
     flex-wrap: wrap;
 }
 
+/* Landing Button Base */
 .landing-btn {
     font-size: 0.9rem;
     padding: 0.7rem 1.5rem;
@@ -56,6 +67,8 @@
     transition: all 0.2s ease;
 }
 
+/* Landing Button Primary */
+/* Filled dark blue; hover shifts to a lighter semi-transparent blue */
 .landing-btn.primary {
     background: #133e5e;
     color: #fff;
@@ -66,6 +79,8 @@
     background-color: rgba(44, 112, 162, 0.7);
 }
 
+/* Landing Button Secondary */
+/* Ghost style with a light border; hover fills with the same blue as primary */
 .landing-btn.secondary {
     background: #fff;
     color: #133e5e;
@@ -78,12 +93,15 @@
     background-color: rgba(44, 112, 162, 0.7);
 }
 
-/* Landing Visual Card */
+/* Landing Visual */
+/* Right column of the landing grid; centers the mock ticket card */
 .landing-visual {
     display: flex;
     justify-content: center;
 }
 
+/* Visual Card */
+/* Decorative mock UI card illustrating the product; static marketing content */
 .visual-card {
     background: #fff;
     border-radius: 1rem;
@@ -94,6 +112,8 @@
     border: 1px solid #e5e7eb;
 }
 
+/* Visual Card Header */
+/* Faux window chrome row with colored dots and a title */
 .visual-card-header {
     display: flex;
     align-items: center;
@@ -101,16 +121,19 @@
     margin-bottom: 1rem;
 }
 
+/* Visual Dot */
 .visual-dot {
     width: 10px;
     height: 10px;
     border-radius: 50%;
 }
 
-.visual-dot.red {background: #ef4444;}
-.visual-dot.amber {background: #f59e0b;}
-.visual-dot.green {background: #22c55e;}
+/* Faux window control dot colors */
+.visual-dot.red   { background: #ef4444; }
+.visual-dot.amber { background: #f59e0b; }
+.visual-dot.green { background: #22c55e; }
 
+/* Visual Card Title */
 .visual-card-title {
     font-size: 0.8rem;
     font-weight: 500;
@@ -118,12 +141,15 @@
     margin-left: 0.5rem;
 }
 
+/* Visual Tickets List */
 .visual-tickets-list {
     display: flex;
     flex-direction: column;
     gap: 8px;
 }
 
+/* Visual Ticket Card */
+/* Left border color is overridden by priority data attributes below */
 .visual-ticket-card {
     display: flex;
     flex-direction: row;
@@ -136,9 +162,10 @@
     border-left: 4px solid #133e5e;
 }
 
-.visual-ticket-card[data-priority="high"] { border-left-color: #ef4444; }
+/* Visual Ticket Priority Border Colors */
+.visual-ticket-card[data-priority="high"]   { border-left-color: #ef4444; }
 .visual-ticket-card[data-priority="medium"] { border-left-color: #f59e0b; }
-.visual-ticket-card[data-priority="low"] { border-left-color: #22c55e; }
+.visual-ticket-card[data-priority="low"]    { border-left-color: #22c55e; }
 
 .visual-ticket-info h3 {
     margin: 0 0 3px;
@@ -153,11 +180,15 @@
     color: #555;
 }
 
-.visual-ticket-info p[data-priority="high"] { border-left-color: #ef4444; }
+/* Visual Ticket Priority Text Colors */
+/* Note: these selectors target border-left-color but have no visible effect on <p> tags;
+   may be intended for a future inline priority indicator */
+.visual-ticket-info p[data-priority="high"]   { border-left-color: #ef4444; }
 .visual-ticket-info p[data-priority="medium"] { border-left-color: #f59e0b; }
-.visual-ticket-info p[data-priority="low"] { border-left-color: #22c55e; }
+.visual-ticket-info p[data-priority="low"]    { border-left-color: #22c55e; }
 
 /* Shared Section Titles */
+/* Reused across Features, Testimonials, and other sections */
 .section-title {
     font-family: 'DM Serif Display', serif;
     font-size: 2rem;
@@ -173,7 +204,6 @@
     margin-bottom: 3rem;
 }
 
-
 /* Features Section */
 .features {
     background: #fff;
@@ -182,11 +212,13 @@
     padding: 5rem 2rem;
 }
 
+/* Features Inner */
 .features-inner {
     max-width: 1100px;
     margin: 0 auto;
 }
 
+/* Features Title */
 .features-title {
     font-family: 'DM Serif Display', serif;
     font-size: 2rem;
@@ -195,6 +227,7 @@
     margin-bottom: 0.5rem;
 }
 
+/* Features Subtitle */
 .features-subtitle {
     text-align: center;
     color: #666;
@@ -202,12 +235,16 @@
     margin-bottom: 3rem;
 }
 
+/* Features Grid */
+/* Three equal columns; collapses to one on small screens via global responsive rules */
 .features-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 1.5rem;
 }
 
+/* Feature Card */
+/* Cards lift slightly on hover via transform + box-shadow transition */
 .feature-card {
     background: #f8fafc;
     border-radius: 0.75rem;
@@ -221,6 +258,7 @@
     transform: translateY(-2px);
 }
 
+/* Feature Icon */
 .feature-icon {
     width: 40px;
     height: 40px;
@@ -247,7 +285,7 @@
     line-height: 1.6;
 }
 
-/* Testimonials */
+/* Testimonials Section */
 .testimonials {
     background: #f8fafc;
     padding: 5rem 2rem;
@@ -255,17 +293,22 @@
     border-bottom: 1px solid #e5e7eb;
 }
 
+/* Testimonials Inner */
 .testimonials-inner {
     max-width: 1100px;
     margin: 0 auto;
 }
 
+/* Testimonials Wrapper */
+/* overflow:hidden clips the prev and next cards that sit outside the visible area */
 .testimonials-wrapper {
     overflow: hidden;
     position: relative;
     width: 100%;
 }
 
+/* Testimonials Grid */
+/* Fixed height contains the absolutely positioned cards during transitions */
 .testimonials-grid {
     display: flex;
     align-items: center;
@@ -274,6 +317,9 @@
     height: 220px;
 }
 
+/* Testimonial Card */
+/* Cards are absolutely positioned so active, prev, and next can overlap;
+   default state is off-screen right and invisible */
 .testimonial-card {
     background: #fff;
     border-radius: 0.75rem;
@@ -286,31 +332,33 @@
     flex-shrink: 0;
     transition: opacity 0.5s ease, transform 0.5s ease;
     display: flex;
-    flex-shrink: 0;
     position: absolute;
-
     opacity: 0;
-    transform: translateX(150%);
+    transform: translateX(150%); /* Default off-screen right */
 }
 
+/* Active card: centered and fully visible */
 .testimonial-card.active {
     opacity: 1;
     transform: translateX(0);
     z-index: 2;
 }
 
+/* Prev card: partially visible to the left */
 .testimonial-card.prev {
     opacity: 0.5;
     transform: translateX(-120%);
     z-index: 1;
 }
 
+/* Next card: partially visible to the right */
 .testimonial-card.next {
     opacity: 0.5;
     transform: translateX(120%);
     z-index: 1;
 }
 
+/* Testimonial Text */
 .testimonial-text {
     font-size: 0.9rem;
     color: #444;
@@ -319,12 +367,15 @@
     font-style: italic;
 }
 
+/* Testimonial Author */
 .testimonial-author {
     display: flex;
     align-items: center;
     gap: 0.75rem;
 }
 
+/* Testimonial Avatar */
+/* Initials-based fallback; no profile images used */
 .testimonial-avatar {
     width: 40px;
     height: 40px;
@@ -339,12 +390,14 @@
     flex-shrink: 0;
 }
 
+/* Testimonial Name */
 .testimonial-name {
     font-size: 0.85rem;
     font-weight: 500;
     color: #133e5e;
 }
 
+/* Testimonial Role */
 .testimonial-role {
     font-size: 0.75rem;
     color: #888;
@@ -352,11 +405,13 @@
 }
 
 /* CTA Section */
+/* Dark blue band at the bottom of the page */
 .cta {
     padding: 5rem 2rem;
     background: #133e5e;
 }
 
+/* CTA Inner */
 .cta-inner {
     max-width: 600px;
     margin: 0 auto;
@@ -376,6 +431,8 @@
     margin-bottom: 2rem;
 }
 
+/* CTA Buttons */
+/* Wrapping flex row centers the buttons and stacks them on narrow viewports */
 .cta-btns {
     display: flex;
     gap: 1rem;
@@ -383,6 +440,8 @@
     flex-wrap: wrap;
 }
 
+/* CTA Primary Button */
+/* Inverted from the default landing-btn.primary — white fill on the dark background */
 .cta .landing-btn.primary {
     background-color: #fff;
     border: .5px solid #133e5e;
@@ -395,6 +454,8 @@
     border: .5px solid #fff;
 }
 
+/* CTA Secondary Button */
+/* Filled blue on the dark background; inverted from the default ghost secondary */
 .cta .landing-btn.secondary {
     border: .5px solid #2373ad;
     background: #2373ad;

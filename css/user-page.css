@@ -4,12 +4,17 @@
 * Styles for the user management page.
 */
 
+/* Content Layout */
+
 /* Match settings page padding */
 .content {
     padding: 2rem;
 }
 
 /* Page Header */
+
+/* Flex row with space-between keeps the title left and view toggle right;
+   flex-wrap allows them to stack on narrow screens */
 .page-header {
     display: flex;
     align-items: center;
@@ -17,7 +22,6 @@
     margin-bottom: 1.5rem;
     flex-wrap: wrap;
     gap: 1rem;
-
 }
 
 .page-title h1 {
@@ -34,6 +38,8 @@
 }
 
 /* View Toggle */
+
+/* Grouped button pair; overflow:hidden clips the border-radius on child buttons */
 .view-toggle {
     display: flex;
     border: 1px solid #e5e7eb;
@@ -42,7 +48,7 @@
 }
 
 .view-btn {
-    padding: 0.5rem 0.75 rem;
+    padding: 0.5rem 0.75rem;
     border: none;
     background: #fff;
     color: #888;
@@ -51,17 +57,21 @@
     font-size: 0.9rem;
 }
 
+/* Active state fills the button with the brand color */
 .view-btn.active {
     background: #133e5e;
     color: #fff;
 }
 
+/* Hover only applies to inactive buttons to avoid fighting the active style */
 .view-btn:hover:not(.active) {
     background: #f0f4f8;
     color: #133e5e;
 }
 
 /* Filter Tabs */
+
+/* Pill-shaped tabs that wrap onto a second row if the viewport is narrow */
 .filter-tabs {
     display: flex;
     gap: 0.5rem;
@@ -94,6 +104,8 @@
     color: #133e5e;
 }
 
+/* Count badge inside the tab; uses semi-transparent white on active tabs
+   and a light grey background on inactive ones */
 .tab-count {
     background: rgba(255,255,255,0.2);
     border-radius: 2rem;
@@ -107,11 +119,15 @@
 }
 
 /* Search Bar */
+
+/* position:relative lets the absolutely positioned search icon sit
+   inside the input without affecting document flow */
 .search-bar {
     position: relative;
     margin-bottom: 1.25rem;
 }
 
+/* Icon is vertically centered inside the input via transform */
 .search-icon {
     position: absolute;
     left: 0.9rem;
@@ -121,6 +137,7 @@
     font-size: 0.85rem;
 }
 
+/* Left padding accounts for the search icon so text doesn't overlap it */
 #user-search {
     width: 100%;
     padding: 0.65rem 0.9rem 0.65rem 2.4rem;
@@ -138,7 +155,9 @@
     box-shadow: 0 0 0 3px rgba(19, 62, 94, 0.08);
 }
 
-/* Loading and Empty States */
+/* State Indicators */
+
+/* Shared layout for both loading and empty states; centered column with generous padding */
 .loading-state,
 .empty-state {
     display: flex;
@@ -156,6 +175,8 @@
 }
 
 /* Table View */
+
+/* Card wrapper; overflow:hidden clips the table rows to the rounded corners */
 .table-view {
     background: #fff;
     border-radius: 0.75rem;
@@ -169,11 +190,13 @@
     border-collapse: collapse;
 }
 
+/* Subtle header background distinguishes it from the data rows */
 .users-table thead {
     background: #f8fafc;
     border-bottom: 1px solid #e5e7eb;
 }
 
+/* Uppercase small-caps style for column headers */
 .users-table th {
     padding: 0.75rem 1rem;
     text-align: left;
@@ -182,7 +205,7 @@
     color: #888;
     text-transform: uppercase;
     letter-spacing: 0.05rem;
-    white-space: nowrap;
+    white-space: nowrap; /* Prevents header text from wrapping */
 }
 
 .users-table td {
@@ -193,6 +216,7 @@
     vertical-align: middle;
 }
 
+/* Remove bottom border from the last row to avoid a double-border with the card edge */
 .users-table tbody tr:last-child td {
     border-bottom: none;
 }
@@ -202,12 +226,15 @@
 }
 
 /* User Cell */
+
+/* Avatar + name pairing used in the first table column */
 .user-cell {
     display: flex;
     align-items: center;
     gap: 0.75rem;
 }
 
+/* Circular avatar; flex-shrink:0 prevents it from being squished in narrow columns */
 .user-avatar {
     width: 36px;
     height: 36px;
@@ -220,7 +247,7 @@
     font-size: 0.75rem;
     font-weight: 500;
     flex-shrink: 0;
-    overflow: hidden;
+    overflow: hidden; /* Clips profile images to the circle */
 }
 
 .user-avatar img {
@@ -234,7 +261,9 @@
     color: #133e5e;
 }
 
-/* Role Badge */
+/* Role Badges */
+
+/* Pill-shaped badge; color varies by role class applied via JS */
 .role-badge {
     display: inline-flex;
     align-items: center;
@@ -245,22 +274,27 @@
     text-transform: capitalize;
 }
 
+/* Amber — admin */
 .role-badge.admin {
     background: #fef3c7;
     color: #92400e;
 }
 
+/* Blue — employee */
 .role-badge.employee {
     background: #dbeafe;
     color: #1e40af;
 }
 
+/* Green — client */
 .role-badge.client {
     background: #dcfce7;
     color: #166534;
 }
 
 /* Action Button */
+
+/* Ghost button that fills with brand color on hover */
 .action-btn {
     padding: 0.35rem 0.75rem;
     border-radius: 0.4rem;
@@ -282,12 +316,15 @@
 }
 
 /* Grid View */
+
+/* Auto-fill grid; minmax(220px, 1fr) creates as many columns as will fit */
 .users-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
     gap: 1rem;
 }
 
+/* Card lifts slightly on hover via transform + box-shadow transition */
 .user-card {
     background: #fff;
     border-radius: 0.75rem;
@@ -307,6 +344,7 @@
     transform: translateY(-2px);
 }
 
+/* Larger avatar than the table view to fill the card layout */
 .user-card-avatar {
     width: 60px;
     height: 60px;
@@ -339,12 +377,14 @@
     color: #888;
 }
 
+/* word-break:break-all prevents long email addresses from overflowing the card */
 .user-card-email {
     font-size: 0.78rem;
     color: #aaa;
     word-break: break-all;
 }
 
+/* Full-width action button at the bottom of each card */
 .user-card .action-btn {
     margin-top: 0.5rem;
     width: 100%;
@@ -352,6 +392,8 @@
 }
 
 /* Role Edit Modal */
+
+/* Full-screen overlay; low opacity background keeps context visible behind the modal */
 .role-modal-overlay {
     position: fixed;
     inset: 0;
@@ -362,6 +404,7 @@
     z-index: 1000;
 }
 
+/* Hidden class toggled by JS to show/hide the modal */
 .role-modal-overlay.hidden {
     display: none;
 }
@@ -370,11 +413,12 @@
     background: #fff;
     border-radius: 0.75rem;
     width: 400px;
-    max-width: 90vw;
+    max-width: 90vw; /* Prevents overflow on narrow viewports */
     box-shadow: 0 8px 32px rgba(0,0,0,0.15);
     overflow: hidden;
 }
 
+/* Header row: title left, close button right */
 .role-modal-header {
     display: flex;
     align-items: center;
@@ -411,6 +455,7 @@
     gap: 1rem;
 }
 
+/* User summary card shown at the top of the modal body */
 .role-modal-user {
     display: flex;
     align-items: center;
@@ -421,6 +466,7 @@
     border: 1px solid #e5e7eb;
 }
 
+/* Smaller avatar variant used inside the modal */
 .modal-avatar {
     width: 40px;
     height: 40px;
@@ -476,6 +522,7 @@
     box-shadow: 0 0 0 3px rgba(19, 62, 94, 0.08);
 }
 
+/* Info note below the role dropdown reminding admins of the impact of role changes */
 .role-modal-desc {
     font-size: 0.8rem;
     color: #888;
@@ -485,6 +532,7 @@
     margin: 0;
 }
 
+/* Footer row: Cancel left-of-center, Save on the right */
 .role-modal-footer {
     display: flex;
     justify-content: flex-end;
@@ -493,6 +541,7 @@
     border-top: 1px solid #e5e7eb;
 }
 
+/* Ghost cancel button; gains brand color border on hover */
 .role-cancel-btn {
     padding: 0.55rem 1.1rem;
     border-radius: 0.5rem;
@@ -509,6 +558,7 @@
     color: #133e5e;
 }
 
+/* Filled save button; disabled state reduces opacity and blocks pointer events */
 .role-save-btn {
     padding: 0.55rem 1.25rem;
     border-radius: 0.5rem;
@@ -528,6 +578,7 @@
     background: #1a5276;
 }
 
+/* Applied by JS while the save request is in flight */
 .role-save-btn:disabled {
     opacity: 0.6;
     cursor: not-allowed;

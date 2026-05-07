@@ -1,15 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+    <!-- Basic Metadata -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Help Desk - Business Page</title>
+
+    <!-- Favicon -->
     <link rel="icon" href="/assets/images/favicon.png">
+
+    <!-- Global and Page-Specific Stylesheets -->
     <link rel="stylesheet" href="/css/global.css">
     <link rel="stylesheet" href="/css/business.css">
+
+    <!-- Google Fonts: DM Sans (body) and DM Serif Display (headings) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=DM+Serif+Display&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome for Icons -->
     <script src="https://kit.fontawesome.com/d357d72767.js" crossorigin="anonymous"></script>
+
+    <!-- Override navbar background color for this page -->
     <style> .navbar { background: #133e5e; } </style>
 
 </head>
@@ -18,11 +30,15 @@
     <!-- Navbar -->
      <nav class="navbar">
         <div class="navbar-inner">
+
+            <!-- Logo links back to home -->
             <div class="nav-logo">
                 <a class="nav-link" href="/index.html">
                     <img src="/assets/images/GeminiHelpDeskLogo-Picsart-BackgroundRemover.png" alt="Help Desk Logo" class="nav-logo-img">
                 </a>
             </div>
+
+            <!-- Navigation links; targets sales and demo as the primary conversion actions -->
             <div class="nav-links">
                 <a href="/pages/about.html" class="nav-link">About</a>
                 <a href="/pages/faq.html" class="nav-link">FAQ</a>
@@ -33,26 +49,41 @@
      </nav>
 
     <main>
+
         <!-- Main Landing Section -->
         <section class="landing">
             <div class="landing-inner">
+
+                <!-- Decorative badge; not a button or link -->
                 <div class="landing-badge">Streamlined Support</div>
                 <h1 class="landing-title">Support made <span class="landing-accent">simple</span></h1>
                 <p class="landing-subtitle">Manage tickets, users, and requests all in one place. Built for teams that care about getting things done.</p>
+                
+                <!-- Primary CTA to demo request; secondary to about page -->
                 <div class="landing-btns">
                     <a href="/pages/request-demo.html" class="landing-btn primary">Request a Demo</a>
                     <a href="/pages/about.html" class="landing-btn secondary">Learn More <i class="fa-solid fa-arrow-right"></i></a>
                 </div>   
             </div>
+
+            <!-- Landing Visual -->
+            <!-- Decorative ticket preview card illustrating the product UI;
+                 data-priority attributes drive the priority color coding via CSS -->
             <div class="landing-visual">
                 <div class="visual-card">
+
+                    <!-- Faux window chrome with colored dots and a title -->
                     <div class="visual-card-header">
                         <span class="visual-dot red"></span>
                         <span class="visual-dot amber"></span>
                         <span class="visual-dot green"></span>
                         <span class="visual-card-title">Active Tickets</span>
                     </div>
+
+                    <!-- Sample tickets; replace with real data or keep as static marketing copy -->
                     <div class="visual-tickets-list">
+
+                        <!-- Sample ticket: high priority -->
                         <div class="visual-ticket-card" data-priority="high">
                             <div class="visual-ticket-info">
                                 <h3>#1 - Login page not loading</h3>
@@ -62,6 +93,8 @@
                                 <p>Created By: Tod</p>
                             </div>
                         </div>
+                        
+                        <!-- Sample ticket: medium priority -->
                         <div class="visual-ticket-card" data-priority="medium">
                             <div class="visual-ticket-info">
                                 <h3>#2 - Password reset not working</h3>
@@ -71,6 +104,8 @@
                                 <p>Created By: Marie</p>
                             </div>
                         </div>
+
+                        <!-- Sample ticket: low priority -->
                         <div class="visual-ticket-card" data-priority="low">
                             <div class="visual-ticket-info">
                                 <h3>#3 - Update profile picture</h3>
@@ -90,6 +125,8 @@
             <div class="features-inner">
                 <h2 class="features-title">Everything you need</h2>
                 <p class="features-subtitle">A complete help desk solution built for modern teams</p>
+
+                <!-- Six feature cards; add or remove cards here as the product grows -->
                 <div class="features-grid">
                     <div class="feature-card">
                         <div class="feature-icon"><i class="fa-solid fa-ticket"></i></div>
@@ -126,20 +163,27 @@
         </section>
 
         <!-- Testimonials -->
+        <!-- Placeholder testimonials; replace text, names, and roles with real content before launch -->
         <section class="testimonials">
             <div class="testimonials-inner">
                 <h2 class="section-title">Trusted by the Experts</h2>
                 <p class="section-subtitle">Here's what others have to say about HelpDesk</p>
+
                 <div class="testimonials-wrapper">
                     <div class="testimonials-grid">
+
+                        <!-- Testimonial: Jane Doe -->
                         <div class="testimonial-card">
                             <p class="testimonial-text">"Example of Helpful Remark"</p>
                             <div class="testimonial-author">
+                                <!-- Avatar uses initials as a fallback since there are no profile images -->
                                 <div class="testimonial-avatar">JD</div>
                             </div>
                             <div class="testimonial-name">Jane Doe</div>
                             <div class="testimonial-role">IT Manager, Ex. Inc</div>
                         </div>
+
+                        <!-- Testimonial: Mike Mann -->
                         <div class="testimonial-card">
                             <p class="testimonial-text">"Example of Happy Team"</p>
                             <div class="testimonial-author">
@@ -148,6 +192,8 @@
                             <div class="testimonial-name">Mike Mann</div>
                             <div class="testimonial-role">Operations Lead, Big Business</div>
                         </div>
+
+                        <!-- Testimonial: Linda Smith -->
                         <div class="testimonial-card">
                             <p class="testimonial-text">"Example of Better Productivity"</p>
                             <div class="testimonial-author">
@@ -156,6 +202,8 @@
                             <div class="testimonial-name">Linda Smith</div>
                             <div class="testimonial-role">Sr. IT Consultant, Comput ER</div>
                         </div>
+
+                        <!-- Testimonial: Mitch Bot -->
                         <div class="testimonial-card">
                             <p class="testimonial-text">"Example of Satisfied Clients"</p>
                             <div class="testimonial-author">
@@ -170,6 +218,7 @@
         </section>
 
         <!-- CTA Section -->
+        <!-- Bottom-of-page conversion prompt directing visitors to sales or FAQ -->
         <section class="cta">
             <div class="cta-inner">
                 <h2>Ready to get started?</h2>
@@ -183,9 +232,10 @@
     </main>
 
     <!-- Footer Component Insertion -->
+    <!-- Footer content is injected dynamically via footer.js -->
     <div id="footer"></div>
 
-    <script type="module" src="/js/business.js"></script>
-    <script type="module" src="/js/footer.js"></script>
+    <script type="module" src="/js/business.js"></script> <!-- Handles any dynamic behavior on this page (e.g. animations, interactions) -->
+    <script type="module" src="/js/footer.js"></script> <!-- Renders the shared footer -->
 </body>
 </html>

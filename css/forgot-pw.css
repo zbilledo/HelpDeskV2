@@ -4,11 +4,10 @@
  * Specific styles for the forgot password screen, including the animated gradient background.
  */
 
+/* Base Body */
+/* Sharp diagonal gradient created by placing two color stops at nearly identical
+   percentages (e.g. 30% and 30.1%), producing a hard edge instead of a blend */
 body {
-    /* 
-     * Complex linear gradient background with sharp transitions.
-     * The sharp lines are created by having two color stops at nearly the same percentage.
-     */
     background: #262526 linear-gradient(
             165deg,
             #2c70a2 0%,
@@ -22,19 +21,23 @@ body {
     height: 100vh;
 }
 
-/* buttons Layout */
+/* Text Row */
+/* Side-by-side layout used for the Confirm and Sign Up button pair */
 .text-row {
     display: flex;
     gap: 1rem;
 }
 
+/* Text Field */
+/* Each field in a .text-row grows equally to fill available width */
 .text-field {
     display: flex;
     flex-direction: column;
     flex: 1;
 }
 
-/* Full-screen overlay for the forgot password modal */
+/* Forgot Container */
+/* Full-screen semi-transparent overlay that centers the modal */
 .forgot-container {
     position: fixed;
     inset: 0;
@@ -45,7 +48,8 @@ body {
     z-index: 50;
 }
 
-/* Central Forgot PW Modal Box */
+/* Forgot Modal */
+/* max-width:90vw prevents overflow on narrow viewports */
 .forgot-modal {
     background: #0e2d45;
     padding: 2rem;
@@ -64,7 +68,7 @@ body {
     align-self: center;
 }
 
-/* Forgot PW Form Layout */
+/* Forgot Form */
 #forgot-form {
     display: flex;
     flex-direction: column;
@@ -74,6 +78,7 @@ body {
     margin-bottom: 1px;
 }
 
+/* Extra bottom margin separates the email input from the buttons below */
 #forgot-form input {
     margin-bottom: 25px;
 }
@@ -82,7 +87,8 @@ body {
     margin-top: 10px;
 }
 
-/* Reusable form button styles */
+/* Form Buttons */
+/* Reusable button style shared across confirm and sign-up actions */
 .form-buttons {
     font-size: 1em;
     margin-top: 5px;
@@ -102,7 +108,8 @@ body {
     transition: background-color 0.3s ease;
 }
 
-/* Input Field Styling */
+/* Forgot Modal Input */
+/* Dark themed input to match the modal background */
 .forgot-modal input {
     width: 100%;
     padding: 0.5rem;
@@ -115,7 +122,8 @@ body {
     color: #94a3b8;
 }
 
-/* Focus and Placeholder Effects */
+/* Input Focus */
+/* Blue glow replaces the default browser focus ring */
 input:focus {
     outline: none;
     border-color: #94a3b8;
@@ -123,6 +131,8 @@ input:focus {
     box-shadow: 0 0 5px rgba(0, 86, 179, 0.9);
 }
 
+/* Input Placeholder */
+/* Placeholder fades out on focus to reduce visual noise */
 .forgot-modal input::placeholder {
     color: #94a3b8;
     opacity: 1;
@@ -133,6 +143,7 @@ input:focus {
     color: transparent;
 }
 
+/* Forgot Modal Label */
 .forgot-modal label {
     width: 100%;
     padding: 0.5rem;

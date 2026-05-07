@@ -10,22 +10,24 @@ import Database from "better-sqlite3";
 import { createClient } from "@supabase/supabase-js";
 import cors from "cors";
 
+/** Server Config */
 const app = express();
 const PORT = 8000;
 
+/** Supabase Client */
+// Used for user lookups and account deletion; ticket data stays in SQLite
 const SUPABASE_URL = "https://adnjlrxbqgerjlhgirlq.supabase.co";
 const SUPABASE_KEY = "sb_publishable_sNNSlaz28kpULCpWkBCM3Q_OY6FN8cv";
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-// Initialize databases
-// tickets.db stores support ticket information
-// users.db stores user credentials and roles
+/** Database Initialization */
+// tickets.db stores all support ticket data via SQLite
+// users.db (commented out) has been replaced by Supabase for user management
 const ticketsDB = new Database("tickets.db");
 // const userDB = new Database("users.db");
 
-/**
- * Initialize the 'tickets' table if it doesn't exist.
- */
+/** Tickets Table */
+// Creates the tickets table on first run if it doesn't already exist
 ticketsDB.exec(`
     CREATE TABLE IF NOT EXISTS tickets (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -40,28 +42,29 @@ ticketsDB.exec(`
     )
 `);
 
-// Add createdAt column if it doesn't exist (for existing databases)
+/** Schema Migrations */
+// ALTER TABLE is wrapped in try/catch because SQLite throws if the column already exists;
+// these blocks safely add columns to databases created before these fields were introduced
 try {
   ticketsDB.exec(`ALTER TABLE tickets ADD COLUMN createdAt TEXT`);
 } catch (error) {
-  // Column might already exist, ignore error
+  // Column already exists — safe to ignore
 }
 try {
   ticketsDB.exec(
     `ALTER TABLE tickets ADD COLUMN department TEXT NOT NULL DEFAULT 'General'`,
   );
 } catch (error) {
-  // Column might already exist, ignore error
+  // Column already exists — safe to ignore
 }
 try {
   ticketsDB.exec(`ALTER TABLE tickets ADD COLUMN assignedTo TEXT`);
 } catch (error) {
-  // Column might already exist, ignore error
+  // Column already exists — safe to ignore
 }
 
-/**
- * Initialize the 'users' table if it doesn't exist.
- */
+// TODO: Uncomment if switching back to SQLite-based user management
+/** Users Table (Disabled — replaced by Supabase) */
 // userDB.exec(`
 //     CREATE TABLE IF NOT EXISTS users (
 //         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -71,26 +74,23 @@ try {
 //     )
 // `);
 
-// Middleware configuration
-app.use(cors()); // Enable CORS for all routes
-app.use(express.json()); // Parse JSON request bodies
+/** Middleware */
+app.use(cors());            // Enable CORS for all routes
+app.use(express.json());    // Parse JSON request bodies
+app.use(morgan("dev"));     // HTTP request logging for development
 
-// HTTP request logging for development
-app.use(morgan("dev"));
-
-// Serve static files from the project root
+/** Static Files */
+// Serves the project root as static; index:false prevents auto-serving index.html
 app.use(express.static("./", { index: false }));
 
-/**
- * Default route: Serves the login page.
- */
+/** Default Route */
+// Redirects root requests to the login page
 app.get("/", (req, res) => {
   res.sendFile("pages/login-page.html", { root: "./" });
 });
 
-/**
- * Database Seeding: Creates default 'admin' and 'user' accounts if the database is empty.
- */
+// TODO: Uncomment if switching back to SQLite-based user management
+/** Database Seed (Disabled) */
 // const seedUsers = userDB.prepare("SELECT COUNT(*) AS count FROM users").get();
 // if (seedUsers && seedUsers.count === 0) {
 //   userDB
@@ -102,9 +102,10 @@ app.get("/", (req, res) => {
 //   console.log("Database seeded with default users.");
 // }
 
+// TODO: Uncomment if switching back to SQLite-based user management
 /**
- * POST /registerUser
- * Registers a new user in the system.
+ * POST /registerUser (Disabled)
+ * Registers a new user in the local SQLite users database.
  * @param {string} req.body.username
  * @param {string} req.body.password
  */
@@ -122,22 +123,21 @@ app.get("/", (req, res) => {
 //       newUser: { id: result.lastInsertRowid, username: username },
 //     });
 //   } catch (error) {
-//     // If username already exists, SQLite throws a 'SQLITE_CONSTRAINT_UNIQUE' error
+//     // SQLITE_CONSTRAINT_UNIQUE is thrown when the username is already taken
 //     if (error.code === "SQLITE_CONSTRAINT_UNIQUE") {
 //       return res.status(400).json({
 //         success: false,
 //         message: "Username already exists. Please choose another.",
 //       });
 //     }
-//
-//     // Handle other internal server errors
 //     res.status(500).json({ success: false, message: "Server error" });
 //   }
 // });
 
+// TODO: Uncomment if switching back to SQLite-based user management
 /**
- * POST /login
- * Authenticates a user based on username and password.
+ * POST /login (Disabled)
+ * Authenticates a user against the local SQLite users database.
  * @param {string} req.body.username
  * @param {string} req.body.password
  */
@@ -167,8 +167,9 @@ app.get("/", (req, res) => {
 /**
  * DELETE /deleteAccount
  * Deletes a user account from the local users database.
- * @param {number} req.body.id - The ID of the user to delete.
- * @param {string} req.body.username - The username of the user to delete.
+ * Accepts either an id or a username as the identifier.
+ * @param {number} req.body.id
+ * @param {string} req.body.username
  */
 app.delete("/deleteAccount", (req, res) => {
   const { id, username } = req.body;
@@ -180,6 +181,7 @@ app.delete("/deleteAccount", (req, res) => {
   }
 
   try {
+    // Prefer id-based deletion; fall back to username if id is not provided
     const stmt = id
       ? userDB.prepare("DELETE FROM users WHERE id = ?")
       : userDB.prepare("DELETE FROM users WHERE username = ?");
@@ -199,7 +201,8 @@ app.delete("/deleteAccount", (req, res) => {
 
 /**
  * POST /createTicket
- * Creates a new support ticket and saves it to the database.
+ * Creates a new support ticket and saves it to the SQLite database.
+ * All new tickets default to "pending" status.
  * @param {string} req.body.ticketTitle
  * @param {string} req.body.ticketDescription
  * @param {string} req.body.ticketPriority
@@ -233,7 +236,7 @@ app.post("/createTicket", (req, res) => {
         description: ticketDescription,
         priority: ticketPriority,
         department: department,
-        status: "pending",
+        status: "pending", // All new tickets start as pending
         createdBy: createdBy,
         createdAt: createdAt,
         assignedTo: assignedTo || null,
@@ -271,7 +274,7 @@ app.post("/createTicket", (req, res) => {
 
 /**
  * GET /getTickets
- * Retrieves all support tickets from the database.
+ * Retrieves all support tickets from the SQLite database.
  */
 app.get("/getTickets", (req, res) => {
   try {
@@ -285,7 +288,8 @@ app.get("/getTickets", (req, res) => {
 
 /**
  * GET /getUsers
- * Retrieves all users from Supabase for assignment purposes.
+ * Retrieves all users from Supabase for use in the ticket assignment dropdown.
+ * Only fetches id and username — no sensitive fields.
  */
 app.get("/getUsers", async (req, res) => {
   try {
@@ -310,7 +314,7 @@ app.get("/getUsers", async (req, res) => {
 
 /**
  * PUT /updateTicket/:id
- * Updates a ticket's assignment.
+ * Updates the assignedTo field on a ticket.
  * @param {number} req.params.id - The ID of the ticket to update.
  * @param {string} req.body.assignedTo - The username to assign the ticket to.
  */
@@ -336,7 +340,7 @@ app.put("/updateTicket/:id", (req, res) => {
 
 /**
  * PUT /closeTicket/:id
- * Closes a ticket by setting its status to 'closed'.
+ * Sets a ticket's status to 'closed'.
  * @param {number} req.params.id - The ID of the ticket to close.
  */
 app.put("/closeTicket/:id", (req, res) => {
@@ -360,7 +364,7 @@ app.put("/closeTicket/:id", (req, res) => {
 
 /**
  * DELETE /deleteTicket/:id
- * Removes a ticket from the database by its ID.
+ * Removes a ticket from the SQLite database by its ID.
  * @param {number} req.params.id - The ID of the ticket to delete.
  */
 app.delete("/deleteTicket/:id", (req, res) => {
@@ -385,9 +389,8 @@ app.delete("/deleteTicket/:id", (req, res) => {
   }
 });
 
-/**
- * Start the server and listen on all network interfaces.
- */
+/** Start Server */
+// Listens on all network interfaces so the server is reachable on the local network
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`Server running on your IP address or localhost:${PORT}`);
 });

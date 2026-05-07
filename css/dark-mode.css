@@ -5,18 +5,14 @@
  * These rules apply when body.dark-mode is set.
  */
 
-/* =========================================================
-   Global / Base
-   ========================================================= */
+/* Global */
 
 body.dark-mode {
     background-color: #121212;
     color: #e0e0e0;
 }
 
-/* =========================================================
-   Sidebar
-   ========================================================= */
+/* Sidebar */
 
 body.dark-mode #sidebar {
     background-color: #0d2233;
@@ -27,6 +23,7 @@ body.dark-mode #sidebar a {
     color: #c9d8e5;
 }
 
+/* Active and hovered sidebar links share the same dark highlight */
 body.dark-mode #sidebar a:hover,
 body.dark-mode #sidebar ul li.active a {
     background-color: #1e3a4f;
@@ -36,9 +33,7 @@ body.dark-mode #sidebar i {
     color: #c9d8e5;
 }
 
-/* =========================================================
-   Topbar
-   ========================================================= */
+/* Topbar */
 
 body.dark-mode .topbar {
     background-color: #1a1a1a;
@@ -80,9 +75,7 @@ body.dark-mode hr {
     border-top-color: #333;
 }
 
-/* =========================================================
-   Ticket Creation Modal (topbar)
-   ========================================================= */
+/* Ticket Creation Modal */
 
 body.dark-mode .modal {
     background: #1e1e1e;
@@ -106,9 +99,7 @@ body.dark-mode .modal textarea::placeholder {
     color: #888;
 }
 
-/* =========================================================
-   Ticket Page
-   ========================================================= */
+/* Ticket Page */
 
 body.dark-mode #ticket-container {
     background-color: #0d2233;
@@ -127,7 +118,8 @@ body.dark-mode .ticket-card p {
     color: #aaa;
 }
 
-/* Keep priority colors visible in dark mode */
+/* Priority Colors */
+/* Slightly adjusted shades ensure priority colors remain visible on dark backgrounds */
 body.dark-mode .ticket-card p[data-priority="low"] { color: #4caf50; }
 body.dark-mode .ticket-card p[data-priority="medium"] { color: #ff9800; }
 body.dark-mode .ticket-card p[data-priority="high"] { color: #f44336; }
@@ -141,6 +133,8 @@ body.dark-mode .sort-select {
 body.dark-mode .sort-dropdown label {
     color: #c9d8e5;
 }
+
+/* Filter Popup */
 
 body.dark-mode .filter-popup-panel {
     background-color: #1e1e1e;
@@ -200,9 +194,7 @@ body.dark-mode .filter-group label {
     color: #90caf9;
 }
 
-/* =========================================================
-   User Page
-   ========================================================= */
+/* User Page */
 
 body.dark-mode .page-title h1 {
     color: #90caf9;
@@ -334,6 +326,7 @@ body.dark-mode .empty-state {
 }
 
 /* Role Modal */
+
 body.dark-mode .role-modal-overlay {
     background: rgba(0, 0, 0, 0.6);
 }
@@ -397,6 +390,7 @@ body.dark-mode .role-cancel-btn:hover {
 }
 
 /* Profile Modal */
+
 body.dark-mode .profile-modal-overlay {
     background: rgba(0, 0, 0, 0.7);
 }
@@ -466,9 +460,7 @@ body.dark-mode .profile-empty {
     color: #555;
 }
 
-/* =========================================================
-   Settings Page
-   ========================================================= */
+/* Settings Page */
 
 body.dark-mode .settings-header h1 {
     color: #90caf9;
@@ -506,6 +498,8 @@ body.dark-mode .settings-select {
     color: #e0e0e0;
 }
 
+/* Settings Input Focus */
+/* Blue glow uses a lower opacity to stay subtle on dark backgrounds */
 body.dark-mode .settings-input:focus,
 body.dark-mode .settings-select:focus {
     border-color: #90caf9;
@@ -548,9 +542,7 @@ body.dark-mode .save-status {
     color: #4caf50;
 }
 
-/* =========================================================
-   ChatBot Page
-   ========================================================= */
+/* ChatBot Page */
 
 body.dark-mode .chat-wrapper {
     background-color: #1a1a1a;
@@ -638,6 +630,8 @@ body.dark-mode .bot-message .message-file-item {
     color: #e0e0e0;
 }
 
+/* Scrollbar Thumb */
+/* Darker thumb keeps the scrollbar subtle on dark backgrounds */
 body.dark-mode .chat-messages::-webkit-scrollbar-thumb {
     background: #333;
 }

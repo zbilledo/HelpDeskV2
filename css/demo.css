@@ -1,4 +1,5 @@
 /* Main Landing Section */
+/* Centered row with a fixed height and gap between headline and sibling elements */
 .landing {
     height: 375px;
     max-width: 1100px;
@@ -10,6 +11,8 @@
     align-items: center;
 }
 
+/* Landing Badge */
+/* Decorative pill label; not a button or link */
 .landing-badge {
     position: relative;
     top: -10px;
@@ -23,6 +26,8 @@
     letter-spacing: 0.04rem;
 }
 
+/* Landing Title */
+/* DM Serif Display gives the headline a distinct editorial feel */
 .landing-title {
     position: relative;
     top: -5px;
@@ -33,15 +38,19 @@
     margin-bottom: 2rem;
 }
 
+/* Landing Accent */
+/* Highlights the key word in the headline with a lighter brand blue */
 .landing-accent {
     color: #2c70a2;
 }
 
+/* Landing Inner */
 .landing-inner {
     text-align: center;
     max-width: 600px;
 }
 
+/* Landing Subtitle */
 .landing-subtitle {
     font-size: 1rem;
     color: #555;
@@ -49,7 +58,8 @@
     max-width: 100%;
 }
 
-/* Demo Request */
+/* Demo Section */
+/* Dark blue band that houses the demo request form */
 .demo {
     height: 600px;
     flex: 1;
@@ -60,6 +70,7 @@
     padding: 5rem 2rem;
 }
 
+/* Demo Inner */
 .demo-inner {
     max-width: 650px;
     margin: 0 auto;
@@ -87,12 +98,16 @@
     gap: 1rem;
 }
 
+/* Demo Row */
+/* Two-column grid for side-by-side input pairs */
 .demo-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1rem;
 }
 
+/* Demo Input */
+/* Semi-transparent white style keeps inputs readable on the dark background */
 .demo-input {
     width: 100%;
     padding: 0.8rem 1rem;
@@ -107,19 +122,26 @@
     box-sizing: border-box;
 }
 
+/* Demo Input Placeholder */
 .demo-input::placeholder {
     color: rgba(255,255,255,0.5);
 }
 
+/* Demo Input Focus */
+/* Slightly more opaque background on focus to indicate active state */
 .demo-input:focus {
     border-color: rgba(255,255,255,0.6);
     background: rgba(255,255,255,0.15);
 }
 
+/* Full Width Input */
+/* .full spans both columns in the grid row */
 .demo-input.full {
     width: 100%;
 }
 
+/* Demo Button */
+/* White button on the dark background for maximum contrast */
 .demo-btn {
     background: #fff;
     color: #133e5e;
@@ -137,6 +159,8 @@
     box-sizing: border-box;
 }
 
+/* Demo Button Hover */
+/* Inverts to a dark semi-transparent fill on hover */
 .demo-btn:hover {
     background-color: rgba(44, 112, 162, 0.7);
     border: .5px solid #fff;
@@ -144,11 +168,13 @@
 }
 
 /* CTA Section */
+/* Mid-blue band that contrasts with the dark demo section above */
 .cta {
     padding: 5rem 2rem;
     background: #2c70a2;
 }
 
+/* CTA Inner */
 .cta-inner {
     max-width: 600px;
     margin: 0 auto;
@@ -168,6 +194,8 @@
     margin-bottom: 2rem;
 }
 
+/* CTA Buttons */
+/* Wrapping flex row centers the buttons and stacks them on narrow viewports */
 .cta-btns {
     display: flex;
     gap: 1rem;
@@ -175,6 +203,7 @@
     flex-wrap: wrap;
 }
 
+/* CTA Button Base */
 .cta-btn {
     font-size: 0.9rem;
     padding: 0.7rem 1.5rem;
@@ -186,6 +215,8 @@
     transition: all 0.2s ease;
 }
 
+/* CTA Button Primary */
+/* Filled dark blue; hover shifts to a lighter semi-transparent fill */
 .cta-btn.primary {
     border: .5px solid #133e5e;
     background: #133e5e;
@@ -198,6 +229,8 @@
     background-color: rgba(17, 74, 114, 0.7);
 }
 
+/* CTA Button Secondary */
+/* Ghost style with a dark border; hover fills to match the primary hover */
 .cta-btn.secondary {
     border: .5px solid #133e5e;
     background: #fff;

@@ -8,13 +8,15 @@ import { supabase } from "/js/supabase.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
 
-    // --- State ---
-    let allUsers = [];
-    let currentFilter = "all";
-    let currentView = "table";
-    let searchQuery = "";
+/** State */
 
-    // --- Element References ---
+    let allUsers = [];          // Full unfiltered user list fetched from Supabase
+    let currentFilter = "all"; // Active role filter tab ("all", "client", "employee", "admin")
+    let currentView = "table"; // Active display mode ("table" or "grid")
+    let searchQuery = "";      // Current value of the search input
+
+/** Element Reference */
+
     const tableBody = document.getElementById("table-body");
     const gridBody = document.getElementById("grid-body");
     const tableView = document.getElementById("table-view");
@@ -26,12 +28,18 @@ document.addEventListener("DOMContentLoaded", async () => {
     const gridViewBtn = document.getElementById("grid-view-btn");
     const filterTabs = document.querySelectorAll(".filter-tab");
 
-    // --- Get current user role ---
+/** Current User */
+
+    // Read the logged-in user's data from localStorage to determine admin status.
+    // isAdmin controls whether role edit buttons are rendered at all.
     const storedUser = localStorage.getItem("userData");
-    const currentUser = storedUser ?JSON.parse(storedUser) : null;
+    const currentUser = storedUser ? JSON.parse(storedUser) : null;
     const isAdmin = currentUser?.role === "admin";
 
-    // --- Inject Modal into page ---
+ /** Role Edit Modal */
+
+    // Build and inject the role change modal into the DOM dynamically
+    // so it doesn't need to live in the HTML template
     const modal = document.createElement("div");
     modal.id = "role-modal";
     modal.className = "role-modal-overlay hidden";
@@ -66,12 +74,23 @@ document.addEventListener("DOMContentLoaded", async () => {
     `;
     document.body.appendChild(modal);
 
+    // Tracks which user's role is being edited; set on modal open, cleared on close
     let editingUserId = null;
-    
-    // --- Open Modal ---
+
+    /**
+     * Opens the role edit modal for a given user.
+     * Populates the avatar, name, username, and pre-selects their current role.
+     * Falls back to initials if no avatar URL is present.
+     * @param {Object} user - The user object from the allUsers array.
+     */
     function openRoleModal(user) {
         editingUserId = user.id;
-        const initials = ((user.firstname?.[0] || "") + (user.lastname?.[0] || "")).toUpperCase() || user.username?.[0]?.toUpperCase() || "?";
+
+        // Build initials from first/last name, falling back to username initial or "?"
+        const initials = ((user.firstname?.[0] || "") + (user.lastname?.[0] || "")).toUpperCase()
+            || user.username?.[0]?.toUpperCase()
+            || "?";
+
         const avatarHtml = user.avatar_url
             ? `<img src="${user.avatar_url}" alt="${user.username}">`
             : initials;
@@ -84,28 +103,33 @@ document.addEventListener("DOMContentLoaded", async () => {
             </div>
         `;
 
+        // Pre-select the user's current role in the dropdown
         document.getElementById("modal-role-select").value = user.role;
         modal.classList.remove("hidden");
     }
 
-    // --- Close Modal ---
-
+    /**
+     * Closes the role edit modal and clears the tracked user ID.
+     */
     function closeModal() {
         modal.classList.add("hidden");
         editingUserId = null;
     }
 
+    // Close modal via the X button, Cancel button, or clicking the backdrop
     document.getElementById("close-role-modal").addEventListener("click", closeModal);
     document.getElementById("cancel-role-modal").addEventListener("click", closeModal);
     modal.addEventListener("click", (e) => {
         if (e.target === modal) closeModal();
     });
 
-    // --- Save Role ---
+/** Save Role */
+
     document.getElementById("save-role-btn").addEventListener("click", async () => {
         const newRole = document.getElementById("modal-role-select").value;
         const saveBtn = document.getElementById("save-role-btn");
 
+        // Disable the button and show a saving indicator while the request is in flight
         saveBtn.textContent = "Saving...";
         saveBtn.disabled = true;
 
@@ -113,7 +137,8 @@ document.addEventListener("DOMContentLoaded", async () => {
             .from("users")
             .update({ role: newRole })
             .eq("id", editingUserId);
-        
+
+        // Restore button state regardless of success or failure
         saveBtn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Save Role';
         saveBtn.disabled = false;
 
@@ -123,16 +148,24 @@ document.addEventListener("DOMContentLoaded", async () => {
             return;
         }
 
-        // Update local data and re-render
+        // Update the local allUsers array so the UI reflects the change
+        // without needing a full re-fetch from Supabase
         const user = allUsers.find(u => u.id === editingUserId);
         if (user) user.role = newRole;
+
         updateCounts();
         renderUsers();
         closeModal();
     });
 
-    // --- Fetch Users ---
+  /** Fetch User */
+
+    /**
+     * Fetches all users from Supabase ordered by creation date (newest first).
+     * Shows the loading state while fetching, then hands off to renderUsers().
+     */
     async function fetchUsers() {
+        // Show loading state and hide all other views while fetching
         loadingState.style.display = "flex";
         tableView.style.display = "none";
         gridView.style.display = "none";
@@ -142,7 +175,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             .from("users")
             .select("*")
             .order("created_at", { ascending: false });
-        
+
         loadingState.style.display = "none";
 
         if (error) {
@@ -155,6 +188,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         renderUsers();
     }
 
+    // TODO: Remove debug fetch and console logs below before production
     const { data, error } = await supabase
         .from("users")
         .select("*")
@@ -164,7 +198,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     console.log("error:", error);
     console.log("session:", await supabase.auth.getSession());
 
-    // --- Update Tab Counts ---
+ /** Tab Counts */
+
+    /**
+     * Updates the count badge on each filter tab to reflect
+     * the current number of users in each role.
+     */
     function updateCounts() {
         document.getElementById("count-all").textContent = allUsers.length;
         document.getElementById("count-client").textContent = allUsers.filter(u => u.role === "client").length;
@@ -172,7 +211,13 @@ document.addEventListener("DOMContentLoaded", async () => {
         document.getElementById("count-admin").textContent = allUsers.filter(u => u.role === "admin").length;
     }
 
-    // --- Filter and Search Users ---
+/** Filter and Search */
+
+    /**
+     * Returns the subset of allUsers that match both the active role
+     * filter tab and the current search query.
+     * Search checks first name, last name, username, and email (case-insensitive).
+     */
     function getFilteredUsers() {
         return allUsers.filter(user => {
             const matchesFilter = currentFilter === "all" || user.role === currentFilter;
@@ -186,14 +231,26 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
     }
 
-    // --- Get Initials ---
+/** Render Helpers */
+
+    /**
+     * Returns a user's initials (first + last name), falling back to
+     * the first character of their username, or "?" if neither is available.
+     * @param {Object} user
+     * @returns {string}
+     */
     function getInitials(user) {
         const first = user.firstname?.[0] || "";
         const last = user.lastname?.[0] || "";
         return (first + last).toUpperCase() || user.username?.[0]?.toUpperCase() || "?";
     }
 
-    // --- Format Date ---
+    /**
+     * Formats an ISO date string into a short readable date (e.g. "Jan 1, 2024").
+     * Returns an em dash if the date is missing.
+     * @param {string} dateString
+     * @returns {string}
+     */
     function formatDate(dateString) {
         if (!dateString) return "—";
         return new Date(dateString).toLocaleDateString("en-US", {
@@ -201,7 +258,13 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
     }
 
-    // --- Render Avatar ---
+    /**
+     * Returns an avatar HTML string for a user.
+     * Uses their avatar image if available, otherwise falls back to initials.
+     * @param {Object} user
+     * @param {string} size - "small" for table rows, "large" for grid cards.
+     * @returns {string}
+     */
     function renderAvatar(user, size = "small") {
         const cls = size === "large" ? "user-card-avatar" : "user-avatar";
         if (user.avatar_url) {
@@ -209,8 +272,13 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
         return `<div class="${cls}">${getInitials(user)}</div>`;
     }
-    
-    // --- Render Edit Button (Admin only) ---
+
+    /**
+     * Returns the role edit button HTML for a user row or card.
+     * Returns an empty string if the current user is not an admin.
+     * @param {string} userId
+     * @returns {string}
+     */
     function renderEditBtn(userId) {
         if (!isAdmin) return "";
         return `<button class="action-btn edit-btn" data-id="${userId}">
@@ -218,7 +286,14 @@ document.addEventListener("DOMContentLoaded", async () => {
         </button>`;
     }
 
-    // --- Render Table View ---
+/** Render Table */
+
+    /**
+     * Renders the filtered user list as an HTML table.
+     * Shows the empty state instead if there are no results.
+     * The Actions column is only included for admin users.
+     * @param {Array} users - Filtered array of user objects.
+     */
     function renderTable(users) {
         if (users.length === 0) {
             tableView.style.display = "none";
@@ -247,7 +322,13 @@ document.addEventListener("DOMContentLoaded", async () => {
         `).join("");
     }
 
-    // --- Render Grid View ---
+/** Render Grid */
+
+    /**
+     * Renders the filtered user list as a grid of cards.
+     * Shows the empty state instead if there are no results.
+     * @param {Array} users - Filtered array of user objects.
+     */
     function renderGrid(users) {
         if (users.length === 0) {
             gridView.style.display = "none";
@@ -270,7 +351,15 @@ document.addEventListener("DOMContentLoaded", async () => {
         `).join("");
     }
 
-    // --- Render Users ---
+/** Render Users */
+
+    /**
+     * Entry point for all re-renders. Applies the active filter and search,
+     * delegates to renderTable or renderGrid based on currentView,
+     * then re-attaches click listeners to all role edit buttons.
+     * Edit button listeners must be re-attached after each render
+     * because innerHTML replacement destroys previous event bindings.
+     */
     function renderUsers() {
         const filtered = getFilteredUsers();
         tableView.style.display = "none";
@@ -282,7 +371,8 @@ document.addEventListener("DOMContentLoaded", async () => {
             renderGrid(filtered);
         }
 
-        // Attach edit button listeners
+        // Re-attach edit button listeners after every render since
+        // innerHTML replacement removes previously bound event handlers
         document.querySelectorAll(".edit-btn").forEach(btn => {
             btn.addEventListener("click", () => {
                 const userId = btn.getAttribute("data-id");
@@ -292,7 +382,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
     }
 
-    // --- View Toggle ---
+/** Event Listeners */
+
+    // View toggle: switch between table and grid display modes
     tableViewBtn.addEventListener("click", () => {
         currentView = "table";
         tableViewBtn.classList.add("active");
@@ -307,7 +399,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         renderUsers();
     });
 
-    // --- Filter Tabs ---
+    // Filter tabs: update the active role filter and re-render
     filterTabs.forEach(tab => {
         tab.addEventListener("click", () => {
             filterTabs.forEach(t => t.classList.remove("active"));
@@ -317,12 +409,14 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
     });
 
-    // --- Search ---
+    // Search input: update the search query and re-render on every keystroke
     userSearch.addEventListener("input", () => {
         searchQuery = userSearch.value;
         renderUsers();
     });
 
-    // --- Init ---
+/** Innit */
+
+    // Kick off the initial user fetch on page load
     fetchUsers();
 });

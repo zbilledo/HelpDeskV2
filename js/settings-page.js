@@ -6,8 +6,8 @@
 import { supabase } from "/js/supabase.js";
 
 document.addEventListener("DOMContentLoaded", () => {
-    
-    // --- Element References ---
+
+    /** Element References */
     const darkModeToggle = document.getElementById("dark-mode-toggle");
     const ticketsNotifToggle = document.getElementById("tickets-notif-toggle");
     const assignmentsNotifToggle = document.getElementById("assignments-notif-toggle");
@@ -23,22 +23,24 @@ document.addEventListener("DOMContentLoaded", () => {
     const profilePreview = document.getElementById("preview");
     const profilePlaceholder = document.getElementById("profile-pic-placeholder");
 
-    // --- Loads the Settings Preferences from Local Storage ---
+    /** Load Settings */
+    // Reads saved preferences from localStorage and populates all settings inputs.
+    // Called once on page load to restore the user's last saved state.
     function loadSettings() {
 
-        // --- Load Dark Mode ---
+        // Restore dark mode toggle and apply the class to the body immediately
         const darkMode = localStorage.getItem("darkMode") === "true";
         darkModeToggle.checked = darkMode;
         applyDarkMode(darkMode);
 
-        /**
-        // --- Load Notifications ---
+        // TODO: Uncomment when notification backend is implemented
+        /*
         ticketsNotifToggle.checked = localStorage.getItem("ticketsNotif") !== "false";
         assignmentsNotifToggle.checked = localStorage.getItem("assignmentsNotif") !== "false";
         systemNotifToggle.checked = localStorage.getItem("systemNotif") !== "false";
         */
 
-        // --- Load Profile and Account ---
+        // Populate profile and account fields from the stored user object
         const storedUser = localStorage.getItem("userData");
         if (storedUser) {
             const user = JSON.parse(storedUser);
@@ -46,16 +48,14 @@ document.addEventListener("DOMContentLoaded", () => {
             emailInput.value = user.email || "";
             firstNameInput.value = user.firstname || "";
             lastNameInput.value = user.lastname || "";
-            phoneNumberInput.value=user.phone || "";
-
+            phoneNumberInput.value = user.phone || "";
         }
     }
 
-    // --- Run loadSettings when page loads in ---
     loadSettings();
 
-    
-    // --- Apply Dark Mode to the Page ---
+    /** Apply Dark Mode */
+    // Adds or removes the "dark-mode" class on <body> based on the enabled flag
     function applyDarkMode(enabled) {
         if (enabled) {
             document.body.classList.add("dark-mode");
@@ -64,31 +64,34 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // --- Instant Application of Dark Mode Toggle ---
+    /** Dark Mode Toggle */
+    // Applies dark mode instantly when the toggle changes, before the user hits Save
     darkModeToggle.addEventListener("change", () => {
         applyDarkMode(darkModeToggle.checked);
     });
 
-    // --- Preview Profile Picture When Selected ---
+    /** Profile Picture Preview */
+    // Validates the selected file (type and size) then shows a live preview.
+    // Clears the input and aborts if validation fails.
     profilePicInput.addEventListener("change", () => {
         const file = profilePicInput.files[0];
         if (!file) return;
 
-        // --- Validate File Size (2MB max) ---
+        // Reject files over 2MB
         if (file.size > 2 * 1024 * 1024) {
             alert("Image must be under 2MB");
             profilePicInput.value = "";
             return;
         }
 
-        // --- Validate File Type ---
+        // Reject non-image file types
         if (!file.type.startsWith("image/")) {
             alert("Please upload an image file");
             profilePicInput.value = "";
             return;
         }
 
-        // --- Show Preview ---
+        // Read file as a data URL and show the preview, hiding the placeholder icon
         const reader = new FileReader();
         reader.onload = (e) => {
             profilePreview.src = e.target.result;
@@ -98,25 +101,29 @@ document.addEventListener("DOMContentLoaded", () => {
         reader.readAsDataURL(file);
     });
 
-    // --- Load existing avatar on page load ---
+    /** Load Existing Avatar */
+    // Restores the saved profile picture from localStorage on page load
+    // so the preview area shows the current avatar rather than the placeholder
     const storedUser = localStorage.getItem("userData");
     if (storedUser) {
         const user = JSON.parse(storedUser);
         if (user.profilePic_url && profilePreview) {
             profilePreview.src = user.profilePic_url;
             profilePreview.style.display = "block";
-            if (profilePlaceholder) {
-                profilePlaceholder.style.display = "none";
-            }
+            if (profilePlaceholder) profilePlaceholder.style.display = "none";
         }
     }
 
-    // --- Upload Profile Picture to Supabase Storage ---
+    /** Upload Profile Picture */
+    // Uploads the selected image to Supabase Storage under a folder named
+    // after the user's ID, then returns the public URL of the uploaded file.
+    // Returns null if no file is selected or the upload fails.
     async function uploadProfilePicture(userId) {
         const file = profilePicInput.files[0];
         if (!file) return null;
 
-        // --- Store in a Folder Named After the User's ID ---
+        // Prefix with userId to keep each user's images in their own folder;
+        // timestamp prefix avoids filename collisions on re-upload
         const filePath = `${userId}/${Date.now()}_${file.name}`;
 
         const { error: uploadError } = await supabase.storage
@@ -128,7 +135,7 @@ document.addEventListener("DOMContentLoaded", () => {
             return null;
         }
 
-        // --- Get The Public URL of the Uploaded Image ---
+        // Retrieve the public URL for the uploaded file
         const { data } = supabase.storage
             .from("profile-pic")
             .getPublicUrl(filePath);
@@ -136,24 +143,26 @@ document.addEventListener("DOMContentLoaded", () => {
         return data.publicUrl;
     }
 
-    // --- Save All Settings ---
+    /** Save Settings */
+    // Persists all settings changes on Save button click.
+    // Save order: dark mode → Supabase profile update → localStorage sync → profile picture upload.
+    // The success message is shown for 3 seconds then faded out.
     saveBtn.addEventListener("click", async () => {
-        
-        // --- Save Dark Mode Changes ---
+
+        // Persist dark mode preference to localStorage
         localStorage.setItem("darkMode", darkModeToggle.checked);
 
-        /**
-        // --- Save Notification Changes ---
+        // TODO: Uncomment when notification backend is implemented
+        /*
         localStorage.setItem("ticketsNotif", ticketsNotifToggle.checked);
         localStorage.setItem("assignmentsNotif", assignmentsNotifToggle.checked);
         localStorage.setItem("systemNotif", systemNotifToggle.checked);
         */
 
-        // --- Get Current User ---
         const storedUser = localStorage.getItem("userData");
         const user = storedUser ? JSON.parse(storedUser) : {};
 
-        // --- Save Account and Profile Changes to Supabase ---
+        // Push profile and account field changes to Supabase
         await supabase
             .from("users")
             .update({
@@ -166,21 +175,22 @@ document.addEventListener("DOMContentLoaded", () => {
             })
             .eq("id", user.id);
 
-        // --- Update Local Storage to Show Changes ---
+        // Mirror the Supabase update in localStorage so the rest of the app
+        // reflects the changes without needing a re-fetch
         user.username = usernameInput.value.trim();
         user.email = emailInput.value.trim();
         user.firstname = firstNameInput.value.trim();
         user.lastname = lastNameInput.value.trim();
         user.phone = phoneNumberInput.value.trim();
-        localStorage.setItem("userData",JSON.stringify(user));
+        localStorage.setItem("userData", JSON.stringify(user));
 
-        // --- Upload Profile Picture if a New One was Selected ---
+        // Upload a new profile picture if one was selected, then save its URL
         if (profilePicInput.files[0]) {
             const profilePicUrl = await uploadProfilePicture(user.id);
             if (profilePicUrl) {
                 user.profilePic_url = profilePicUrl;
 
-                // --- Save Profile Picture URL to Supabase Users Table ---
+                // Save the new URL to both Supabase and localStorage
                 await supabase
                     .from("users")
                     .update({ profilePic_url: profilePicUrl })
@@ -188,17 +198,21 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
 
+        // Final localStorage write includes the profile picture URL if it was updated
         localStorage.setItem("userData", JSON.stringify(user));
 
-        // --- Show Confirmation of Changes ---
+        // Show the save confirmation message and auto-hide after 3 seconds
         saveStatus.textContent = "Settings Saved!";
         saveStatus.classList.add("visible");
         setTimeout(() => saveStatus.classList.remove("visible"), 3000);
     });
 
-    // --- Delete Account Handler ---
+    /** Delete Account */
+    // Prompts for confirmation then sends a DELETE request to the server.
+    // On success, clears localStorage and redirects to the login page.
     const deleteAccountBtn = document.getElementById("delete-account-btn");
     deleteAccountBtn.addEventListener("click", async () => {
+
         if (!confirm("Are you sure you want to permanently delete your account? This cannot be undone.")) {
             return;
         }
@@ -214,14 +228,14 @@ document.addEventListener("DOMContentLoaded", () => {
         try {
             const response = await fetch("/deleteAccount", {
                 method: "DELETE",
-                headers: {
-                    "Content-Type": "application/json"
-                },
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ id: user.id, username: user.username })
             });
 
             const data = await response.json();
+
             if (response.ok && data.success) {
+                // Clear all local session data before redirecting
                 localStorage.removeItem("userData");
                 localStorage.removeItem("isLoggedIn");
                 alert("Your account has been deleted.");
@@ -234,4 +248,5 @@ document.addEventListener("DOMContentLoaded", () => {
             alert("Error deleting account. Please try again.");
         }
     });
+
 });

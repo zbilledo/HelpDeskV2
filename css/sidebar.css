@@ -4,59 +4,66 @@
  * Defines the look and layout of the left navigation sidebar.
  */
 
+/* Sidebar */
+/* position:sticky + align-self:start keeps the sidebar fixed in view
+   while the main content area scrolls independently */
 #sidebar {
     min-width: 110px;
     width: 13vw;
     height: 100vh;
-    background-color: #133e5e; /* Primary brand color */
+    background-color: #133e5e;
     padding-top: 10px;
     box-sizing: border-box;
     box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.5);
     display: flex;
     flex-direction: column;
     margin: 0;
-    /*added these three lines to help keep sidebar in place when scrolling,
-    may need to adjust*/
     position: sticky;
     top: 0;
     align-self: start;
 }
 
-/* Remove default list styles and spacing, makes the ul a flex column */
-#sidebar ul{
+/* Nav List */
+/* Removes default list styling and stretches the list to fill sidebar height */
+#sidebar ul {
     list-style: none;
     padding: 0;
     margin: 0;
     display: flex;
     flex-direction: column;
-    flex-grow: 1;
+    flex-grow: 1; /* Allows the last item to be pushed to the bottom via margin-top:auto */
 }
 
-/* Sidebar Logo Container */
-#sidebar > ul > li:first-child a{
+/* Logo Container */
+/* First list item acts as the logo slot; centered within the sidebar width */
+#sidebar > ul > li:first-child a {
     width: 80%;
     height: auto;
     display: flex;
     justify-content: center;
     margin: 0 auto;
-    
 }
- /* Logo Image */
+
+/* Logo Image */
+/* clamp() scales the logo between 70px and 90px based on viewport width */
 .sidebar-logo {
     position: relative;
-    top: - 30px;
+    top: -30px;
     height: clamp(70px, 5vw, 90px);
     width: auto;
     object-fit: contain;
 }
 
-/* Highlight Active Link */
-#sidebar ul li.active a{
+/* Active Link */
+/* Dark background applied by JS to the list item matching the current page path */
+#sidebar ul li.active a {
     background-color: #313131;
     color: white;
 }
 
-/* All Navigation Links*/
+/* Nav Links */
+/* clamp() scales font size between 0.8rem and 1.1rem based on viewport width;
+   overflow:hidden + white-space:nowrap prevents text wrapping in narrow sidebars */
 #sidebar a {
     display: flex;
     border-radius: .5em;
@@ -70,19 +77,21 @@
     overflow: hidden;
 }
 
-/* Icon Adjustments */
-#sidebar i{
+/* Nav Icons */
+/* flex-shrink:0 prevents icons from being squeezed when sidebar width is narrow */
+#sidebar i {
     flex-shrink: 0;
     color: white;
 }
 
-/* Hover effect for links */
+/* Link Hover */
 #sidebar a:hover {
     background-color: #313131;
     transition: background-color 0.6s ease;
 }
 
-/* Push settings link to the bottom of the sidebar */
+/* Settings Link */
+/* margin-top:auto on the last item pushes it to the bottom of the sidebar */
 #sidebar ul li:last-child {
     margin-top: auto;
 }

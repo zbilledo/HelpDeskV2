@@ -6,5 +6,9 @@
 import { loadComponent } from "./utils.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
+
+    /** Load Component */
+    // Inject the navbar HTML template into the #navbar element
     await loadComponent("#navbar", "/components/navbar.html");
+
 });

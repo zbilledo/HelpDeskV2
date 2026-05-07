@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Help Desk - Register</title>
+
+    <!-- Favicon -->
     <link rel="icon" href="/assets/images/favicon.png">
 
     <!-- Stylesheets -->
@@ -19,11 +21,15 @@
     <!-- Navbar -->
         <nav class="navbar">
             <div class="navbar-inner">
+
+                <!-- Logo links back to home -->
                 <div class="nav-logo">
                     <a class="nav-link" href="/index.html">
                         <img src="/assets/images/GeminiHelpDeskLogo-Picsart-BackgroundRemover.png" alt="Help Desk Logo" class="nav-logo-img">
                     </a>
                 </div>
+
+                <!-- Navigation links; Sign up omitted since user is already on that page -->
                 <div class="nav-links">
                     <a href="/index.html" class="nav-link">Home</a>
                     <a href="/pages/faq.html" class="nav-link">Help</a>
@@ -33,15 +39,18 @@
         </nav>
     
     <main>
+
         <!-- Registration Page Container -->
         <div id="register-container" class="register-container">
-            <!-- Registration Modal Box -->
+
+            <!-- Centered modal card housing the form -->
             <div class="register-modal">
                 <h2>Create an Account</h2>
                 
-                <!-- User Registration Form -->
+                <!-- Registration form; submission handled by user-registration.js -->
                 <form id="register-form">
 
+                    <!-- Row 1: First and last name side by side -->
                     <div class="text-row">
                         <div class="text-field">
                             <label for="first">First Name:</label>
@@ -53,21 +62,27 @@
                         </div>
                     </div>
 
+                    <!-- Row 2: Username and optional phone number -->
                     <div class="text-row">
                         <div class="text-field">
                             <label for="username">Username:</label>
                             <input type="text" id="username" placeholder="Username" required/>
                         </div>
                         <div class="text-field">
+                            <!-- Phone is optional; no "required" attribute -->
                             <label for="phone">Phone Number:</label>
                             <input type="tel" id="phone" placeholder="Phone Number"/>
                         </div>
                     </div>
 
+                    <!-- Full-width email field -->
                     <label for="email">Email:</label>
                     <input type="email" id="email" placeholder="Email" required/>
                     
+                    <!-- Password section: fields + live requirements checklist -->
                     <div class="password-wrapper">
+
+                        <!-- Row 3: Password and confirmation side by side -->
                         <div class="text-row">
                             <div class="text-field">
                                 <label for="password">Password:</label>
@@ -78,6 +93,9 @@
                                 <input type="password" id="confirm-password" placeholder="Confirm Password" required/>
                             </div>
                         </div>
+
+                        <!-- Live password requirements box; each <li> is toggled
+                             to met/unmet state via JS as the user types -->
                         <div class="requirements-box" id="password-requirements">
                             <p class="requirements-title">Password must contain:</p>
                             <ul class="requirements-list">
@@ -90,23 +108,27 @@
                         </div>
                     </div>
 
+                    <!-- Submit button -->
                     <button class="form-buttons" type="submit">Register</button>
+
+                    <!-- Redirect to login for users who already have an account -->
                     <a href="/pages/login-page.html" class="nav-link" style="align-self: center; padding: 8px;">Log in</a>
                     
-                    <!-- Placeholder for registration error messages (e.g., username taken) -->
+                    <!-- Error message container; hidden by default, shown by JS on failure
+                         (e.g., username already taken, passwords don't match) -->
                     <p id="error-msg" style="color:red; display:none;"></p>
                 </form>
             </div>
         </div>
     </main>
     
-    <!-- Footer Component Insertion -->
+    <!-- Footer content is injected dynamically via footer.js -->
     <div id="footer"></div>
 
-    <!-- User Registration Logic -->
-    <script type="module" src="/js/footer.js"></script>
-    <script type="module" src="/js/sidebar.js"></script>    
-    <script type="module" src="/js/user-registration.js"></script>
+    <!-- JS Modules -->
+    <script type="module" src="/js/footer.js"></script> <!-- Renders the shared footer -->
+    <script type="module" src="/js/sidebar.js"></script> <!-- Sidebar behavior (if applicable on this page) -->
+    <script type="module" src="/js/user-registration.js"></script> <!-- Form validation and submission logic -->
 
 </body>
 </html>

@@ -1,13 +1,15 @@
-<!-- Create Ticket Button for Topbar -->    
+<!-- Ticket Creation Component: Trigger button and modal, injected into the topbar -->
 <div class="ticket-creation" id="create-ticket">
+
     <!-- Trigger Button for Create Ticket Modal -->
     <button id="create-ticket-btn" class="topbar-button">Create New Ticket</button>
 
-    <!-- Ticket Creation Modal (Hidden by default) -->
+    <!-- Ticket Creation Modal (Hidden by default, shown on button click) -->
     <div id="ticket-modal" class="modal-overlay hidden">
         <div class="modal">
             <h2>Create New Ticket</h2>
             <form id="ticket-form">
+
                 <!-- Ticket Title Input -->
                 <label for="ticket-title">Title</label>
                 <input type="text" id="ticket-title" placeholder="Enter ticket title" required />
@@ -24,12 +26,14 @@
                     <option value="high">High</option>
                 </select>
 
-                <!-- Modal Form Actions (Submit/Cancel) -->
+                <!-- Modal Form Actions (Submit / Cancel) -->
                 <div class="modal-actions">
                     <button class="form-buttons" type="submit" id="submit-ticket-btn">Submit</button>
                     <button class="form-buttons" type="button" id="close-modal-btn">Cancel</button>
                 </div>
+
             </form>
         </div>
     </div>
+
 </div>

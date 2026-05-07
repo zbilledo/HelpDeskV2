@@ -1,9 +1,11 @@
 /* ChatBot Page Styles */
 
+/* Chat Wrapper */
+/* calc(100vh - 110px) subtracts the topbar height to fill the remaining viewport */
 .chat-wrapper {
   display: flex;
   flex-direction: column;
-  height: calc(100vh - 110px); /* Adjust based on topbar height */
+  height: calc(100vh - 110px);
   background-color: white;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -12,9 +14,9 @@
   margin: 0 auto;
 }
 
-/* Header Styling */
+/* Chat Header */
 .chat-header {
-  background-color: #133e5e; /* Brand Blue */
+  background-color: #133e5e;
   color: white;
   padding: 15px 20px;
   display: flex;
@@ -22,12 +24,15 @@
   align-items: center;
 }
 
+/* Bot Info */
 .bot-info {
   display: flex;
   align-items: center;
   gap: 12px;
 }
 
+/* Bot Avatar */
+/* Semi-transparent white circle houses the robot icon */
 .bot-avatar {
   width: 40px;
   height: 40px;
@@ -39,6 +44,7 @@
   font-size: 1.2rem;
 }
 
+/* Bot Details */
 .bot-details h3 {
   margin: 0;
   font-size: 1.1rem;
@@ -52,11 +58,15 @@
   gap: 5px;
 }
 
+/* Online Status Icon */
+/* Small green dot rendered via Font Awesome */
 .bot-details span i {
-  color: #4caf50; /* Online status green */
+  color: #4caf50;
   font-size: 0.5rem;
 }
 
+/* Chat Actions */
+/* Clear chat button; opacity transition gives a subtle fade-in on hover */
 .chat-actions button {
   background: none;
   border: none;
@@ -71,7 +81,8 @@
   opacity: 1;
 }
 
-/* Messages Area */
+/* Chat Messages */
+/* flex:1 fills all remaining height between the header and input area */
 .chat-messages {
   flex: 1;
   padding: 20px;
@@ -82,12 +93,15 @@
   gap: 15px;
 }
 
+/* Message */
+/* max-width:75% prevents messages from stretching too wide on large screens */
 .message {
   max-width: 75%;
   display: flex;
   flex-direction: column;
 }
 
+/* Message Content */
 .message-content {
   padding: 12px 16px;
   border-radius: 18px;
@@ -96,6 +110,7 @@
   position: relative;
 }
 
+/* Message Time */
 .message-time {
   font-size: 0.7rem;
   color: #888;
@@ -103,11 +118,13 @@
   padding: 0 8px;
 }
 
-/* Bot Message Styles */
+/* Bot Message */
+/* align-self:flex-start floats bot messages to the left */
 .bot-message {
   align-self: flex-start;
 }
 
+/* Bot message bubble; flattened bottom-left corner signals message direction */
 .bot-message .message-content {
   background-color: white;
   color: #333;
@@ -115,13 +132,15 @@
   border-bottom-left-radius: 4px;
 }
 
-/* User Message Styles */
+/* User Message */
+/* align-self:flex-end floats user messages to the right */
 .user-message {
   align-self: flex-end;
 }
 
+/* User message bubble; flattened bottom-right corner signals message direction */
 .user-message .message-content {
-  background-color: #2c70a2; /* Accent Blue */
+  background-color: #2c70a2;
   color: white;
   border-bottom-right-radius: 4px;
 }
@@ -130,7 +149,8 @@
   text-align: right;
 }
 
-/* Interactive Options in Bot Messages */
+/* Message Options */
+/* Wrapping row of quick-reply buttons rendered inside bot messages */
 .message-options {
   display: flex;
   flex-wrap: wrap;
@@ -138,6 +158,8 @@
   margin-top: 10px;
 }
 
+/* Option Button */
+/* Pill-shaped quick-reply; fills with brand blue on hover */
 .option-btn {
   background-color: #f0f4f8;
   border: 1px solid #2c70a2;
@@ -154,13 +176,15 @@
   color: white;
 }
 
-/* Input Area */
+/* Chat Input Area */
 .chat-input-area {
   padding: 15px 20px;
   background-color: white;
   border-top: 1px solid #eee;
 }
 
+/* Input Container */
+/* Pill-shaped row housing the attachment button, text input, and send button */
 .input-container {
   display: flex;
   align-items: center;
@@ -171,6 +195,8 @@
   border: 1px solid #ddd;
 }
 
+/* Input Container Text Input */
+/* background:none lets the pill container background show through */
 .input-container input {
   flex: 1;
   border: none;
@@ -181,6 +207,7 @@
   outline: none;
 }
 
+/* Attachment and Send Buttons */
 .attachment-btn,
 .send-btn {
   background: none;
@@ -192,33 +219,39 @@
   transition: transform 0.2s;
 }
 
+/* Send button scales up slightly on hover for a tactile feel */
 .send-btn:hover {
   transform: scale(1.1);
 }
 
+/* Attachment button uses a muted grey to de-emphasize it relative to send */
 .attachment-btn {
   color: #666;
 }
 
-/* Scrollbar styling */
+/* Scrollbar */
 .chat-messages::-webkit-scrollbar {
   width: 6px;
 }
 
+/* Scrollbar Track */
 .chat-messages::-webkit-scrollbar-track {
   background: transparent;
 }
 
+/* Scrollbar Thumb */
 .chat-messages::-webkit-scrollbar-thumb {
   background: #ccc;
   border-radius: 10px;
 }
 
+/* Scrollbar Thumb Hover */
 .chat-messages::-webkit-scrollbar-thumb:hover {
   background: #bbb;
 }
 
-/* Typing Indicator Animation */
+/* Typing Indicator */
+/* Constrained max-width sizes the bubble to just fit the three dots */
 .typing-indicator {
   align-self: flex-start;
   max-width: 75px;
@@ -234,6 +267,8 @@
   justify-content: center;
 }
 
+/* Typing Dot */
+/* Each dot bounces independently via staggered animation-delay values below */
 .typing-indicator .dot {
   width: 8px;
   height: 8px;
@@ -242,6 +277,7 @@
   animation: typing-bounce 1.4s infinite ease-in-out;
 }
 
+/* Staggered delays create a left-to-right wave effect */
 .typing-indicator .dot:nth-child(1) {
   animation-delay: -0.32s;
 }
@@ -250,6 +286,8 @@
   animation-delay: -0.16s;
 }
 
+/* Typing Bounce Keyframes */
+/* Dots scale down and fade at rest; scale up and fully opaque at the peak */
 @keyframes typing-bounce {
   0%,
   80%,
@@ -263,7 +301,8 @@
   }
 }
 
-/* File Preview Area (before sending) */
+/* File Preview */
+/* Shown above the input area after files are attached but before they are sent */
 .file-preview {
   display: flex;
   flex-wrap: wrap;
@@ -273,6 +312,8 @@
   border-bottom: 1px solid #ddd;
 }
 
+/* File Item */
+/* Pill-shaped tag with a remove button for each attached file */
 .file-item {
   display: flex;
   align-items: center;
@@ -290,6 +331,8 @@
   font-size: 0.9rem;
 }
 
+/* File Name */
+/* Truncates long filenames with an ellipsis to keep the tag compact */
 .file-name {
   max-width: 150px;
   overflow: hidden;
@@ -297,6 +340,7 @@
   white-space: nowrap;
 }
 
+/* Remove File Button */
 .remove-file-btn {
   background: none;
   border: none;
@@ -308,11 +352,13 @@
   transition: color 0.2s;
 }
 
+/* Turns red on hover to signal a destructive action */
 .remove-file-btn:hover {
   color: #d32f2f;
 }
 
-/* Message Files (after sending) */
+/* Message Files */
+/* Wrapping row of file attachments rendered inside a sent message bubble */
 .message-files {
   display: flex;
   flex-wrap: wrap;
@@ -320,6 +366,8 @@
   margin-bottom: 8px;
 }
 
+/* Message Image */
+/* Scales up very slightly on hover to indicate the image is interactive */
 .message-image {
   max-width: 200px;
   max-height: 200px;
@@ -333,6 +381,7 @@
   transform: scale(1.02);
 }
 
+/* Message File Item */
 .message-file-item {
   display: flex;
   align-items: center;
@@ -343,11 +392,13 @@
   font-size: 0.85rem;
 }
 
+/* User message file items use a slightly more opaque white for contrast */
 .user-message .message-file-item {
   background-color: rgba(255, 255, 255, 0.2);
   color: white;
 }
 
+/* Bot message file items use a light grey to match the bot bubble style */
 .bot-message .message-file-item {
   background-color: #f0f4f8;
   border: 1px solid #e0e0e0;
@@ -357,7 +408,8 @@
   font-size: 1rem;
 }
 
-/* Responsive adjustments */
+/* Responsive — 768px */
+/* Reduce topbar offset and widen messages on smaller screens */
 @media (max-width: 768px) {
   .chat-wrapper {
     height: calc(100vh - 80px);

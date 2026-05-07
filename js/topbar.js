@@ -8,34 +8,38 @@ import { initTicketForm } from "/js/ticket-form-handler.js";
 import { supabase } from "/js/supabase.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
-    // Load the top bar component HTML
+
+    /** Load Component */
     await loadComponent("#topbar", "/components/topbar.html");
 
+    /** Element References */
     const profilePic = document.getElementById("profile-pic");
     const userDropdown = document.getElementById("user-dropdown");
-    
-    // Retrieve user data from localStorage, default to Guest if not found
+
+    /** Current User */
+    // Read from localStorage; defaults to a Guest object if no session data is found
     const storedUser = localStorage.getItem("userData");
     console.log("stored user:", storedUser);
     const user = storedUser ? JSON.parse(storedUser) : { username: "Guest" };
     console.log("parsed user:", user);
 
-
-    // Display Profile Picture if Saved
+    /** Profile Picture */
     if (profilePic) {
+        // Set the profile picture src if the user has one saved
         if (user.profilePic_url) {
             profilePic.src = user.profilePic_url;
         }
 
-        // Toggle user dropdown menu visibilty on profile picture click
+        // Toggle the dropdown menu on profile picture click
         profilePic.addEventListener("click", (event) => {
             event.stopPropagation();
             userDropdown.classList.toggle("show");
         });
     }
-    
+
+    /** Dropdown Dismiss */
     if (userDropdown) {
-        // Close dropdown menu when clicking anywhere else on the document
+        // Close the dropdown when clicking anywhere outside of it
         window.addEventListener("click", () => {
             if (userDropdown.classList.contains("show")) {
                 userDropdown.classList.remove("show");
@@ -43,12 +47,12 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
     }
 
-    // Handle logout link click
+    /** Logout */
     const logoutLink = document.getElementById("logout-link");
     if (logoutLink) {
         logoutLink.addEventListener("click", async (event) => {
             event.preventDefault();
-            // SIgn out of Supabase Auth and clear localStorage
+            // Sign out of Supabase Auth and clear all local session data
             await supabase.auth.signOut();
             localStorage.removeItem("isLoggedIn");
             localStorage.removeItem("userData");
@@ -56,15 +60,17 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
     }
 
-    // Display the current user's name in the dropdown header
+    /** Dropdown Header */
+    // Display the current user's username in the dropdown menu header
     const userProfile = document.getElementById("dropdown-header");
     if (userProfile) {
         userProfile.innerHTML = `
-        <p class="user-name">${user.username}</p>
-    `;
+            <p class="user-name">${user.username}</p>
+        `;
     }
 
-    // Display the current user's name in the main menu profile section
+    /** Main Menu Username */
+    // Display the current user's username in the main menu profile section
     const profileName = document.getElementById("main-menu-username");
     if (profileName) {
         profileName.innerHTML = `
@@ -72,7 +78,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         `;
     }
 
-    // Initialize the ticket creation form/modal listeners
+    /** Ticket Form */
+    // Initialize the ticket creation form and modal event listeners
     initTicketForm();
 
 });

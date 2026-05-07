@@ -1,15 +1,17 @@
 /**
- * ChatBot UI Handler with Google Gemini Integration
- * --------------------------------------------------
- * This script handles the UI interactivity for the chatbot page
- * and integrates with Google Gemini AI for intelligent responses.
+ * @file chatBot.js
+ * @description ChatBot UI Handler with Google Gemini Integration
  */
 
-// Google Gemini API Configuration
+/** Gemini API Config */
+// Populated at runtime by loadConfig(); not hardcoded to keep the key out of source
 let GEMINI_API_KEY = "";
 let GEMINI_API_URL = "";
 
-// Load configuration from config.json
+/** Load Config */
+// Fetches the Gemini API key from config.json and builds the request URL.
+// NOTE: Loading an API key from a client-accessible file is not production-safe;
+// acceptable here for the scope of this project only.
 async function loadConfig() {
   try {
     const response = await fetch("../config.json");
@@ -22,21 +24,24 @@ async function loadConfig() {
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
-  // Load API key from config (I know this is not ideal but for the context of this project it will be okay. Would not send this to production though)
+
+  /** Init */
   await loadConfig();
 
+  /** Element References */
   const chatMessages = document.getElementById("chat-messages");
   const userInput = document.getElementById("user-input");
   const sendBtn = document.getElementById("send-btn");
   const attachmentBtn = document.querySelector(".attachment-btn");
   const clearChatBtn = document.querySelector(".chat-actions button");
 
-  // Array to store attached files
+  // Holds files selected via the attachment button before they are sent
   let attachedFiles = [];
 
-  /**
-   * Displays attached files in the input area
-   */
+  /** Display Attached Files */
+  // Rebuilds the file preview area above the input on every change.
+  // Removes the existing preview first to avoid duplicates, then re-renders
+  // from the current attachedFiles array. Each item has a remove button.
   function displayAttachedFiles() {
     const existingPreview = document.querySelector(".file-preview");
     if (existingPreview) {
@@ -52,6 +57,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       const fileItem = document.createElement("div");
       fileItem.className = "file-item";
 
+      // Use an image icon for image files, generic file icon for everything else
       const icon = file.type.startsWith("image/") ? "fa-image" : "fa-file";
 
       fileItem.innerHTML = `
@@ -68,7 +74,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     const inputContainer = document.querySelector(".input-container");
     inputContainer.parentElement.insertBefore(previewDiv, inputContainer);
 
-    // Add event listeners for remove buttons
+    // Re-attach remove button listeners after every rebuild since
+    // innerHTML replacement destroys previous event bindings
     document.querySelectorAll(".remove-file-btn").forEach((btn) => {
       btn.addEventListener("click", (e) => {
         const index = parseInt(e.currentTarget.dataset.index);
@@ -78,13 +85,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   }
 
-  /**
-   * Clears all chat messages except the initial greeting
-   */
+  /** Clear Chat */
+  // Removes all messages except the first (the hardcoded greeting) and
+  // clears any pending file attachments
   function clearChat() {
     const messages = chatMessages.querySelectorAll(".message");
     messages.forEach((message, index) => {
-      // Keep only the first message (greeting)
       if (index > 0) {
         message.remove();
       }
@@ -93,12 +99,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     displayAttachedFiles();
   }
 
-  /**
-   * Appends a message to the chat container
-   * @param {string} text - Message text
-   * @param {boolean} isUser - Whether the message is from the user
-   * @param {Array} files - Optional array of files to display with the message
-   */
+  /** Append Message */
+  // Creates and appends a chat bubble to #chat-messages.
+  // isUser controls the bubble alignment and style class.
+  // Files are rendered inline — images as <img> tags, others as file name items.
+  // Auto-scrolls to the bottom after appending.
   function appendMessage(text, isUser = false, files = []) {
     const now = new Date();
     const timeStr = now.toLocaleTimeString([], {
@@ -109,6 +114,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const messageDiv = document.createElement("div");
     messageDiv.className = `message ${isUser ? "user-message" : "bot-message"}`;
 
+    // Build file attachment HTML if any files were sent with this message
     let filesHTML = "";
     if (files.length > 0) {
       filesHTML = '<div class="message-files">';
@@ -128,26 +134,22 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     messageDiv.innerHTML = `
-            ${filesHTML}
-            <div class="message-content">
-                ${text}
-            </div>
-            <div class="message-time">${timeStr}</div>
-        `;
+      ${filesHTML}
+      <div class="message-content">${text}</div>
+      <div class="message-time">${timeStr}</div>
+    `;
 
     chatMessages.appendChild(messageDiv);
-
-    // Auto-scroll to bottom
     chatMessages.scrollTop = chatMessages.scrollHeight;
   }
 
-  /**
-   * Calls Google Gemini API to get a response
-   * @param {string} userMessage - The user's message
-   * @returns {Promise<string>} - The AI response
-   */
+  /** Get Gemini Response */
+  // Sends the user's message to the Gemini API with a system prompt that
+  // constrains the bot to HelpDesk support topics.
+  // Returns the response text, or a user-facing error string on failure.
   async function getGeminiResponse(userMessage) {
     try {
+      // System prompt scopes Gemini's responses to IT support context
       const systemPrompt = `You are a helpful HelpDesk support assistant. Your role is to:
 - Help users submit and track support tickets
 - Answer common technical support questions
@@ -163,19 +165,9 @@ User: ${userMessage}`;
 
       const response = await fetch(GEMINI_API_URL, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          contents: [
-            {
-              parts: [
-                {
-                  text: systemPrompt,
-                },
-              ],
-            },
-          ],
+          contents: [{ parts: [{ text: systemPrompt }] }],
         }),
       });
 
@@ -185,7 +177,7 @@ User: ${userMessage}`;
 
       const data = await response.json();
 
-      // Extract the response text from Gemini's response structure
+      // Drill into Gemini's nested response structure to extract the text
       if (data.candidates && data.candidates.length > 0) {
         const candidate = data.candidates[0];
         if (
@@ -204,60 +196,61 @@ User: ${userMessage}`;
     }
   }
 
-  /**
-   * Handles sending a message
-   */
+  /** Handle Send Message */
+  // Validates input, appends the user message, clears the input and file list,
+  // shows a typing indicator while waiting for Gemini, then appends the response.
   async function handleSendMessage() {
     const text = userInput.value.trim();
     if (!text && attachedFiles.length === 0) return;
 
-    // Create a copy of attached files for this message
+    // Snapshot the attached files for this message before clearing the array
     const messageFiles = [...attachedFiles];
 
-    // Append User Message with files
     appendMessage(text || "📎 Sent attachments", true, messageFiles);
     userInput.value = "";
 
-    // Clear attached files after sending
+    // Clear attachments after sending
     attachedFiles = [];
     displayAttachedFiles();
 
-    // Show typing indicator
+    // Show animated typing indicator while the API request is in flight
     const typingDiv = document.createElement("div");
     typingDiv.className = "message bot-message typing-indicator";
     typingDiv.innerHTML = `
-            <div class="message-content">
-                <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-            </div>
-        `;
+      <div class="message-content">
+        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+      </div>
+    `;
     chatMessages.appendChild(typingDiv);
     chatMessages.scrollTop = chatMessages.scrollHeight;
 
-    // Get AI Response from Gemini
     const aiResponse = await getGeminiResponse(text || "User sent attachments");
 
-    // Remove typing indicator
+    // Remove the typing indicator before appending the real response
     typingDiv.remove();
 
-    // Append AI Response
     appendMessage(aiResponse, false);
   }
 
-  // Event Listeners
+  /** Event Listeners */
+
+  // Send button click
   sendBtn.addEventListener("click", handleSendMessage);
 
+  // Send on Enter key press
   userInput.addEventListener("keypress", (e) => {
     if (e.key === "Enter") {
       handleSendMessage();
     }
   });
 
-  // Handle Quick Action Buttons
+  // Quick action option buttons rendered inside chat messages
   chatMessages.addEventListener("click", (e) => {
     if (e.target.classList.contains("option-btn")) {
       const optionText = e.target.textContent;
       appendMessage(optionText, true);
 
+      // Simulate a bot response after a short delay
       setTimeout(() => {
         appendMessage(
           `You selected: "${optionText}". In a real implementation, this would trigger a specific workflow or query.`,
@@ -267,9 +260,8 @@ User: ${userMessage}`;
     }
   });
 
-  // Handle File Attachment
+  // Attachment button: creates a hidden file input and triggers it on click
   attachmentBtn.addEventListener("click", () => {
-    // Create a hidden file input
     const fileInput = document.createElement("input");
     fileInput.type = "file";
     fileInput.multiple = true;
@@ -281,16 +273,17 @@ User: ${userMessage}`;
       displayAttachedFiles();
     });
 
+    // Programmatically trigger the file picker dialog
     fileInput.click();
   });
 
-  // Handle Clear Chat
+  // Clear chat button: prompts for confirmation before wiping the history
   clearChatBtn.addEventListener("click", () => {
     if (confirm("Are you sure you want to clear the chat history?")) {
       clearChat();
     }
   });
 
-  // Initial scroll to bottom
+  // Scroll to the bottom on initial load in case the greeting message is tall
   chatMessages.scrollTop = chatMessages.scrollHeight;
 });

@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
+
     <!-- Basic Metadata -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,27 +21,33 @@
 <body>
 
     <!-- Main Layout Container -->
+    <!-- Outer wrapper that holds the sidebar + main content in a flex/grid layout -->
     <div class="app-container">
-        <!-- Sidebar Injection Point -->
+
+        <!-- Sidebar injected dynamically by sidebar.js -->
         <nav id="sidebar"></nav>
 
         <!-- Main Content Area -->
         <div class="main">
-            <!-- Topbar Injection Point -->
+
+            <!-- Topbar injected dynamically by topbar.js -->
             <div id="topbar"></div>
 
             <!-- Page-Specific Content -->
             <div class="content">
+
                 <!-- Ticket List Injection Point -->
+                <!-- Full dashboard content (stats, ticket list, filters, etc.)
+                     is built and injected here by tickets-template.js -->
                 <div id="ticket-container"></div>
             </div>
         </div>
     </div>
 
     <!-- Frontend logic for components and dashboard -->
-    <script type="module" src="/js/supabase.js"></script>
-    <script type="module" src="/js/sidebar.js"></script>
-    <script type="module" src="/js/topbar.js"></script>
-    <script type="module" src="/js/tickets-template.js"></script>
+    <script type="module" src="/js/supabase.js"></script> <!-- Initializes the Supabase client; must load before other modules that query the database -->
+    <script type="module" src="/js/sidebar.js"></script> <!-- Renders and controls the sidebar -->
+    <script type="module" src="/js/topbar.js"></script> <!-- Renders and controls the topbar -->
+    <script type="module" src="/js/tickets-template.js"></script> <!-- Fetches ticket data and builds the full dashboard content -->
 </body>
 </html>

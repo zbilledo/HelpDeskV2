@@ -5,6 +5,7 @@
  * including the ticket modal and user profile dropdown.
  */
 
+/* Topbar */
 .topbar {
     width: 100%;
     background-color: #e9f0f3;
@@ -19,7 +20,7 @@
     box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.5);
 }
 
-/* Primary Topbar Action Button */
+/* Topbar Button */
 .topbar-button {
     background-color: #2c70a2;
     color: white;
@@ -34,7 +35,7 @@
     transition: background-color 0.3s ease;
 }
 
-/* User Profile Section */
+/* User Profile */
 .user-profile {
     display: flex;
     align-items: center;
@@ -42,6 +43,7 @@
     cursor: pointer;
 }
 
+/* Profile Picture */
 .profile-pic {
     width: 40px;
     height: 40px;
@@ -50,9 +52,10 @@
     object-fit: cover;
 }
 
-/* User Dropdown Menu Positioning and Visibility */
+/* Dropdown Menu */
+/* Hidden by default; .show class toggled by JS on profile picture click */
 .dropdown-menu {
-    display: none; /* Hidden by default */
+    display: none;
     position: absolute;
     right: 0;
     top: 50px;
@@ -68,15 +71,16 @@
     display: block;
 }
 
-/* Dropdown Content Styling */
+/* Dropdown Header */
 .dropdown-header {
     padding: 10px 20px;
 }
 
+/* Username */
 .user-name {
     font-weight: bold;
     margin: 0;
-    color: #2c70a2
+    color: #2c70a2;
 }
 
 .main-menu-username {
@@ -85,12 +89,14 @@
     color: #2c70a2;
 }
 
+/* User Email */
 .user-email {
     font-size: 0.85em;
     color: #666;
     margin: 5px 0 0 0;
 }
 
+/* Dropdown Item */
 .dropdown-item {
     padding: 10px 20px;
     text-decoration: none;
@@ -102,6 +108,7 @@
     background-color: #f1f1f1;
 }
 
+/* Divider */
 hr {
     border: 0;
     border-top: 1px solid #eee;
@@ -113,6 +120,8 @@ hr {
  * ----------------------------
  */
 
+/* Modal Overlay */
+/* Full-screen backdrop; hidden class toggled by JS */
 .modal-overlay {
     position: fixed;
     inset: 0;
@@ -127,6 +136,7 @@ hr {
     display: none;
 }
 
+/* Modal */
 .modal {
     background: white;
     padding: 2rem;
@@ -142,7 +152,7 @@ hr {
     margin: 0 0 0.5rem;
 }
 
-/* Modal Form Inputs */
+/* Modal Inputs */
 .modal input,
 .modal textarea,
 .modal select {
@@ -155,13 +165,14 @@ hr {
     font-family: inherit;
 }
 
+/* Modal Actions */
 .modal-actions {
     display: flex;
     gap: 0.5rem;
     justify-content: flex-end;
 }
 
-/* Generic Form Button Styles */
+/* Form Buttons */
 .form-buttons {
     margin-top: 5px;
     padding: 5px;

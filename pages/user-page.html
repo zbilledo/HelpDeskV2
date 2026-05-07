@@ -20,29 +20,32 @@
 <body>
 
     <!-- Main Layout Container -->
+    <!-- Outer wrapper that holds the sidebar + main content in a flex/grid layout -->
     <div class="app-container">
 
-        <!-- Sidebar Injection Point -->
+        <!-- Sidebar injected dynamically by sidebar.js -->
         <nav id="sidebar"></nav>
 
         <!-- Main Content Area -->
         <div class="main">
 
-            <!-- Topbar Injection Point -->
+            <!-- Topbar injected dynamically by topbar.js -->
             <div id="topbar"></div>
 
             <!-- Page-Specific Content -->
             <div class="content">
 
-                <!-- User Management Page Header -->
+                <!-- Page title and description -->
                 <div class="page-header">
                     <div class="page-title">
                         <h1>Users</h1>
                         <p>Manage and view all users in the system</p>
                     </div>
+
+                    <!-- Header action controls -->
                     <div class="page-actions">
 
-                        <!-- View Toggle -->
+                        <!-- Toggle between table and grid display modes -->
                         <div class="view-toggle">
                             <button class="view-btn active" id="table-view-btn" title="Table View">
                                 <i class="fa-solid fa-table-list"></i>
@@ -55,6 +58,7 @@
                 </div>
 
                 <!-- Filter Tabs -->
+                <!-- Filter the user list by role; counts are populated by user-page.js -->
                 <div class="filter-tabs">
                     <button class="filter-tab active" data-filter="all">
                         All <span class="tab-count" id="count-all">0</span>
@@ -71,24 +75,28 @@
                 </div>
 
                 <!-- Search Bar -->
+                <!-- Live search input; filters by name, username, or email via user-page.js -->
                 <div class="search-bar">
                     <i class="fa-solid fa-magnifying-glass search-icon"></i>
                     <input type="text" id="user-search" placeholder="Search by name, username or email...">
                 </div>
 
                 <!-- Loading State -->
+                <!-- Shown while user data is being fetched from the backend -->
                 <div id="loading-state" class="loading-state">
                     <i class="fa-solid fa-spinner fa-spin"></i>
                     <p>Loading users...</p>
                 </div>
 
                 <!-- Empty State -->
+                <!-- Shown when the fetch returns no results or the search has no matches -->
                 <div id="empty-state" class="empty-state" style="display:none;">
                     <i class="fa-solid fa-users-slash"></i>
                     <p>No users found</p>
                 </div>
 
                 <!-- Table View -->
+                <!-- Default display mode; rows are injected into #table-body by user-page.js -->
                 <div id="table-view" class="table-view" style="display:none;">
                     <table class="users-table">
                         <thead>
@@ -99,14 +107,17 @@
                                 <th>Phone</th>
                                 <th>Role</th>
                                 <th>Joined</th>
+                                <!-- Actions column is only rendered for admin users -->
                                 <th class="admin-only">Actions</th>
                             </tr>
                         </thead>
+                        <!-- Populated dynamically; each row represents one user -->
                         <tbody id="table-body"></tbody>
                     </table>
                 </div>
 
                 <!-- Grid View -->
+                <!-- Alternative card-based layout; cards injected into #grid-body by user-page.js -->
                 <div id="grid-view" style="display:none;">
                     <div class="users-grid" id="grid-body"></div>
                 </div>
@@ -115,8 +126,8 @@
     </div>
 
     <!-- Frontend logic for components -->
-    <script type="module" src="/js/sidebar.js"></script>
-    <script type="module" src="/js/topbar.js"></script>
-    <script type="module" src="/js/user-page.js"></script>
+    <script type="module" src="/js/sidebar.js"></script> <!-- Renders and controls the sidebar -->
+    <script type="module" src="/js/topbar.js"></script> <!-- Renders and controls the topbar -->
+    <script type="module" src="/js/user-page.js"></script> <!-- Fetches users, handles filtering, search, and view toggling -->
 </body>
 </html>

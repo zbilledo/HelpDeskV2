@@ -4,23 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Help Desk - Home Page</title>
+
+    <!-- Favicon -->
     <link rel="icon" href="/assets/images/favicon.png">
+
+    <!-- Global and page-specific stylesheets -->
     <link rel="stylesheet" href="/css/global.css">
     <link rel="stylesheet" href="/css/home.css">
+
+    <!-- Google Fonts: DM Sans (body) and DM Serif Display (headings) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=DM+Serif+Display&display=swap" rel="stylesheet">
-    <script src="https://kit.fontawesome.com/d357d72767.js" crossorigin="anonymous"></script>
-    <style> .navbar { background: #133e5e; } </style>
 
+    <!-- Font Awesome icon kit -->
+    <script src="https://kit.fontawesome.com/d357d72767.js" crossorigin="anonymous"></script>
+
+    <!-- Override navbar background color for this page -->
+    <style> .navbar { background: #133e5e; } </style>
 </head>
 <body>
 
     <!-- Navbar -->
      <nav class="navbar">
         <div class="navbar-inner">
+
+            <!-- Logo / brand mark -->
             <div class="nav-logo">
                 <img src="/assets/images/GeminiHelpDeskLogo-Picsart-BackgroundRemover.png" alt="Help Desk Logo" class="nav-logo-img">
             </div>
+
+            <!-- Navigation links and auth buttons -->
             <div class="nav-links">
                 <a href="/pages/faq.html" class="nav-link">FAQ</a>
                 <a href="/pages/login-page.html" class="nav-btn secondary">Log in</a>
@@ -30,11 +43,15 @@
     </nav>
 
     <main>
+
         <!-- Main Landing Section -->
+        <!-- Primary call-to-action encouraging users to sign up or visit the FAQ -->
         <section class="landing">
             <div class="landing-inner">
                 <h1 class="landing-title">Needing Some <span class="landing-accent">Help?</span></h1>
                 <p class="landing-subtitle">Just a simple question? Ask our FAQ. If it's more complex, talk to an agent today!</p>
+                
+                <!-- CTA buttons: sign-up (primary) and FAQ link (secondary) -->
                 <div class="landing-btns">
                     <a href="/pages/user-registration.html" class="landing-btn primary">Get Started</a>
                     <a href="/pages/faq.html" class="landing-btn secondary">View FAQ <i class="fa-solid fa-arrow-right"></i></a>
@@ -43,25 +60,35 @@
         </section>
 
         <!-- How It Works Section -->
+        <!-- Three-step visual guide explaining the ticket submission process -->
         <section class="how-to">
             <div class="how2-inner">
                 <h2 class="how2-title">How it works</h2>
                 <p class="how2-subtitle">Get help in three simple steps</p>
                 <div class="steps-grid">
+                    <!-- Step 1: Account creation -->
                     <div class="step-card">
                         <div class="step-num">1</div>
                         <div class="step-icon"><i class="fa-solid fa-user-plus"></i></div>
                         <h3>Create An Account</h3>
                         <p>Sign up for free in under a minute. All you need is your name, email, and a password.</p>
                     </div>
+
+                    <!-- Arrow connector between steps -->
                     <div class="step-connector"><i class="fa-solid fa-arrow-right"></i></div>
+
+                    <!-- Step 2: Ticket submission -->
                     <div class="step-card">
                         <div class="step-num">2</div>
                         <div class="step-icon"><i class="fa-solid fa-ticket"></i></div>
                         <h3>Submit a Ticket</h3>
                         <p>Describe your issue, set a priority level, and submit. Our team gets notified right away.</p>
                     </div>
+
+                    <!-- Arrow connector between steps -->
                     <div class="step-connector"><i class="fa-solid fa-arrow-right"></i></div>
+
+                    <!-- Step 3: Issue resolution -->
                     <div class="step-card">
                         <div class="step-num">3</div>
                         <div class="step-icon"><i class="fa-solid fa-circle-check"></i></div>
@@ -73,36 +100,50 @@
         </section>
 
         <!-- Issue Categories Section -->
+        <!-- Grid of common support categories; each card links to FAQ or sign-up -->
         <section class="categories">
             <div class="categories-inner">
                 <h2 class="categories-title">What can we help you with?</h2>
                 <p class="categories-subtitle">Browse common issue types or submit a ticket for anything listed</p>
+
                 <div class="categories-grid">
+
+                    <!-- Category: Network & Connectivity -->
                     <a href="/pages/faq.html" class="category-card">
                         <div class="category-icon"><i class="fa-solid fa-wifi"></i></div>
                         <h3>Network & Connectivity</h3>
                         <p>Wi-Fi issues, VPN problems, slow connections, and network outages.</p>
                     </a>
+
+                    <!-- Category: Hardware -->
                     <a href="/pages/faq.html" class="category-card">
                         <div class="category-icon"><i class="fa-solid fa-desktop"></i></div>
                         <h3>Hardware</h3>
                         <p>Computer problems, printer issues, monitors, keyboards, and peripherals.</p>
                     </a>
+
+                    <!-- Category: Software & Apps -->
                     <a href="/pages/faq.html" class="category-card">
                         <div class="category-icon"><i class="fa-solid fa-code"></i></div>
                         <h3>Software & Apps</h3>
                         <p>Installation errors, crashes, updates, and application troubleshooting.</p>
                     </a>
+
+                    <!-- Category: Account & Access -->
                     <a href="/pages/faq.html" class="category-card">
                         <div class="category-icon"><i class="fa-solid fa-lock"></i></div>
                         <h3>Account & Access</h3>
                         <p>Login issues, password resets, permissions, and account management.</p>
                     </a>
+
+                    <!-- Category: Email & Communication -->
                     <a href="/pages/faq.html" class="category-card">
                         <div class="category-icon"><i class="fa-solid fa-envelope"></i></div>
                         <h3>Email & Communication</h3>
                         <p>Email setup, calendar sync, messaging tools, and communication apps.</p>
                     </a>
+
+                    <!-- Category: Other (routes to sign-up instead of FAQ) -->
                     <a href="/pages/user-registration.html" class="category-card">
                         <div class="category-icon"><i class="fa-solid fa-circle-question"></i></div>
                         <h3>Something Else</h3>
@@ -113,6 +154,7 @@
         </section>
 
         <!-- CTA Section -->
+        <!-- Bottom-of-page conversion prompt directing users to sales or FAQ -->
         <section class="cta">
             <div class="cta-inner">
                 <h2>Ready to get started?</h2>
@@ -126,8 +168,8 @@
     </main>
 
     <!-- Footer Component Insertion -->
+    <!-- Footer content is injected dynamically via footer.js -->
     <div id="footer"></div>
-
     <script type="module" src="/js/footer.js"></script>
 
 </body>

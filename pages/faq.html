@@ -1,15 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+    <!-- Basic Metadata -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Help Desk - FAQ</title>
+
+    <!-- Favicon -->
     <link rel="icon" href="/assets/images/favicon.png">
+
+    <!-- Stylesheets -->
     <link rel="stylesheet" href="/css/global.css">
     <link rel="stylesheet" href="/css/footer.css">
     <link rel="stylesheet" href="/css/faq.css">
+
+    <!-- Google Fonts: DM Sans (body) and DM Serif Display (headings) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=DM+Serif+Display&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for Icons -->
     <script src="https://kit.fontawesome.com/d357d72767.js" crossorigin="anonymous"></script>
     
 </head>
@@ -18,11 +28,15 @@
     <!-- Navbar -->
     <nav class="navbar">
         <div class="navbar-inner">
+
+            <!-- Logo links back to home -->
             <div class="nav-logo">
                 <a class="nav-link" href="/index.html">
                     <img src="/assets/images/GeminiHelpDeskLogo-Picsart-BackgroundRemover.png" alt="Help Desk Logo" class="nav-logo-img">
                 </a>
             </div>
+
+            <!-- Navigation links; FAQ omitted since the user is already on this page -->
             <div class="nav-links">
                 <a href="/index.html" class="nav-link">Home</a>
                 <a href="/pages/login-page.html" class="nav-btn secondary">Log in</a>
@@ -32,13 +46,19 @@
     </nav>
     
     <main>
+
+        <!-- FAQ Content -->
         <div class="page-container">
             <h1 class="page-title">Frequently Asked Questions</h1>
             <p class="page-subtitle">Find answers to common questions</p>
 
+            <!-- FAQ Item: each .faq-item contains a clickable question and a collapsible answer -->
+
+            <!-- Q: Ticket creation -->
             <div class="faq-item">
                 <div class="faq-question">
                     How do I create a support ticket?
+                    <!-- Chevron icon rotates when the answer is expanded (via .open class) -->
                     <i class="fa-solid fa-chevron-down faq-icon"></i>
                 </div>
                 <div class="faq-answer">
@@ -46,6 +66,7 @@
                 </div>
             </div>
 
+            <!-- Q: Sample placeholder (replace with real content) -->
             <div class="faq-item">
                 <div class="faq-question">
                     Sample Question
@@ -59,11 +80,15 @@
     </main>
     
     <!-- Footer Component Insertion -->
+     <!-- Footer content is injected dynamically via footer.js -->
     <div id="footer"></div>
 
-    <script type="module" src="/js/footer.js"></script>
+    <script type="module" src="/js/footer.js"></script> <!-- Renders the shared footer -->
+
     <script>
-        // FAQ accordion toggle
+        // Accordion toggle for each FAQ item.
+        // Clicking a question toggles the .open class on both the answer panel
+        // and the chevron icon, which CSS uses to expand/collapse and rotate respectively.
         document.querySelectorAll('.faq-question').forEach(question => {
             question.addEventListener('click', () => {
                 const answer = question.nextElementSibling;

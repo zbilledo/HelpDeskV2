@@ -4,7 +4,8 @@
  * Styles for the grid layout and buttons on the settings page.
  */
 
-/* Grid container for settings items */
+/* Grid Container */
+/* Legacy grid layout; largely superseded by .settings-container below */
 .grid-container {
     box-sizing: border-box;
     padding: 16px;
@@ -17,7 +18,7 @@
     justify-content: center;
 }
 
-/* Individual item box in the settings grid */
+/* Grid Item */
 .grid-item {
     background-color: #133e5e;
     display: flex;
@@ -27,7 +28,8 @@
     border-radius: 5px;
 }
 
-/* Outer Container Styling */
+/* Settings Container */
+/* max-width constrains the settings layout to a readable width on wide screens */
 .settings-container {
     padding: 2rem;
     max-width: 800px;
@@ -37,29 +39,28 @@
     justify-content: center;
 }
 
-/* Styling for 'Settings' header */
+/* Settings Header */
 .settings-header h1 {
     font-size: 1.8rem;
     color: #133e5e;
     margin: 0 0 0.25rem 0;
 }
 
-/* Styling for 'Settings' header description text */
 .settings-header p {
     color: #666;
     margin: 0;
     font-size: 0.95rem;
 }
 
-
-/** Section Titles Styling **/
-
+/* Settings Section */
 .settings-section {
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
 }
 
+/* Section Title */
+/* Icon + heading row using flex gap */
 .section-title {
     display: flex;
     align-items: center;
@@ -73,7 +74,8 @@
     font-weight: 600;
 }
 
-/* Settings Card Styling */
+/* Settings Card */
+/* overflow:hidden clips child rows to the card's rounded corners */
 .settings-card {
     background: #fff;
     border-radius: 0.75rem;
@@ -82,7 +84,8 @@
     border: 1px solid #e5e7eb;
 }
 
-/* Individual Setting Row Styling */
+/* Settings Row */
+/* Space-between row pairs the label/description on the left with the control on the right */
 .settings-row {
     display: flex;
     align-items: center;
@@ -92,37 +95,35 @@
     gap: 1rem;
 }
 
-/* Last Child in section Styling*/
+/* Last Settings Row */
+/* Removes the bottom border on the last row to avoid a double-border with the card edge */
 .settings-row:last-child {
     border-bottom: none;
 }
 
-
-/** Setting Label and Description Styling **/
-
+/* Settings Info */
+/* Stacked label + description column on the left side of each row */
 .settings-info {
     display: flex;
     flex-direction: column;
     gap: 0.2rem;
 }
 
-/* Styling for Label Title */
+/* Settings Label */
 .settings-label {
     font-weight: 500;
     color: #1a1a1a;
     font-size: 0.95rem;
 }
 
-/* Styling for Setting description*/
+/* Settings Description */
 .settings-desc {
     font-size: 0.8rem;
     color: #888;
 }
 
-
-/** Text Input **/
-
-/* Styling for Settings Input Box */
+/* Settings Input */
+/* Fixed width keeps all inputs aligned regardless of content length */
 .settings-input {
     border: 1px solid #d1d5db;
     border-radius: 0.5rem;
@@ -137,29 +138,32 @@
     box-sizing: border-box;
 }
 
-/* Highlights Input Box when Selected */
+/* Settings Input Focus */
 .settings-input:focus {
     border-color: #133e5e;
     box-shadow: 0 0 0 3px rgba(19, 62, 94, 0.1);
 }
 
-
-/** Toggle Button **/
-
+/* Toggle */
+/* Custom checkbox toggle; the real input is hidden and the slider is styled instead */
 .toggle {
     position: relative;
     display: inline-block;
     width: 48px;
     height: 26px;
-    flex-shrink: 0;
+    flex-shrink: 0; /* Prevents the toggle from being squished in narrow rows */
 }
 
+/* Hidden Checkbox */
+/* Visually hidden but still interactive for accessibility */
 .toggle input {
     opacity: 0;
     width: 0;
     height: 0;
 }
 
+/* Toggle Slider */
+/* The pill-shaped track; transitions from grey to brand color when checked */
 .toggle-slider {
     position: absolute;
     cursor: pointer;
@@ -172,6 +176,8 @@
     transition: background-color 0.3s ease;
 }
 
+/* Toggle Knob */
+/* The white circle that slides across the track */
 .toggle-slider:before {
     position: absolute;
     content: "";
@@ -184,17 +190,19 @@
     transition: transform 0.3s ease;
 }
 
+/* Toggle Checked State */
 .toggle input:checked + .toggle-slider {
     background-color: #133e5e;
 }
 
+/* Toggle Knob Checked Position */
+/* translateX slides the knob to the right end of the track */
 .toggle input:checked + .toggle-slider:before {
     transform: translateX(22px);
 }
 
-
-/** Save Button **/
-
+/* Settings Footer */
+/* Right-aligned row for the save status message and action buttons */
 .settings-footer {
     display: flex;
     justify-content: flex-end;
@@ -203,6 +211,8 @@
     padding-bottom: 2rem;
 }
 
+/* Save Status */
+/* Invisible by default; .visible class fades it in for 3 seconds via JS */
 .save-status {
     font-size: 0.9rem;
     color: #2e7d32;
@@ -215,6 +225,7 @@
     opacity: 1;
 }
 
+/* Save Button */
 .save-btn {
     background-color: #133e5e;
     color: white;
@@ -235,12 +246,16 @@
 }
 
 /* Profile Picture Control */
+/* Flex row grouping the preview circle and upload button */
 .profile-pic-control {
     display: flex;
     align-items: center;
     gap: 0.75rem;
     flex-shrink: 0;
 }
+
+/* Delete Button */
+/* Matches save button styling; color distinction handled by JS confirmation prompt */
 .delete-btn {
     background-color: #133e5e;
     color: white;
@@ -260,7 +275,8 @@
     background-color: #1a5276;
 }
 
-
+/* Profile Picture Preview */
+/* Circular preview area; overflow:hidden clips the image to the circle */
 .profile-pic-preview {
     width: 52px;
     height: 52px;
@@ -281,11 +297,15 @@
     border-radius: 50%;
 }
 
+/* Profile Picture Placeholder */
+/* Icon shown when no profile picture has been uploaded */
 .profile-pic-placeholder {
     color: #aaa;
     font-size: 1.2rem;
 }
 
+/* Profile Picture Upload Button */
+/* Label styled as a button; clicking it triggers the hidden file input */
 .profile-pic-upload-btn {
     display: inline-flex;
     align-items: center;
@@ -307,12 +327,15 @@
     background: #f0f4f8;
 }
 
-/* Hide placeholder when image is loaded */
+/* Hide Broken Preview Image */
+/* Hides the <img> when src is the default "#" placeholder or missing entirely */
 .profile-pic-preview img[src="#"],
 .profile-pic-preview img:not([src]) {
     display: none !important;
 }
 
+/* Show Valid Preview Image */
+/* Reveals and sizes the <img> once a real src is set */
 .profile-pic-preview img[src]:not([src="#"]) {
     display: block !important;
     width: 100%;
@@ -322,17 +345,19 @@
 }
 
 /* Pronouns Select */
+/* appearance:none removes the native dropdown arrow so a custom SVG arrow can be used */
 .settings-select {
     appearance: none;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23888' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: right 0.75rem center;
-    padding-right: 2rem;
+    padding-right: 2rem; /* Makes room for the custom arrow */
     cursor: pointer;
     font-family: inherit;
 }
 
 /* Coming Soon Notice */
+/* Placeholder row shown in sections that are not yet implemented */
 .settings-coming-soon {
     display: flex;
     align-items: center;
@@ -347,7 +372,8 @@
     flex-shrink: 0;
 }
 
-/* Hide create ticket button */
+/* Hide Create Ticket Button */
+/* Ticket creation is not available on the settings page */
 #create-ticket-btn {
     display: none;
 }

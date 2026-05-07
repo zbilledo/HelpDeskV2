@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
     <!-- Basic Metadata -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Help Desk - Reset Password</title>
+
+    <!-- Favicon -->
     <link rel="icon" href="/assets/images/favicon.png">
 
     <!-- Stylesheets -->
@@ -18,11 +21,15 @@
     <!-- Navbar -->
     <nav class="navbar">
         <div class="navbar-inner">
+
+            <!-- Logo links back to home -->
             <div class="nav-logo">
                 <a class="nav-link" href="/index.html">
                     <img src="/assets/images/GeminiHelpDeskLogo-Picsart-BackgroundRemover.png" alt="Help Desk Logo" class="nav-logo-img">
                 </a>
             </div>
+
+            <!-- Navigation links; Forgot Password omitted since the user is already on this page -->
             <div class="nav-links">
                 <a href="/index.html" class="nav-link">Home</a>
                 <a href="/pages/faq.html" class="nav-link">FAQ</a>
@@ -33,27 +40,31 @@
     </nav>
 
     <main>
+
         <!-- Reset Page Container -->
         <div id="forgot-container" class="forgot-container">
-            <!-- Reset Modal Box -->
+            
+            <!-- Centered modal card housing the form -->
             <div class="forgot-modal">
                 <h2>Forgot Password</h2>
                 
-                <!-- Forgot PW Credentials Form -->
+                <!-- Forgot password form; submission sends a reset email via Supabase (forgot-pw.js) -->
                 <form id="forgot-form">
+
+                    <!-- Email input used to look up the account and send the reset link -->
                     <label for="email">Enter Email:</label>
                     <input type="text" id="email" placeholder="Email" required/>
                                     
-                    <!-- Placeholder for reset error messages -->
+                    <!-- Error message shown if the email is not found or the request fails; hidden by default -->
                     <p id="error-msg" style="color:red; display:none;">Invalid credentials</p>
                     
-                    <!-- Submit button -->
+                    <!-- Confirm and sign-up buttons displayed side by side -->
                     <div class="text-row">
-                        <!-- Confirm Email -->
+                        <!-- Submits the email and triggers the password reset flow -->
                         <div class="text-field">
                             <button class="form-buttons" type="submit">Confirm</button>
                         </div>
-                        <!-- Link to Sign Up Page -->
+                        <!-- Redirects to the registration page; handled by forgot-pw.js -->
                         <div class="text-field">
                             <button class="form-buttons" id="sign-up-button">Sign Up</button>
                         </div>
@@ -63,12 +74,14 @@
         </div>
     </main>
 
+    <!-- Footer Logic -->
+    <!-- Footer content is injected dynamically via footer.js -->
     <div id="footer"></div>
 
     <!-- Forgot PW Authentication Logic -->
-    <script type="module" src="/js/supabase.js"></script>
-    <script type="module" src="/js/footer.js"></script>
-    <script type="module" src="/js/forgot-pw.js"></script>
+    <script type="module" src="/js/supabase.js"></script> <!-- Initializes the Supabase client for authentication -->
+    <script type="module" src="/js/footer.js"></script> <!-- Renders the shared footer -->
+    <script type="module" src="/js/forgot-pw.js"></script> <!-- Handles form submission and password reset email logic -->
 
 </body>
 </html>

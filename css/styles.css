@@ -4,53 +4,63 @@
  * Contains base styles, layout containers, and shared typography.
  */
 
+/* Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Inclusive+Sans&display=swap');
 
-/* Base page styles */
+/* Base Body */
 body {
     margin: 0;
     background-color: #e9f0f3;
     font-family: "Inclusive Sans", sans-serif;
 }
 
-/* Main app layout container */
+/* App Container */
+/* Full-height flex row that holds the sidebar and main content side by side */
 .app-container {
     min-height: 100vh;
-    min-height: 100dvh;
+    min-height: 100dvh; /* dvh overrides vh on mobile to account for dynamic browser chrome */
     display: flex;
     margin: 0;
 }
 
-/* Main content area (beside the sidebar) */
+/* Main */
+/* Flexible column that fills all remaining width beside the sidebar */
 .main {
     display: flex;
     flex-direction: column;
     flex: 1;
 }
 
-/* Inner content padding */
+/* Content */
+/* Inner padding wrapper for page-specific content */
 .content {
     box-sizing: border-box;
     padding: 16px;
 }
 
+/* Role-Based Visibility */
+/* All role-specific elements are hidden by default; only revealed when the
+   matching role class is applied to <body> by utils.js on page load */
 .admin-only,
 .employee-only,
 .client-only {
     display: none;
 }
 
+/* Admin sees all sections */
 body.role-admin .admin-only,
 body.role-admin .employee-only,
 body.role-admin .client-only {
     display: block;
 }
 
+/* Employee sees employee and client sections */
 body.role-employee .employee-only,
 body.role-employee .client-only {
     display: block;
 }
 
+/* Client sees only client sections */
 body.role-client .client-only {
     display: block;
 }

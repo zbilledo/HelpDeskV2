@@ -4,6 +4,8 @@
  * Styles for the ticket container and individual ticket cards.
  */
 
+/* Ticket Container */
+/* Dark blue column layout that wraps all ticket content */
 #ticket-container {
   display: flex;
   flex-direction: column;
@@ -14,6 +16,7 @@
 }
 
 /* Toolbar */
+/* Space-between row keeps sort controls left and filter button right */
 .ticket-toolbar {
   display: flex;
   align-items: center;
@@ -45,6 +48,7 @@
   font-size: 0.9rem;
 }
 
+/* Filter Toggle Button */
 .filter-toggle-btn {
   background-color: #1976d2;
   color: white;
@@ -60,6 +64,8 @@
   background-color: #1565c0;
 }
 
+/* Filter Popup Overlay */
+/* Full-screen fixed overlay; .hidden toggled by JS */
 .filter-popup {
   position: fixed;
   inset: 0;
@@ -73,12 +79,16 @@
   display: none;
 }
 
+/* Filter Backdrop */
+/* Semi-transparent backdrop behind the panel; clicking it closes the popup */
 .filter-popup-backdrop {
   position: absolute;
   inset: 0;
   background: rgba(0, 0, 0, 0.45);
 }
 
+/* Filter Panel */
+/* Centered white card; min() keeps it from touching screen edges on small viewports */
 .filter-popup-panel {
   position: relative;
   z-index: 1;
@@ -89,6 +99,7 @@
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
 }
 
+/* Filter Panel Header */
 .filter-popup-header {
   display: flex;
   align-items: center;
@@ -103,6 +114,7 @@
   color: #133e5e;
 }
 
+/* Close Filter Button */
 .close-filter-btn {
   background: transparent;
   border: none;
@@ -112,13 +124,14 @@
   cursor: pointer;
 }
 
-/* Date Filter Controls */
+/* Filter Controls */
 .filter-controls {
   display: grid;
   gap: 16px;
   margin-bottom: 10px;
 }
 
+/* Filter Section */
 .filter-section {
   display: grid;
   gap: 12px;
@@ -130,6 +143,8 @@
   color: #133e5e;
 }
 
+/* Filter Category */
+/* Light blue card grouping related filter options */
 .filter-category {
   display: grid;
   gap: 10px;
@@ -145,6 +160,8 @@
   color: #0f3e72;
 }
 
+/* Date Filter Fields */
+/* White inset card inside the category for date-specific inputs */
 .date-filter-fields {
   display: grid;
   gap: 14px;
@@ -154,12 +171,16 @@
   border-radius: 10px;
 }
 
+/* Filter Item List */
+/* Wrapping row of filter mode buttons */
 .filter-item-list {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
 }
 
+/* Filter Item Button */
+/* Ghost button; fills blue when hovered or active */
 .filter-item-btn {
   background: #ffffff;
   border: 1px solid #d1d9e6;
@@ -178,11 +199,14 @@
   color: #ffffff;
 }
 
+/* Filter Checkbox List */
+/* Stacked column of labeled checkbox items */
 .filter-checkbox-list {
   display: grid;
   gap: 8px;
 }
 
+/* Filter Checkbox Label */
 .filter-checkbox-label {
   display: inline-flex;
   align-items: center;
@@ -206,6 +230,7 @@
   border-color: #1976d2;
 }
 
+/* Filter Fields */
 .filter-fields {
   display: grid;
   gap: 14px;
@@ -215,6 +240,8 @@
   border-radius: 10px;
 }
 
+/* Filter Group */
+/* Label + input pair used for date and select filters */
 .filter-group {
   display: flex;
   flex-direction: column;
@@ -228,6 +255,8 @@
   white-space: normal;
 }
 
+/* Filter Select and Input */
+/* Shared base styles; .filter-input overrides cursor to text */
 .filter-select,
 .filter-input {
   background-color: #ffffff;
@@ -245,6 +274,7 @@
   cursor: text;
 }
 
+/* Filter Action Row */
 .filter-action-row {
   display: flex;
   gap: 10px;
@@ -252,6 +282,8 @@
   flex-wrap: wrap;
 }
 
+/* Filter Help */
+/* Placeholder shown when no date filter mode is selected */
 .filter-help {
   padding: 14px;
   background: #f7f9fd;
@@ -261,17 +293,20 @@
   font-size: 0.95rem;
 }
 
+/* Disabled Filter Select */
 .filter-select:disabled {
   background-color: #e0e0e0;
   cursor: not-allowed;
   opacity: 0.6;
 }
 
+/* Filter Select and Input Hover */
 .filter-select:hover:not(:disabled),
 .filter-input:hover:not(:disabled) {
   border-color: #0066cc;
 }
 
+/* Filter Select and Input Focus */
 .filter-select:focus,
 .filter-input:focus {
   outline: none;
@@ -279,6 +314,8 @@
   box-shadow: 0 0 8px rgba(0, 102, 204, 0.3);
 }
 
+/* Apply and Clear Filter Buttons */
+/* Shared base; user-select:none prevents text highlighting on rapid clicks */
 .apply-filter-btn,
 .clear-filter-btn {
   padding: 8px 16px;
@@ -292,6 +329,7 @@
   user-select: none;
 }
 
+/* Apply Filter Button */
 .apply-filter-btn {
   background-color: #4caf50;
   color: white;
@@ -303,11 +341,13 @@
   transform: translateY(-1px);
 }
 
+/* Press effect */
 .apply-filter-btn:active {
   transform: translateY(0);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
+/* Clear Filter Button */
 .clear-filter-btn {
   background-color: #666;
   color: white;
@@ -319,18 +359,21 @@
   transform: translateY(-1px);
 }
 
+/* Press effect */
 .clear-filter-btn:active {
   transform: translateY(0);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
+/* Disabled State */
 .apply-filter-btn:disabled,
 .clear-filter-btn:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
 
-/* Responsive filter controls for smaller screens */
+/* Responsive Filter Controls */
+/* Stack filter controls vertically and stretch inputs full-width below 768px */
 @media (max-width: 768px) {
   .filter-controls {
     flex-direction: column;
@@ -355,14 +398,15 @@
   }
 }
 
+/* Tickets List */
 #tickets-list {
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
 
-
-/* Individual Ticket Card Styling */
+/* Ticket Card */
+/* Left border color is overridden by priority data attributes below */
 .ticket-card {
   display: flex;
   flex-direction: row;
@@ -375,7 +419,8 @@
   border-left: 5px solid #133e5e;
 }
 
-/* Ticket List Title */
+/* Ticket Title */
+/* clamp() scales the font size between 1rem and 1.7rem based on viewport width */
 .ticket-title {
   font-size: clamp(1rem, 2vw, 1.7rem);
   font-weight: bold;
@@ -383,7 +428,8 @@
   color: white;
 }
 
-/* Empty State Message Styling */
+/* No Tickets */
+/* Empty state shown when no tickets match the current filter */
 .no-tickets {
   color: white;
   font-size: clamp(0.9rem, 2vw, 1.2rem);
@@ -406,7 +452,8 @@
   color: #555;
 }
 
-/* Action Button for Deleting Tickets */
+/* Ticket Action Buttons */
+/* Shared base for all ticket action buttons; ensures consistent height and min-width */
 .delete-ticket-btn,
 .status-btn,
 .assign-btn,
@@ -424,6 +471,7 @@
   transition: all 0.2s ease;
 }
 
+/* Delete Button */
 .delete-ticket-btn {
   background-color: #ff4444;
   color: white;
@@ -435,6 +483,7 @@
   background-color: #ff3e00;
 }
 
+/* Press Effect */
 .delete-ticket-btn:active,
 .status-btn:active,
 .apply-filter-btn:active,
@@ -442,27 +491,28 @@
   transform: translateY(1px);
 }
 
-/* Actions container and Status button */
+/* Ticket Actions */
+/* Column of action buttons aligned to the right of each ticket card */
 .ticket-actions {
   display: flex;
   flex-direction: column;
   gap: 8px;
   align-items: flex-end;
 }
+
+/* Status Button */
 .status-btn {
   background: #1976d2;
   color: #fff;
   border: none;
 }
+
 .status-btn:hover {
   background: #1565c0;
 }
 
-/* 
- * Priority-Based Styling 
- * Updates border and text colors based on ticket priority levels.
- */
-
+/* Priority Border Colors */
+/* Left border color indicates ticket priority at a glance */
 .ticket-card[data-priority="low"] {
   border-left-color: green;
 }
@@ -475,6 +525,8 @@
   border-left-color: red;
 }
 
+/* Priority Text Colors */
+/* Priority field text matches its border color for visual consistency */
 .ticket-card p[data-priority="low"] {
   color: green;
 }
@@ -487,22 +539,25 @@
   color: red;
 }
 
-/* Custom scrollbar styling for the ticket container */
+/* Scrollbar */
 #ticket-container::-webkit-scrollbar {
   width: 8px;
 }
 
+/* Scrollbar Track */
 #ticket-container::-webkit-scrollbar-track {
   background: rgba(255, 255, 255, 0.1);
   border-radius: 8px;
 }
 
+/* Scrollbar Thumb */
 #ticket-container::-webkit-scrollbar-thumb {
   background: #ffffff;
   border-radius: 8px;
 }
 
 /* Closed Tickets Section */
+/* Separated from active tickets by a white top border */
 .closed-tickets-section {
   margin-top: 40px;
   padding-top: 20px;
@@ -522,6 +577,8 @@
   gap: 12px;
 }
 
+/* Closed Ticket Card */
+/* Grey left border distinguishes closed tickets from active priority-colored ones */
 .closed-ticket-card {
   background-color: #ffffff;
   border-radius: 8px;
@@ -530,6 +587,7 @@
   border-left: 4px solid #cccccc;
 }
 
+/* Closed Ticket Header */
 .closed-ticket-header {
   display: flex;
   justify-content: space-between;
@@ -543,12 +601,14 @@
   font-size: 1.1rem;
 }
 
+/* Closed Date */
 .closed-date {
   color: #666666;
   font-size: 0.9rem;
   font-style: italic;
 }
 
+/* Closed Ticket Details */
 .closed-ticket-details p {
   margin: 5px 0;
   color: #333333;

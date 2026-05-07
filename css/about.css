@@ -1,10 +1,15 @@
-/** About Company Page Styling */
+/* About Company Page Styles */
+
+/* Page Container */
+/* Centered max-width wrapper with generous padding for readability */
 .page-container {
     max-width: 750px;
     margin: 0 auto;
     padding: 4rem 2rem;
 }
 
+/* Page Title */
+/* DM Serif Display gives the heading a distinct editorial feel */
 .page-title {
     font-family: 'DM Serif Display', serif;
     font-size: 2.2rem;
@@ -12,12 +17,15 @@
     margin-bottom: 0.5rem;
 }
 
+/* Page Subtitle */
 .page-subtitle {
     color: #666;
     font-size: 0.95rem;
     margin-bottom: 3rem;
 }
 
+/* About Section */
+/* Each content block gets a brand-colored left accent border */
 .about-section {
     background: #fff;
     border: 1px solid #e5e7eb;
@@ -40,13 +48,16 @@
     line-height: 1.7;
 }
 
+/* Team Grid */
+/* auto-fit + minmax creates as many columns as will fit above 160px */
 .team-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(160px,1fr));
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
     gap: 1rem;
     margin-top: 1rem;
 }
 
+/* Team Card */
 .team-card {
     background: #f8fafc;
     border-radius: 0.5rem;
@@ -55,6 +66,8 @@
     border: 1px solid #e5e7eb;
 }
 
+/* Team Avatar */
+/* Initials-based circle; no profile images used */
 .team-avatar {
     width: 48px;
     height: 48px;
@@ -69,12 +82,14 @@
     margin: 0 auto 0.75rem;
 }
 
+/* Team Name */
 .team-name {
     font-size: 0.85rem;
     font-weight: 500;
     color: #133e5e;
 }
 
+/* Team Role */
 .team-role {
     font-size: 0.75rem;
     color: #888;

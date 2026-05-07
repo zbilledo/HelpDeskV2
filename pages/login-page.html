@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
     <!-- Basic Metadata -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Help Desk - Login</title>
+
+    <!-- Favicon -->
     <link rel="icon" href="/assets/images/favicon.png">
 
     <!-- Stylesheets -->
@@ -18,11 +21,15 @@
     <!-- Navbar -->
     <nav class="navbar">
         <div class="navbar-inner">
+
+            <!-- Logo links back to home -->
             <div class="nav-logo">
                 <a class="nav-link" href="/index.html">
                     <img src="/assets/images/GeminiHelpDeskLogo-Picsart-BackgroundRemover.png" alt="Help Desk Logo" class="nav-logo-img">
                 </a>
             </div>
+
+            <!-- Navigation links; Log in omitted since the user is already on this page -->
             <div class="nav-links">
                 <a href="/index.html" class="nav-link">Home</a>
                 <a href="/pages/faq.html" class="nav-link">FAQ</a>
@@ -32,35 +39,41 @@
     </nav>
 
     <main>
+
         <!-- Login Page Container -->
         <div id="login-container" class="login-container">
-            <!-- Login Modal Box -->
+
+            <!-- Centered modal card housing the form -->
             <div class="login-modal">
                 <h2>Login</h2>
                 
-                <!-- Login Credentials Form -->
+                <!-- Login form; submission and authentication handled by login-page.js via Supabase -->
                 <form id="login-form">
+
+                    <!-- Accepts either a username or email address -->
                     <label for="username">Username or Email:</label>
                     <input type="text" id="username" placeholder="Username or Email" required/>
                     
                     <label for="password">Password:</label>
                     <input type="password" id="password" placeholder="Password" required/>
                     
-                    <!-- Placeholder for login error messages -->
+                    <!-- Error message shown on failed login attempt; hidden by default -->
                     <p id="error-msg" style="color:red; display:none;">Invalid credentials</p>
                     
-                    <!-- Login/Signup/Forgot Password buttons -->
+                    <!-- Login and sign-up buttons displayed side by side -->
                     <div class="text-row">
                         <!-- Confirm Login -->
                         <div class="text-field">
                             <button class="form-buttons" type="submit">Login</button>
                         </div>
-                        <!-- Link to Sign Up Page -->
+
+                        <!-- Redirects to the registration page; handled by login-page.js -->
                         <div class="text-field">
                             <button class="form-buttons" id="sign-up-button">Sign Up</button>
                         </div>
                     </div>
-                    <!-- Link to forgot password form -->
+
+                    <!-- Redirects to the forgot password flow -->
                     <a href="/pages/forgot-pw.html" class="nav-link" style="align-self: center; padding: 8px;">Forgot Password?</a>
 
                 </form>
@@ -69,11 +82,13 @@
     </main>
 
     <!-- Footer Component Insertion -->
+    <!-- Footer content is injected dynamically via footer.js -->
     <div id="footer"></div>
 
     <!-- Login Authentication Logic -->
-    <script type="module" src="/js/footer.js"></script>
-    <script type="module" src="/js/supabase.js"></script>
-    <script type="module" src="/js/login-page.js"></script>
+    <script type="module" src="/js/footer.js"></script> <!-- Renders the shared footer -->
+    <script type="module" src="/js/supabase.js"></script> <!-- Initializes the Supabase client for authentication -->
+    <script type="module" src="/js/login-page.js"></script>  <!-- Handles form submission, auth logic, and redirects -->
+
 </body>
 </html>

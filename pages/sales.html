@@ -1,28 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+    <!-- Basic Metadata -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Help Desk - Sales Page</title>
+
+    <!-- Favicon -->
     <link rel="icon" href="/assets/images/favicon.png">
+
+    <!-- Global and Page-Specific Stylesheets -->
     <link rel="stylesheet" href="/css/global.css">
     <link rel="stylesheet" href="/css/sales.css">
+
+    <!-- Google Fonts: DM Sans (body) and DM Serif Display (headings) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=DM+Serif+Display&display=swap" rel="stylesheet">
-    <script src="https://kit.fontawesome.com/d357d72767.js" crossorigin="anonymous"></script>
-    <style> .navbar { background: #133e5e; } </style>
 
+    <!-- Font Awesome for Icons -->
+    <script src="https://kit.fontawesome.com/d357d72767.js" crossorigin="anonymous"></script>
+
+    <!-- Override navbar background color for this page -->
+    <style> .navbar { background: #133e5e; } </style>
 </head>
 <body>
 
     <!-- Navbar -->
     <nav class="navbar">
         <div class="navbar-inner">
+
+            <!-- Logo links back to home -->
             <div class="nav-logo">
                 <a class="nav-link" href="/index.html">
                     <img src="/assets/images/GeminiHelpDeskLogo-Picsart-BackgroundRemover.png" alt="Help Desk Logo" class="nav-logo-img">
                 </a>
             </div>
+
+            <!-- Navigation links; no active state needed since this is a standalone marketing page -->
             <div class="nav-links">
                 <a href="/pages/about.html" class="nav-link">About</a>
                 <a href="/pages/login-page.html" class="nav-btn secondary">Log in</a>
@@ -32,7 +47,9 @@
     </nav>
 
     <main>
+
         <!-- Main Landing Section -->
+        <!-- Introductory headline; no CTA buttons here, page flows directly into the sales form -->
         <section class="landing">
             <div class="landing-inner">
                 <h1 class="landing-title">Get Your Team Started <span class="landing-accent">Today</span></h1>
@@ -45,14 +62,22 @@
             <div class="sales-inner">
                 <h2>Our Sales Advisors are Here to Help</h2>
                 <p>Fill out our form and let the best solution come to you!</p>
+
+                <!-- Sales inquiry form; submission handled by footer.js or inline logic -->
                 <form class="sales-form" id="sales-form">
                     <div class="sales-row">
+
+                        <!-- Contact and company details -->
                         <input type="text" placeholder="First Name" required class="sales-input">
                         <input type="text" placeholder="Last Name" required class="sales-input">
                         <input type="email" placeholder="Work Email" required class="sales-input">
                         <input type="text" placeholder="Company Name" required class="sales-input">
+
+                        <!-- Full-width company size field -->
                         <input type="text" placeholder="What is the size of your company?" required class="sales-input full">
                         <button type="submit" class="sales-btn">Get Started<i class="fa-solid fa-arrow-right"></i></button>
+
+                        <!-- Success message shown after valid form submission; hidden by default -->
                         <p id="sales-success" style="display: none; color: #22c55e; text-align: center; margin-top: 1rem;">
                             <i class="fa-solid fa-circle-check"></i> Thank you! We will be reaching out soon!
                         </p>
@@ -61,7 +86,8 @@
             </div>
         </section>
 
-         <!-- CTA Section -->
+        <!-- CTA Section -->
+        <!-- Bottom-of-page prompt directing undecided visitors to learn more or check the FAQ -->
         <section class="cta">
             <div class="cta-inner">
                 <h2>Have Questions?</h2>
@@ -75,6 +101,7 @@
     </main>
 
     <!-- Footer Component Insertion -->
+    <!-- Footer content is injected dynamically via footer.js -->
     <div id="footer"></div>
 
     <script type="module" src="/js/footer.js"></script>

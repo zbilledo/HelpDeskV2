@@ -5,9 +5,10 @@
 
 import { PriorityFilter, DateFilter } from '/js/tag-filtering.js';
 
+/** State */
 let tickets = [];
 let currentSort = 'priority'; // 'priority', 'oldest', 'newest'
-let filterMode = 'none'; // 'none', 'month-year', 'year', 'date-range'
+let filterMode = 'none';      // 'none', 'month-year', 'year', 'date-range'
 let selectedYear = null;
 let selectedMonth = null;
 let dateRangeStart = null;
@@ -15,18 +16,17 @@ let dateRangeEnd = null;
 let selectedStatuses = new Set();
 let selectedPriorities = new Set();
 let selectedDepartments = new Set();
-let renderTimeout = null; // Debounce for filter renders
-let users = []; // Store available users for assignment
+let renderTimeout = null; // Debounce timer for filter re-renders
+let users = [];           // Available users for ticket assignment
 
-/**
- * Fetches all tickets from the server and updates the UI.
- */
+/** Fetch Tickets */
+// Fetches all tickets from the server, filters out closed ones, and triggers a render
 async function fetchTickets() {
   try {
     const response = await fetch("/getTickets");
     if (response.ok) {
       const allTickets = await response.json();
-      // Filter out closed tickets for the dashboard
+      // Exclude closed tickets from the dashboard view
       tickets = allTickets.filter(ticket => ticket.status !== 'closed');
       if (document.getElementById("tickets-list")) {
         renderTicketCards(tickets);
@@ -39,9 +39,8 @@ async function fetchTickets() {
   }
 }
 
-/**
- * Fetches all users from the server for assignment purposes.
- */
+/** Fetch Users */
+// Fetches all users from the server and stores them for use in the assignment modal
 async function fetchUsers() {
   try {
     const response = await fetch("/getUsers");
@@ -53,11 +52,10 @@ async function fetchUsers() {
   }
 }
 
-/**
- * Applies date filters to tickets based on current filter settings.
- * @param {Array} tickets - Array of ticket objects to filter.
- * @returns {Array} Filtered tickets.
- */
+/** Available Filter Options */
+// Each function derives a unique sorted list of values from the current ticket set
+// so filter checkboxes always reflect only what's present in the data
+
 function getAvailableStatuses(tickets) {
   return [...new Set(tickets.map((ticket) => ticket.status || 'pending'))].sort();
 }
@@ -70,6 +68,9 @@ function getAvailableDepartments(tickets) {
   return [...new Set(tickets.map((ticket) => ticket.department || 'General'))].sort();
 }
 
+/** Apply Filters */
+// Applies the active date filter mode and any checked status/priority/department
+// filters to the ticket array, returning only matching tickets
 function applyFilters(tickets) {
   let filtered = tickets;
   const dateFilter = new DateFilter();
@@ -98,11 +99,9 @@ function applyFilters(tickets) {
   return filtered;
 }
 
-/**
- * Sorts the tickets based on the current sort mode.
- * @param {Array} tickets - Array of ticket objects to sort.
- * @returns {Array} Sorted tickets.
- */
+/** Sort Tickets */
+// Sorts a copy of the ticket array by the current sort mode.
+// Uses PriorityFilter for priority sorting, falls back to ID order for date sorts.
 function sortTickets(tickets) {
   const sorted = [...tickets];
   if (currentSort === 'priority') {
@@ -117,20 +116,19 @@ function sortTickets(tickets) {
   return sorted;
 }
 
-/**
- * Renders only the filter controls (without re-rendering tickets)
- * @param {Array} tickets - Array of all ticket objects (for getting available years/months)
- */
+/** Render Filter Controls */
+// Builds and injects the filter panel HTML into #filter-popup-content.
+// Called separately from renderTicketCards so filters can update without
+// re-rendering the entire ticket list.
 function renderFilterControls(tickets) {
   const filtersContainer = document.getElementById("filter-popup-content");
-  if (!filtersContainer) return; // Container doesn't exist yet
+  if (!filtersContainer) return;
 
-  // Get available years for filter dropdown
   const dateFilter = new DateFilter();
   dateFilter.setItems(tickets);
   const availableYears = dateFilter.getAvailableYears();
-  
-  // Get available months if a year is selected
+
+  // Only populate months if a year has been selected
   let availableMonths = [];
   if (selectedYear) {
     availableMonths = dateFilter.getAvailableMonths(selectedYear);
@@ -139,7 +137,6 @@ function renderFilterControls(tickets) {
   const availableStatuses = getAvailableStatuses(tickets);
   const availablePriorities = getAvailablePriorities(tickets);
 
-  // Build filter controls HTML
   let filterHTML = `
     <div class="filter-controls">
       <div class="filter-section">
@@ -228,6 +225,7 @@ function renderFilterControls(tickets) {
         </div>
       </div>`;
 
+  // Only show Apply/Clear buttons if a filter mode or checkbox filter is active
   const hasStatusOrPriorityOrDepartment = selectedStatuses.size > 0 || selectedPriorities.size > 0 || selectedDepartments.size > 0;
   const showActionButtons = filterMode !== 'none' || hasStatusOrPriorityOrDepartment;
 
@@ -243,24 +241,19 @@ function renderFilterControls(tickets) {
   filtersContainer.innerHTML = filterHTML;
 }
 
-/**
- * Renders only the ticket cards (without re-rendering filters)
- * @param {Array} tickets - Array of ticket objects to display.
- */
+/** Render Ticket Cards */
+// Applies filters and sort to the ticket array and injects the resulting
+// ticket card HTML into #tickets-list. Does not touch the filter controls.
 function renderTicketCards(tickets) {
-  const container = document.getElementById("ticket-container");
   const ticketsContainer = document.getElementById("tickets-list");
 
-  // Apply all active filters
   let filteredTickets = applyFilters(tickets);
 
-  // Display message if no tickets are found after filtering
   if (filteredTickets.length === 0) {
     ticketsContainer.innerHTML = `<p class="no-tickets">No Pending Tickets</p>`;
     return;
   }
 
-  // Sort the tickets
   const sortedTickets = sortTickets(filteredTickets);
 
   ticketsContainer.innerHTML = sortedTickets
@@ -288,15 +281,14 @@ function renderTicketCards(tickets) {
     .join("");
 }
 
-/**
- * Renders the complete tickets section with filters and cards.
- * Separates filter rendering from ticket rendering for better responsiveness.
- * @param {Array} tickets - Array of ticket objects to display.
- */
+/** Render Tickets */
+// Builds the full ticket section structure (toolbar, filter panel, ticket list)
+// on the first call, then delegates to renderFilterControls and renderTicketCards.
+// Subsequent calls skip rebuilding the shell and only update the content inside.
 function renderTickets(tickets) {
   const container = document.getElementById("ticket-container");
 
-  // Only render full structure on first call or when container structure needs updating
+  // Only inject the outer shell if it hasn't been built yet
   if (!document.getElementById("tickets-list")) {
     container.innerHTML = `
       <h1 class="ticket-title">Tickets</h1>
@@ -329,12 +321,11 @@ function renderTickets(tickets) {
   renderTicketCards(tickets);
 }
 
-/**
- * Shows a modal for assigning a ticket to a user.
- * @param {number} ticketId - The ID of the ticket to assign.
- */
+/** Assignment Modal */
+// Builds and injects a modal for assigning a ticket to a user.
+// On submission, PUTs the assignment to the server and updates the local
+// ticket array so the card re-renders without a full re-fetch.
 function showAssignmentModal(ticketId) {
-  // Create modal HTML
   const modalHTML = `
     <div id="assignment-modal" class="modal-overlay" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: flex; justify-content: center; align-items: center; z-index: 1000;">
       <div class="modal" style="background: white; padding: 20px; border-radius: 8px; max-width: 400px; width: 90%;">
@@ -354,25 +345,22 @@ function showAssignmentModal(ticketId) {
     </div>
   `;
 
-  // Add modal to body
   document.body.insertAdjacentHTML('beforeend', modalHTML);
 
-  // Handle form submission
   document.getElementById('assignment-form').addEventListener('submit', async (e) => {
     e.preventDefault();
     const assignedTo = document.getElementById('assign-user-select').value;
-    
+
     try {
       const response = await fetch(`/updateTicket/${ticketId}`, {
         method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ assignedTo })
       });
 
       if (response.ok) {
-        // Update the ticket in local array
+        // Update the local ticket array so the card reflects the new assignee
+        // without needing a full re-fetch
         const ticket = tickets.find(t => t.id === ticketId);
         if (ticket) {
           ticket.assignedTo = assignedTo;
@@ -385,47 +373,54 @@ function showAssignmentModal(ticketId) {
       console.error('Error assigning ticket:', error);
     }
 
-    // Remove modal
     document.getElementById('assignment-modal').remove();
   });
 
-  // Handle cancel
+  // Cancel button removes the modal without making any changes
   document.getElementById('cancel-assignment').addEventListener('click', () => {
     document.getElementById('assignment-modal').remove();
   });
 }
 
-/**
- * Event delegation for ticket deletion, sort dropdown, and date filters.
- * Listens for clicks on delete buttons and changes on dropdowns/inputs within the ticket container.
- */
+/** Debounced Render */
+// Delays renderTicketCards by 300ms to avoid thrashing the DOM while
+// the user is still interacting with filter controls
+function debouncedRender() {
+  clearTimeout(renderTimeout);
+  renderTimeout = setTimeout(() => renderTicketCards(tickets), 300);
+}
+
+/** Change Event Delegation */
+// Handles all change events within #ticket-container via a single delegated listener.
+// Routes to the appropriate state update and re-render based on the changed element.
 document
   .getElementById("ticket-container")
   .addEventListener("change", (event) => {
-    // Handle sort dropdown change - immediate render
+
+    // Sort dropdown: immediate re-render
     if (event.target.id === 'sort-select') {
       currentSort = event.target.value;
       renderTicketCards(tickets);
       return;
     }
 
-    // Handle year selection - debounced render
+    // Year select: reset month and refresh both filter controls and ticket cards
     if (event.target.id === 'year-select') {
       selectedYear = event.target.value ? parseInt(event.target.value) : null;
       selectedMonth = null; // Reset month when year changes
-      renderFilterControls(tickets); // Update filters first (for month dropdown)
-      debouncedRender(); // Then update tickets with debounce
+      renderFilterControls(tickets);
+      debouncedRender();
       return;
     }
 
-    // Handle month selection - debounced render
+    // Month select: debounced re-render
     if (event.target.id === 'month-select') {
       selectedMonth = event.target.value ? parseInt(event.target.value) : null;
       debouncedRender();
       return;
     }
 
-    // Handle date input changes - just update state, don't render
+    // Date range inputs: update state only; render is triggered by the Apply button
     if (event.target.id === 'start-date') {
       dateRangeStart = event.target.value;
       return;
@@ -435,7 +430,7 @@ document
       return;
     }
 
-    // Handle status/priority checkbox changes
+    // Status/priority/department checkboxes: add or remove value from the relevant Set
     if (event.target.classList.contains('filter-checkbox')) {
       const type = event.target.dataset.filterType;
       const value = event.target.value;
@@ -450,15 +445,19 @@ document
       if (type === 'department') {
         if (event.target.checked) selectedDepartments.add(value);
         else selectedDepartments.delete(value);
-      return;
+        return;
       }
     }
   });
 
+/** Click Event Delegation */
+// Handles all click events within #ticket-container via a single delegated listener.
+// Routes to the appropriate action based on the clicked element's ID or class.
 document
   .getElementById("ticket-container")
   .addEventListener("click", async (event) => {
-    // Handle apply button for filters
+
+    // Apply filters button: validates required fields then applies and closes the panel
     if (event.target.id === 'apply-filters-btn') {
       let valid = true;
       if (filterMode === 'year') {
@@ -481,7 +480,7 @@ document
       return;
     }
 
-    // Handle filter item selection within the category list
+    // Filter mode button: switch the active date filter type and reset all date state
     if (event.target.classList.contains('filter-item-btn')) {
       const selectedFilter = event.target.dataset.filter;
       if (selectedFilter && selectedFilter !== filterMode) {
@@ -495,7 +494,7 @@ document
       return;
     }
 
-    // Handle clear filters button
+    // Clear filters: reset all filter state and do a full render to rebuild controls
     if (event.target.id === 'clear-filters-btn') {
       filterMode = 'none';
       selectedYear = null;
@@ -505,52 +504,49 @@ document
       selectedStatuses.clear();
       selectedPriorities.clear();
       selectedDepartments.clear();
-      renderTickets(tickets); // Full render to reset all controls
+      renderTickets(tickets);
       return;
     }
 
-    // Open filter popup
+    // Open filter panel
     if (event.target.id === 'open-filter-btn') {
       const popup = document.getElementById('filter-popup');
       if (popup) popup.classList.remove('hidden');
       return;
     }
 
-    // Close filter popup by close button or backdrop
+    // Close filter panel via close button or backdrop click
     if (event.target.id === 'close-filter-btn' || event.target.id === 'filter-popup-backdrop') {
       const popup = document.getElementById('filter-popup');
       if (popup) popup.classList.add('hidden');
       return;
     }
 
-    // Handle assign button click
+    // Assign button: open the assignment modal for this ticket
     if (event.target.classList.contains("assign-btn")) {
       const ticketId = parseInt(event.target.getAttribute("data-id"));
       showAssignmentModal(ticketId);
       return;
     }
 
-    // Navigate to status page when Status button clicked
+    // Status button: navigate to the status page for this ticket
     if (event.target.classList.contains("status-btn")) {
       const ticketId = parseInt(event.target.getAttribute("data-id"));
       window.location.href = `/pages/status-page.html?ticketId=${ticketId}`;
       return;
     }
 
-    // Check if the clicked element is a delete button
+    // Delete button: optimistically remove from local array, then send DELETE to server
     if (event.target.classList.contains("delete-ticket-btn")) {
       const ticketId = parseInt(event.target.getAttribute("data-id"));
 
-      // Optimistically remove the ticket from the local array
+      // Remove immediately from local state so the UI feels instant
       tickets = tickets.filter((t) => t.id !== ticketId);
 
       try {
-        // Send delete request to the server
         const response = await fetch(`/deleteTicket/${ticketId}`, {
           method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { "Content-Type": "application/json" },
         });
 
         const result = await response.json();
@@ -559,26 +555,22 @@ document
         console.error("Error deleting ticket:", error);
       }
 
-      // Re-render the tickets to reflect changes
       renderTicketCards(tickets);
     }
   });
 
-/**
- * Listen for the custom 'ticketCreated' event to add newly created tickets to the list.
- */
+/** Ticket Created Event */
+// Listens for the custom 'ticketCreated' event dispatched by the ticket form handler.
+// Pushes the new ticket into the local array and triggers a full re-render.
 document.addEventListener("ticketCreated", (event) => {
   const newTicket = event.detail;
-
   if (newTicket) {
     tickets.push(newTicket);
     renderTickets(tickets);
   }
 });
 
-/**
- * Initialize tickets on page load.
- */
+/** Init */
 document.addEventListener("DOMContentLoaded", async () => {
   await fetchUsers();
   fetchTickets().catch((error) => {
@@ -586,8 +578,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 });
 
-// Initial render
+// Trigger an initial render with an empty array to build the page shell before data arrives
 renderTickets(tickets);
 
-// Set up polling to keep tickets synchronized with the server every 2 seconds
+// Poll the server every 2 seconds to keep the ticket list in sync
 setInterval(fetchTickets, 2000);

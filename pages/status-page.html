@@ -1,16 +1,25 @@
 <!doctype html>
 <html lang="en">
 <head>
+
+  <!-- Basic Metadata -->
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Ticket Status</title>
+
+  <!-- Page-Specific Stylesheet -->
   <link rel="stylesheet" href="/css/status-page.css">
 </head>
 <body>
+
+  <!-- status content injected by JS -->
+  <!-- Full page content (ticket details, status indicators, etc.)
+         is built and injected here by status-page.js -->
   <main id="status-container" class="status-container">
-    <!-- status content injected by JS -->
   </main>
 
+  <!-- Scripts -->
+  <!-- Fetches ticket status data and renders the page content -->
   <script type="module" src="/js/status-page.js"></script>
 </body>
 </html>

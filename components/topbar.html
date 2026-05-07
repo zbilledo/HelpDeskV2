@@ -1,13 +1,15 @@
 <!-- Topbar Component: Contains ticket creation button and user profile -->
 <div class="topbar" id="topbar">
+
     <!-- Trigger Button for Create Ticket Modal -->
     <button id="create-ticket-btn" class="topbar-button">Create New Ticket</button>
 
-    <!-- Ticket Creation Modal (Hidden by default) -->
+    <!-- Ticket Creation Modal (Hidden by default, shown on button click) -->
     <div id="ticket-modal" class="modal-overlay hidden">
         <div class="modal">
             <h2>Create New Ticket</h2>
             <form id="ticket-form">
+
                 <!-- Ticket Title Input -->
                 <label for="ticket-title">Title</label>
                 <input type="text" id="ticket-title" placeholder="Enter ticket title" required />
@@ -24,9 +26,8 @@
                     <option value="high">High</option>
                 </select>
 
-
-                <!-- Ticket Department Choices -->
-                <!-- We can add more to this later, or add an other option possibly? -->
+                <!-- Ticket Department Selection -->
+                <!-- TODO: Consider adding an "Other" option or expanding the list -->
                 <label for="departments">Department</label>
                 <select id="departments">
                     <option value="General">General</option>
@@ -35,18 +36,19 @@
                     <option value="Support">Support</option>
                 </select>
 
-                <!-- Ticket Assignment -->
+                <!-- Ticket Assignment (Optional) -->
+                <!-- User options are populated dynamically by ticket-form-handler.js -->
                 <label for="assigned-to">Assign To (Optional)</label>
                 <select id="assigned-to">
                     <option value="">Unassigned</option>
-                    <!-- Users will be populated dynamically -->
                 </select>
 
-                <!-- Modal Form Actions (Submit/Cancel) -->
+                <!-- Modal Form Actions (Submit / Cancel) -->
                 <div class="modal-actions">
                     <button class="form-buttons" type="submit" id="submit-ticket-btn">Submit</button>
                     <button class="form-buttons" type="button" id="close-modal-btn">Cancel</button>
                 </div>
+
             </form>
         </div>
     </div>
@@ -54,15 +56,22 @@
     <!-- User Profile Section with Dropdown Menu -->
     <div class="user-profile">
         <img src="/assets/images/pfp.jpg" alt="User Profile" class="profile-pic" id="profile-pic">
+
+        <!-- Dropdown Menu (Shown on profile picture click) -->
         <div class="dropdown-menu" id="user-dropdown">
-            <!-- Dynamic User Information (Populated via topbar.js) -->
-            <div class="dropdown-header" id="dropdown-header">
-            </div>
+
+            <!-- Dynamic User Information (Populated by topbar.js) -->
+            <div class="dropdown-header" id="dropdown-header"></div>
+
             <hr>
+
             <!-- Logout Link -->
             <a id="logout-link" class="dropdown-item">Logout</a>
+
         </div>
     </div>
-    <!-- User Name Displayed next to Profile Pic -->
+
+    <!-- Username Displayed Next to Profile Picture (Populated by topbar.js) -->
     <p class="main-menu-username" id="main-menu-username"></p>
+
 </div>

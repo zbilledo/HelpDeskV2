@@ -5,8 +5,11 @@
  * Reuses the layout and background theme from the login page.
  */
 
+/* Page Background */
+
 body {
-    /* Background gradient matches the login page for consistency */
+    /* Diagonal gradient creates a two-tone split: blue top-left and bottom-right,
+       dark center — matches the login page background for visual consistency */
     background: #262526 linear-gradient(
             165deg,
             #2c70a2 0%,
@@ -20,7 +23,9 @@ body {
     height: 100vh;
 }
 
-/* Full-screen overlay for the registration modal */
+/* Registration Container */
+
+/* Full-screen semi-transparent overlay that centers the modal */
 .register-container {
     position: fixed;
     inset: 0;
@@ -31,13 +36,15 @@ body {
     z-index: 50;
 }
 
-/* Central Registration Modal Box */
+/* Registration Modal */
+
+/* Central modal card; scrollable on smaller screens via max-height + overflow-y */
 .register-modal {
     background: #0e2d45;
     padding: 1.25rem 2rem;
     border-radius: 8px;
     width: 600px;
-    max-width: 90vw;
+    max-width: 90vw; /* Prevents overflow on narrow viewports */
     display: flex;
     flex-direction: column;
     gap: 0.4rem;
@@ -54,25 +61,29 @@ body {
     margin-bottom: 0.25rem;
 }
 
-/* Two Text Boxes in a row Layout */
+/* Form layout */
+
+/* Side-by-side input row used for first/last name and username/phone pairs */
 .text-row {
     display: flex;
     gap: 1rem;
 }
 
+/* Each field in a .text-row grows equally to fill available width */
 .text-field {
     display: flex;
     flex-direction: column;
     flex: 1;
 }
 
-/* Registration Form Layout */
+/* Stack form elements vertically; position:relative anchors the requirements box */
 #register-form {
     display: flex;
     flex-direction: column;
     position: relative;
 }
 
+/* Tight spacing between labels and their inputs */
 #register-form label {
     margin-bottom: 1px;
 }
@@ -85,7 +96,9 @@ body {
     margin-top: 1.5rem;
 }
 
-/* Reusable form button styles */
+/* Form Buttons */
+
+/* Reusable button style shared with the login page */
 .form-buttons {
     font-size: 1em;
     margin-top: 10px;
@@ -105,37 +118,43 @@ body {
     transition: background-color 0.3s ease;
 }
 
-/* Input Field Styling */
+/* Input Fields */
+
+/* All text inputs inside the modal share the same dark themed style */
 .register-modal input {
     width: 100%;
     padding: 0.5rem 0.7rem;
     border: 1px solid #2c70a2;
     border-radius: 8px;
-    box-sizing: border-box;
+    box-sizing: border-box; /* Ensures padding doesn't push inputs wider than their container */
     font-size: 1rem;
     font-family: inherit;
     background-color: #133e5e;
     color: #94a3b8;
 }
 
-/* Password Requirements Box */
+/* Password Requirements box */
+
+/* Wraps the password row and acts as the anchor for the absolutely positioned requirements box */
 .password-wrapper {
     position: relative;
 }
 
+/* Floats below the password fields; shown/hidden by JS based on focus and validation state */
 .requirements-box {
     position: absolute;
     top: 100%;
     left: 0;
     right: 0;
-    z-index: 100;
+    z-index: 100; /* Sits above all other form elements */
     background-color: #0a1e2e;
     border: 1px solid #2c70a2;
     border-radius: 8px;
     padding: 0.4rem 0.75rem;
-    margin-top: 4x;
+    margin-top: 4px;
 }
 
+/* Title is hidden by default; can be shown via JS if needed */
 .requirements-title {
     display: none;
     background-color: #0a1e2e;
@@ -154,11 +173,12 @@ body {
     gap: 0.05rem;
 }
 
+/* Unmet requirements shown in red with an ✗ prefix */
 .requirements-list li {
     font-size: 0.75rem;
     color: #e05252;
     padding-left: 1.2rem;
-    position: relative;
+    position: relative; /* Anchors the ::before pseudo-element icon */
 }
 
 .requirements-list li::before {
@@ -168,6 +188,7 @@ body {
     color: #e05252;
 }
 
+/* Met requirements switch to green with a ✓ prefix; toggled by JS */
 .requirements-list li.met {
     color: #4caf50;
 }
@@ -178,6 +199,8 @@ body {
 }
 
 /* Focus and Placeholder Effects */
+
+/* Blue glow replaces the default browser focus ring */
 input:focus {
     outline: none;
     border-color: #94a3b8;
@@ -185,6 +208,7 @@ input:focus {
     box-shadow: 0 0 5px rgba(0, 86, 179, 0.9);
 }
 
+/* Placeholder visible at rest but fades out on focus to reduce visual noise */
 .register-modal input::placeholder {
     color: #94a3b8;
     opacity: 1;
@@ -195,11 +219,13 @@ input:focus {
     color: transparent;
 }
 
+/* Labels */
+
 .register-modal label {
     width: 100%;
     padding: 0.25rem 0.5rem;
     box-sizing: border-box;
-    font-size: 0.95 rem;
+    font-size: 0.95rem;
     font-weight: bold;
     font-family: inherit;
     color: #94a3b8;

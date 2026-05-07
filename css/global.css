@@ -4,24 +4,29 @@
 * Styles for the public-facing landing page.
 */
 
+/* Universal Box Sizing Reset */
+/* Applies border-box sizing and removes default margin/padding from all elements */
 *,*::before, *::after {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
 
-/* force footer to bottom */
+/* Landing Page Body */
+/* Flex column ensures the footer is pushed to the bottom of the viewport */
 body.landing-page {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
 }
 
-
+/* Landing Page Main */
+/* flex:1 makes main fill all available space between the navbar and footer */
 body.landing-page main {
     flex: 1;
 }
 
+/* Base Body */
 body {
     font-family: 'DM Sans', sans-serif;
     background: #f8fafc;
@@ -32,17 +37,21 @@ body {
     min-height: 100vh;
 }
 
+/* Base Anchor */
+/* Strips default link underline and color inheritance across the page */
 a {
     text-decoration: none;
     color: inherit;
 }
 
+/* Main */
+/* flex:1 on main fills remaining height when body is a flex column */
 main {
     flex: 1;
 }
 
 /* Navbar */
-
+/* Sticky so it remains visible as the user scrolls down the page */
 .navbar {
     position: sticky;
     top: 0;
@@ -51,6 +60,8 @@ main {
     box-shadow: 0 2px 8px rgba(0,0,0,0.15);
 }
 
+/* Navbar Inner */
+/* max-width + auto margins center the nav content on wide screens */
 .navbar-inner {
     max-width: 1100px;
     margin: 0 auto;
@@ -60,6 +71,7 @@ main {
     justify-content: space-between;
 }
 
+/* Nav Logo */
 .nav-logo {
     display: flex;
     align-items: center;
@@ -67,20 +79,24 @@ main {
     color: #fff;
 }
 
+/* Nav Logo Image */
+/* transform:scale(2) enlarges the logo visually without affecting layout flow */
 .nav-logo-img {
     height: 64px;
     width: auto;
     object-fit: contain;
     transform: scale(2);
-    max-height: 40px
+    max-height: 40px;
 }
 
+/* Nav Links */
 .nav-links {
     display: flex;
     align-items: center;
     gap: 1.5rem;
 }
 
+/* Nav Link */
 .nav-link {
     color: rgba(255,255,255,0.8);
     font-size: 0.9rem;
@@ -91,6 +107,7 @@ main {
     color: #fff;
 }
 
+/* Nav Button Base */
 .nav-btn {
     font-size: 0.85rem;
     padding: 0.45rem 1.1rem;
@@ -99,6 +116,8 @@ main {
     transition: all 0.2s ease;
 }
 
+/* Nav Button Secondary */
+/* Ghost style with a subtle white border */
 .nav-btn.secondary {
     color: #fff;
     border: 1px solid rgba(255,255,255,0.4);
@@ -108,6 +127,8 @@ main {
     background: rgba(255,255,255,0.1);
 }
 
+/* Nav Button Primary */
+/* Filled blue button; hover darkens the fill */
 .nav-btn.primary {
     background: #2c70a2;
     color: #fff;
@@ -118,13 +139,14 @@ main {
     background: #1a5276;
 }
 
-
 /* Footer */
 .footer {
     background: #0e2d45;
     padding: 1.5rem 2rem;
 }
 
+/* Footer Inner */
+/* Space-between row with flex-wrap so logo and links stack on narrow viewports */
 .footer-inner {
     max-width: 1100px;
     margin: 0 auto;
@@ -135,12 +157,14 @@ main {
     gap: 1rem;
 }
 
+/* Footer Logo */
 .footer-logo {
     color: rgba(255,255,255,0.7);
     font-size: 0.9rem;
     font-weight: 500;
 }
 
+/* Footer Links */
 .footer-links {
     display: flex;
     gap: 1.5rem;
@@ -156,22 +180,28 @@ main {
     color: #fff;
 }
 
-/* Animations */
+/* Fade Up Animation */
+/* Slides elements up from 20px below while fading in over 0.6s */
 @keyframes fadeUp {
     from {opacity: 0; transform: translateY(20px);}
     to {opacity: 1; transform: translateY(0);}
 }
 
+/* Landing Inner Animation */
 .landing-inner {
     animation: fadeUp 0.6s ease forwards;
 }
 
+/* Landing Visual Animation */
+/* 0.2s delay staggers the visual after the inner text has begun animating;
+   opacity:0 sets the start state so there's no flash before the animation runs */
 .landing-visual {
     animation: fadeUp 0.6s ease 0.2s forwards;
     opacity: 0;
 }
 
-/* Responsive */
+/* Responsive — 768px */
+/* Single-column layout for landing and features; tighter nav gap on small screens */
 @media (max-width: 768px) {
     .landing {
         grid-template-columns: 1fr;
